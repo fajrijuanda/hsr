@@ -1,24 +1,38 @@
 [
   {
     "id": "banner-3-8-1",
-    "phase": "3.8.1",
-    "name": "The Dahlia & Cyrene",
-    "characters": ["The Dahlia", "Cyrene"],
-    "lightCones": ["Concert for Two", "Shared Feeling"],
+    "phase": "3.8 Phase 1",
+    "name": "The Dahlia & Firefly Rerun",
+    "characters": ["The Dahlia", "Firefly"],
+    "lightCones": ["Concert for Two", "Whereabouts Should Dreams Rest"],
+    "fourStars": ["Gallagher", "March 7th", "Luka"],
     "startDate": "2025-12-17T06:00:00Z",
-    "endDate": "2026-01-06T14:59:59Z",
+    "endDate": "2026-01-07T14:59:59Z",
     "type": "limited",
     "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1321.png"
   },
   {
     "id": "banner-3-8-2",
-    "phase": "3.8.2",
-    "name": "Hyacine & Rerun",
-    "characters": ["Hyacine", "Feixiao"],
-    "lightCones": ["Destined Encounter", "I Venture Forth to Hunt"],
-    "startDate": "2026-01-06T06:00:00Z",
-    "endDate": "2026-01-27T14:59:59Z",
+    "phase": "3.8 Phase 2",
+    "name": "Fugue & Lingsha Rerun",
+    "characters": ["Fugue", "Lingsha"],
+    "lightCones": ["Long Road Leads Home", "Scent Alone Stays True"],
+    "fourStars": ["Natasha", "Sampo", "Arlan"],
+    "startDate": "2026-01-07T06:00:00Z",
+    "endDate": "2026-01-28T14:59:59Z",
     "type": "limited",
-    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1409.png"
+    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1316.png"
+  },
+  {
+    "id": "banner-3-8-3",
+    "phase": "3.8 Phase 3",
+    "name": "Aglaea & Sunday Rerun",
+    "characters": ["Aglaea", "Sunday"],
+    "lightCones": ["Time Woven Into Gold", "A Grounded Ascent"],
+    "fourStars": ["TBD"],
+    "startDate": "2026-01-28T06:00:00Z",
+    "endDate": "2026-02-12T14:59:59Z",
+    "type": "limited",
+    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1402.png"
   }
 ]
