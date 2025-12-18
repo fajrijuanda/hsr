@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Image from "next/image";
 import { useBattleStore } from "@/stores/battleStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,6 +40,16 @@ const ELEMENT_COLORS: Record<string, string> = {
     Imaginary: "bg-yellow-400",
 };
 
+const ELEMENT_ICONS: Record<string, string> = {
+    Physical: "⚪",
+    Fire: "🔥",
+    Ice: "❄️",
+    Lightning: "⚡",
+    Wind: "🌪️",
+    Quantum: "🔮",
+    Imaginary: "✨",
+};
+
 const PATH_ICONS: Record<string, string> = {
     Destruction: "⚔️",
     Hunt: "🎯",
@@ -49,6 +58,7 @@ const PATH_ICONS: Record<string, string> = {
     Nihility: "🌑",
     Preservation: "🛡️",
     Abundance: "💚",
+    Remembrance: "🦋",
 };
 
 export function BattleSetup() {
@@ -66,11 +76,19 @@ export function BattleSetup() {
     // Group characters by path
     const charsByPath = useMemo(() => {
         const grouped: Record<string, Character[]> = {};
+        const pathOrder = ["Destruction", "Hunt", "Erudition", "Harmony", "Nihility", "Preservation", "Abundance", "Remembrance"];
+
         availableChars.forEach(char => {
             if (!grouped[char.path]) grouped[char.path] = [];
             grouped[char.path].push(char);
         });
-        return grouped;
+
+        // Sort by path order
+        const sorted: Record<string, Character[]> = {};
+        pathOrder.forEach(path => {
+            if (grouped[path]) sorted[path] = grouped[path];
+        });
+        return sorted;
     }, [availableChars]);
 
     const toggleChar = (charId: string) => {
@@ -131,14 +149,9 @@ export function BattleSetup() {
                                     <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600 text-xs">
                                         {index + 1}
                                     </Badge>
-                                    <Image
-                                        src={char.imageUrl}
-                                        alt={char.name}
-                                        width={32}
-                                        height={32}
-                                        className="rounded"
-                                        unoptimized
-                                    />
+                                    <div className={`w-8 h-8 rounded flex items-center justify-center text-lg ${ELEMENT_COLORS[char.element]}`}>
+                                        {ELEMENT_ICONS[char.element]}
+                                    </div>
                                     <span className="text-sm text-white truncate">{char.name}</span>
                                     <button
                                         onClick={() => toggleChar(charId)}
@@ -161,19 +174,20 @@ export function BattleSetup() {
                                 + Select Characters
                             </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-3xl max-h-[80vh] bg-gray-900 border-gray-700">
+                        <DialogContent className="max-w-5xl max-h-[90vh] bg-gray-900 border-gray-700">
                             <DialogHeader>
-                                <DialogTitle>Select Team ({selectedChars.length}/4)</DialogTitle>
+                                <DialogTitle className="text-xl">Select Team ({selectedChars.length}/4)</DialogTitle>
                             </DialogHeader>
-                            <ScrollArea className="h-[60vh] pr-4">
+                            <ScrollArea className="h-[75vh] pr-4">
                                 <div className="space-y-6">
                                     {Object.entries(charsByPath).map(([path, chars]) => (
                                         <div key={path}>
-                                            <h4 className="text-sm font-medium text-gray-400 mb-2 flex items-center gap-2">
-                                                <span>{PATH_ICONS[path]}</span>
+                                            <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center gap-2 sticky top-0 bg-gray-900 py-2">
+                                                <span className="text-lg">{PATH_ICONS[path] || "❓"}</span>
                                                 {path}
+                                                <span className="text-xs text-gray-500">({chars.length})</span>
                                             </h4>
-                                            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                                            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-3">
                                                 {chars.map((char) => {
                                                     const isSelected = selectedChars.includes(char.id);
                                                     const isDisabled = !isSelected && selectedChars.length >= 4;
@@ -183,32 +197,29 @@ export function BattleSetup() {
                                                             onClick={() => toggleChar(char.id)}
                                                             disabled={isDisabled}
                                                             className={`
-                                relative p-2 rounded-lg border transition-all text-left
-                                ${isSelected
-                                                                    ? "border-purple-500 bg-purple-500/20"
-                                                                    : "border-gray-700 bg-gray-800/50 hover:border-gray-500"
+                                                                relative p-3 rounded-lg border transition-all text-center
+                                                                ${isSelected
+                                                                    ? "border-purple-500 bg-purple-500/20 ring-2 ring-purple-500"
+                                                                    : "border-gray-700 bg-gray-800/50 hover:border-gray-500 hover:bg-gray-800"
                                                                 }
-                                ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
-                              `}
+                                                                ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                                                            `}
                                                         >
                                                             {isSelected && (
-                                                                <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600 text-xs">
+                                                                <Badge className="absolute -top-2 -right-2 h-6 w-6 p-0 flex items-center justify-center bg-purple-600 text-sm font-bold">
                                                                     {selectedChars.indexOf(char.id) + 1}
                                                                 </Badge>
                                                             )}
-                                                            <div className="flex flex-col items-center gap-1">
-                                                                <Image
-                                                                    src={char.imageUrl}
-                                                                    alt={char.name}
-                                                                    width={48}
-                                                                    height={48}
-                                                                    className="rounded"
-                                                                    unoptimized
-                                                                />
-                                                                <div className="flex items-center gap-1">
-                                                                    <div className={`w-2 h-2 rounded-full ${ELEMENT_COLORS[char.element]}`} />
-                                                                    <span className="text-xs text-gray-300 truncate max-w-[60px]">
-                                                                        {char.name.split(' ')[0]}
+                                                            <div className="flex flex-col items-center gap-2">
+                                                                <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl ${ELEMENT_COLORS[char.element]}`}>
+                                                                    {ELEMENT_ICONS[char.element]}
+                                                                </div>
+                                                                <div className="w-full">
+                                                                    <span className="text-xs text-white block truncate">
+                                                                        {char.name.length > 10 ? char.name.split(' ')[0] : char.name}
+                                                                    </span>
+                                                                    <span className="text-[10px] text-gray-500">
+                                                                        {char.rarity}★
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -238,8 +249,8 @@ export function BattleSetup() {
                                         <Badge
                                             variant="outline"
                                             className={`text-xs ${enemy.type === "boss" ? "border-red-500 text-red-400" :
-                                                    enemy.type === "elite" ? "border-orange-500 text-orange-400" :
-                                                        "border-gray-500 text-gray-400"
+                                                enemy.type === "elite" ? "border-orange-500 text-orange-400" :
+                                                    "border-gray-500 text-gray-400"
                                                 }`}
                                         >
                                             {enemy.type}

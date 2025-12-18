@@ -537,5 +537,170 @@
     "baseAtk": 698,
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
+  },
+  "the_dahlia": {
+    "basicMultiplier": 0.5,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Provides CRIT buffs and energy restoration",
+    "skillBuff": {
+      "stat": "critRate",
+      "value": 0.28,
+      "duration": 2
+    },
+    "ultBuff": {
+      "stat": "dmgBonus",
+      "value": 0.36,
+      "duration": 2
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "castorice": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.8,
+    "ultMultiplier": 4.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Summons Mem and deals AoE damage",
+    "baseAtk": 679,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "aglaea": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.0,
+    "ultMultiplier": 4.5,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Summons Garmentmaker for coordinated attacks",
+    "baseAtk": 698,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "argenti": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.2,
+    "ultMultiplier": 3.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 180,
+    "ultType": "normal",
+    "passive": "AoE damage dealer with enhanced Ultimate",
+    "baseAtk": 679,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "bailu": {
+    "basicMultiplier": 0.5,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 100,
+    "ultType": "normal",
+    "passive": "Heals and revives fallen allies",
+    "baseAtk": 465,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "hanya": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.32,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Applies Burden debuff and SPD buff",
+    "skillBuff": {
+      "stat": "dmgBonus",
+      "value": 0.36,
+      "duration": 2
+    },
+    "baseAtk": 543,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "guinaifen": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.2,
+    "ultMultiplier": 1.2,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Applies Firekiss debuff",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.1,
+      "duration": 2
+    },
+    "baseAtk": 601,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "asta": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0.5,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Stacks buffs for team ATK and SPD",
+    "skillBuff": {
+      "stat": "atkPercent",
+      "value": 0.14,
+      "duration": 2
+    },
+    "baseAtk": 543,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "sampo": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.2,
+    "ultMultiplier": 1.6,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Applies Wind Shear DoT",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.08,
+      "duration": 2
+    },
+    "baseAtk": 601,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "luka": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.2,
+    "ultMultiplier": 3.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "Physical damage with Bleed",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.12,
+      "duration": 3
+    },
+    "baseAtk": 620,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
   }
 }

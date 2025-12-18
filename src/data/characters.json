@@ -6,7 +6,7 @@
     "element": "Lightning",
     "rarity": 5,
     "baseSpeed": 101,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/801.webp"
+    "imageUrl": ""
   },
   {
     "id": "aventurine",
@@ -15,7 +15,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 106,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1304.webp"
+    "imageUrl": ""
   },
   {
     "id": "black_swan",
@@ -24,7 +24,7 @@
     "element": "Wind",
     "rarity": 5,
     "baseSpeed": 102,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1307.webp"
+    "imageUrl": ""
   },
   {
     "id": "blade",
@@ -33,7 +33,7 @@
     "element": "Wind",
     "rarity": 5,
     "baseSpeed": 97,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1205.webp"
+    "imageUrl": ""
   },
   {
     "id": "boothill",
@@ -42,7 +42,7 @@
     "element": "Physical",
     "rarity": 5,
     "baseSpeed": 107,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1315.webp"
+    "imageUrl": ""
   },
   {
     "id": "bronya",
@@ -51,7 +51,7 @@
     "element": "Wind",
     "rarity": 5,
     "baseSpeed": 99,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1101.webp"
+    "imageUrl": ""
   },
   {
     "id": "clara",
@@ -60,7 +60,7 @@
     "element": "Physical",
     "rarity": 5,
     "baseSpeed": 90,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1107.webp"
+    "imageUrl": ""
   },
   {
     "id": "dan_heng_il",
@@ -69,7 +69,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 96,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1213.webp"
+    "imageUrl": ""
   },
   {
     "id": "dr_ratio",
@@ -78,7 +78,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 103,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1305.webp"
+    "imageUrl": ""
   },
   {
     "id": "feixiao",
@@ -87,7 +87,7 @@
     "element": "Wind",
     "rarity": 5,
     "baseSpeed": 112,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1220.webp"
+    "imageUrl": ""
   },
   {
     "id": "firefly",
@@ -96,7 +96,7 @@
     "element": "Fire",
     "rarity": 5,
     "baseSpeed": 104,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1310.webp"
+    "imageUrl": ""
   },
   {
     "id": "fu_xuan",
@@ -105,7 +105,7 @@
     "element": "Quantum",
     "rarity": 5,
     "baseSpeed": 100,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1208.webp"
+    "imageUrl": ""
   },
   {
     "id": "fugue",
@@ -114,7 +114,7 @@
     "element": "Fire",
     "rarity": 5,
     "baseSpeed": 102,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1317.webp"
+    "imageUrl": ""
   },
   {
     "id": "gepard",
@@ -123,7 +123,7 @@
     "element": "Ice",
     "rarity": 5,
     "baseSpeed": 92,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1104.webp"
+    "imageUrl": ""
   },
   {
     "id": "himeko",
@@ -132,7 +132,7 @@
     "element": "Fire",
     "rarity": 5,
     "baseSpeed": 96,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1003.webp"
+    "imageUrl": ""
   },
   {
     "id": "huohuo",
@@ -141,7 +141,7 @@
     "element": "Wind",
     "rarity": 5,
     "baseSpeed": 98,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1215.webp"
+    "imageUrl": ""
   },
   {
     "id": "jade",
@@ -150,7 +150,7 @@
     "element": "Quantum",
     "rarity": 5,
     "baseSpeed": 103,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1314.webp"
+    "imageUrl": ""
   },
   {
     "id": "jiaoqiu",
@@ -159,7 +159,7 @@
     "element": "Fire",
     "rarity": 5,
     "baseSpeed": 98,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1218.webp"
+    "imageUrl": ""
   },
   {
     "id": "jing_yuan",
@@ -168,7 +168,7 @@
     "element": "Lightning",
     "rarity": 5,
     "baseSpeed": 99,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1204.webp"
+    "imageUrl": ""
   },
   {
     "id": "jingliu",
@@ -177,7 +177,7 @@
     "element": "Ice",
     "rarity": 5,
     "baseSpeed": 96,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1212.webp"
+    "imageUrl": ""
   },
   {
     "id": "kafka",
@@ -186,7 +186,7 @@
     "element": "Lightning",
     "rarity": 5,
     "baseSpeed": 100,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1005.webp"
+    "imageUrl": ""
   },
   {
     "id": "lingsha",
@@ -195,7 +195,7 @@
     "element": "Fire",
     "rarity": 5,
     "baseSpeed": 98,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1222.webp"
+    "imageUrl": ""
   },
   {
     "id": "luocha",
@@ -204,7 +204,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 101,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1203.webp"
+    "imageUrl": ""
   },
   {
     "id": "robin",
@@ -213,7 +213,7 @@
     "element": "Physical",
     "rarity": 5,
     "baseSpeed": 102,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1309.webp"
+    "imageUrl": ""
   },
   {
     "id": "ruan_mei",
@@ -222,7 +222,7 @@
     "element": "Ice",
     "rarity": 5,
     "baseSpeed": 104,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1303.webp"
+    "imageUrl": ""
   },
   {
     "id": "seele",
@@ -231,7 +231,7 @@
     "element": "Quantum",
     "rarity": 5,
     "baseSpeed": 115,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1102.webp"
+    "imageUrl": ""
   },
   {
     "id": "silver_wolf",
@@ -240,7 +240,7 @@
     "element": "Quantum",
     "rarity": 5,
     "baseSpeed": 107,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1006.webp"
+    "imageUrl": ""
   },
   {
     "id": "sparkle",
@@ -249,7 +249,7 @@
     "element": "Quantum",
     "rarity": 5,
     "baseSpeed": 101,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1306.webp"
+    "imageUrl": ""
   },
   {
     "id": "sunday",
@@ -258,7 +258,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 96,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1313.webp"
+    "imageUrl": ""
   },
   {
     "id": "topaz",
@@ -267,7 +267,7 @@
     "element": "Fire",
     "rarity": 5,
     "baseSpeed": 110,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1210.webp"
+    "imageUrl": ""
   },
   {
     "id": "welt",
@@ -276,7 +276,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 102,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1004.webp"
+    "imageUrl": ""
   },
   {
     "id": "yanqing",
@@ -285,7 +285,7 @@
     "element": "Ice",
     "rarity": 5,
     "baseSpeed": 109,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1209.webp"
+    "imageUrl": ""
   },
   {
     "id": "gallagher",
@@ -294,7 +294,7 @@
     "element": "Fire",
     "rarity": 4,
     "baseSpeed": 98,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1301.webp"
+    "imageUrl": ""
   },
   {
     "id": "pela",
@@ -303,7 +303,7 @@
     "element": "Ice",
     "rarity": 4,
     "baseSpeed": 105,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1106.webp"
+    "imageUrl": ""
   },
   {
     "id": "tingyun",
@@ -312,7 +312,7 @@
     "element": "Lightning",
     "rarity": 4,
     "baseSpeed": 112,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1202.webp"
+    "imageUrl": ""
   },
   {
     "id": "march_7th",
@@ -321,7 +321,7 @@
     "element": "Ice",
     "rarity": 4,
     "baseSpeed": 101,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1001.webp"
+    "imageUrl": ""
   },
   {
     "id": "hmc",
@@ -330,7 +330,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 105,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/8006.webp"
+    "imageUrl": ""
   },
   {
     "id": "mydei",
@@ -339,7 +339,7 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 96,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1318.webp"
+    "imageUrl": ""
   },
   {
     "id": "the_herta",
@@ -348,7 +348,7 @@
     "element": "Ice",
     "rarity": 5,
     "baseSpeed": 99,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1401.webp"
+    "imageUrl": ""
   },
   {
     "id": "tribbie",
@@ -357,6 +357,96 @@
     "element": "Quantum",
     "rarity": 5,
     "baseSpeed": 100,
-    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1402.webp"
+    "imageUrl": ""
+  },
+  {
+    "id": "the_dahlia",
+    "name": "The Dahlia",
+    "path": "Harmony",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 100,
+    "imageUrl": ""
+  },
+  {
+    "id": "castorice",
+    "name": "Castorice",
+    "path": "Remembrance",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 98,
+    "imageUrl": ""
+  },
+  {
+    "id": "aglaea",
+    "name": "Aglaea",
+    "path": "Remembrance",
+    "element": "Lightning",
+    "rarity": 5,
+    "baseSpeed": 101,
+    "imageUrl": ""
+  },
+  {
+    "id": "argenti",
+    "name": "Argenti",
+    "path": "Erudition",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 103,
+    "imageUrl": ""
+  },
+  {
+    "id": "bailu",
+    "name": "Bailu",
+    "path": "Abundance",
+    "element": "Lightning",
+    "rarity": 5,
+    "baseSpeed": 98,
+    "imageUrl": ""
+  },
+  {
+    "id": "hanya",
+    "name": "Hanya",
+    "path": "Harmony",
+    "element": "Physical",
+    "rarity": 4,
+    "baseSpeed": 110,
+    "imageUrl": ""
+  },
+  {
+    "id": "guinaifen",
+    "name": "Guinaifen",
+    "path": "Nihility",
+    "element": "Fire",
+    "rarity": 4,
+    "baseSpeed": 106,
+    "imageUrl": ""
+  },
+  {
+    "id": "asta",
+    "name": "Asta",
+    "path": "Harmony",
+    "element": "Fire",
+    "rarity": 4,
+    "baseSpeed": 106,
+    "imageUrl": ""
+  },
+  {
+    "id": "sampo",
+    "name": "Sampo",
+    "path": "Nihility",
+    "element": "Wind",
+    "rarity": 4,
+    "baseSpeed": 102,
+    "imageUrl": ""
+  },
+  {
+    "id": "luka",
+    "name": "Luka",
+    "path": "Nihility",
+    "element": "Physical",
+    "rarity": 4,
+    "baseSpeed": 103,
+    "imageUrl": ""
   }
 ]

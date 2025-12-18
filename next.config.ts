@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "api.hakush.in",
         pathname: "/hsr/**",
       },
+      {
+        protocol: "https",
+        hostname: "act-webstatic.hoyoverse.com",
+        pathname: "/**",
+      },
     ],
   },
 };
