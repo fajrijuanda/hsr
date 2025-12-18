@@ -1,0 +1,24 @@
+[
+  {
+    "id": "banner-2-7-1",
+    "phase": "2.7.1",
+    "name": "Fugue & Mydei Banner",
+    "characters": ["Fugue", "Mydei"],
+    "lightCones": ["Long Road Leads Home", "After the Curtain Falls"],
+    "startDate": "2024-12-18T06:00:00Z",
+    "endDate": "2025-01-08T14:59:59Z",
+    "type": "limited",
+    "imageUrl": "/banners/fugue.png"
+  },
+  {
+    "id": "banner-2-7-2",
+    "phase": "2.7.2",
+    "name": "Rerun Banner",
+    "characters": ["Castorice", "Tribbie"],
+    "lightCones": ["TBD"],
+    "startDate": "2025-01-08T06:00:00Z",
+    "endDate": "2025-01-29T14:59:59Z",
+    "type": "limited",
+    "imageUrl": "/banners/rerun.png"
+  }
+]

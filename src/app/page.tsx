@@ -1,24 +1,27 @@
 "use client";
 
-import { useTeamStore } from "@/stores/teamStore";
-import { TimelineBar } from "@/components/Timeline/TimelineBar";
-import { CharacterPicker } from "@/components/Controls/CharacterPicker";
-import { TeamBuilder } from "@/components/Team/TeamBuilder";
-import { TeamPresets } from "@/components/Team/TeamPresets";
-import { BossSettings } from "@/components/Controls/BossSettings";
-import { getActionsPerCycle, formatAV } from "@/lib/calculator";
+import { motion } from "framer-motion";
+import { BannerCard } from "@/components/Banner/BannerCard";
+import { CodeList } from "@/components/Codes/CodeList";
+import { EventList } from "@/components/Events/EventList";
+import { ResetTimers } from "@/components/Stats/ResetTimers";
+import { FeatureGrid } from "@/components/QuickLinks/FeatureGrid";
+import { Banner, RedemptionCode, GameEvent } from "@/types";
 import { Badge } from "@/components/ui/badge";
 
-export default function Home() {
-  const { timeline, cycles, team } = useTeamStore();
+import bannersData from "@/data/banners.json";
+import codesData from "@/data/codes.json";
+import eventsData from "@/data/events.json";
 
-  // Calculate team summary stats
-  const turnOrder = timeline
-    .filter(e => !e.isEnemy)
-    .slice(0, 8)
-    .map(e => e.characterName);
+export default function DashboardPage() {
+  const banners = bannersData as Banner[];
+  const codes = codesData as RedemptionCode[];
+  const events = eventsData as GameEvent[];
 
-  const uniqueOrder = [...new Set(turnOrder)];
+  // Get the current active banner (first one that hasn't ended)
+  const activeBanner = banners.find(
+    (b) => new Date(b.endDate) > new Date()
+  ) || banners[0];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-purple-950">
@@ -27,16 +30,22 @@ export default function Home() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                HSR Speed Tuner
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+                HSR Tools Hub
               </h1>
               <p className="text-sm text-gray-400">
-                Action Value Calculator & Timeline Visualizer
+                Your Honkai: Star Rail Companion
               </p>
             </div>
             <div className="flex items-center gap-2">
+              <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/50">
+                v2.7
+              </Badge>
               <Badge variant="outline" className="bg-gray-800/50">
-                v1.0
+                {new Date().toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric"
+                })}
               </Badge>
             </div>
           </div>
@@ -44,102 +53,90 @@ export default function Home() {
       </header>
 
       <main className="container mx-auto px-4 py-8 space-y-8">
-        {/* Timeline Section */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-200">
-              Turn Order Timeline
-            </h2>
-            {team.length > 0 && (
-              <div className="text-sm text-gray-400">
-                First {Math.min(8, turnOrder.length)} turns: {" "}
-                <span className="text-purple-400">
-                  {uniqueOrder.join(" → ")}
-                </span>
-              </div>
-            )}
-          </div>
-          <TimelineBar entries={timeline} cycles={cycles} />
-        </section>
-
-        {/* Quick Stats */}
-        {team.length > 0 && (
-          <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {team.map((member) => {
-              const totalSpeed = member.character.baseSpeed +
-                member.speedBonus +
-                member.relicSpeedBonus +
-                member.lightConeSpeed +
-                Math.floor(member.character.baseSpeed * member.speedPercent / 100);
-              const av = 10000 / totalSpeed;
-              const actions = getActionsPerCycle(totalSpeed);
-
-              return (
-                <div
-                  key={member.character.id}
-                  className="p-4 rounded-lg bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700"
-                >
-                  <div className="text-sm text-gray-400">{member.character.name}</div>
-                  <div className="text-2xl font-bold text-white">{totalSpeed} SPD</div>
-                  <div className="text-sm text-gray-500">
-                    AV: {formatAV(av)} • {actions} act/cycle
-                  </div>
-                </div>
-              );
-            })}
-          </section>
-        )}
+        {/* Hero Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center py-8"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Welcome, Trailblazer! 🚀
+          </h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Your all-in-one toolkit for Honkai: Star Rail. Track banners, redeem codes,
+            optimize teams, and never miss an event.
+          </p>
+        </motion.section>
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Character Selection */}
-          <div className="space-y-6">
-            <TeamPresets />
-            <CharacterPicker />
+          {/* Left Column - Banner & Tools */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Current Banner */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-200 mb-3 flex items-center gap-2">
+                🎰 Current Banner
+              </h3>
+              <BannerCard banner={activeBanner} />
+            </div>
+
+            {/* Quick Tools */}
+            <FeatureGrid />
+
+            {/* Events */}
+            <EventList events={events} />
           </div>
 
-          {/* Middle Column - Team Builder */}
-          <div className="lg:col-span-1">
-            <TeamBuilder />
-          </div>
-
-          {/* Right Column - Settings */}
+          {/* Right Column - Codes & Timers */}
           <div className="space-y-6">
-            <BossSettings />
+            {/* Codes */}
+            <CodeList codes={codes} />
 
-            {/* Speed Guide */}
+            {/* Reset Timers */}
+            <ResetTimers />
+
+            {/* Version Info */}
             <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700">
-              <h3 className="font-semibold mb-3 text-gray-200">Speed Breakpoints</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">1 action/cycle</span>
-                  <span className="text-emerald-400">67+ SPD</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">2 actions/cycle</span>
-                  <span className="text-cyan-400">134+ SPD</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">3 actions/cycle</span>
-                  <span className="text-purple-400">200+ SPD</span>
-                </div>
-              </div>
-              <div className="mt-4 pt-4 border-t border-gray-700 text-xs text-gray-500">
-                <p>Action Value = 10000 / Speed</p>
-                <p>Each cycle = 150 AV</p>
-                <p>First turn = 50% normal AV</p>
+              <h3 className="font-semibold text-gray-200 mb-2">📢 Version 2.7</h3>
+              <ul className="text-sm text-gray-400 space-y-1">
+                <li>• New Characters: Fugue, Mydei</li>
+                <li>• New Story Content</li>
+                <li>• Memory of Chaos Updated</li>
+                <li>• New Events & Rewards</li>
+              </ul>
+            </div>
+
+            {/* Quick Links */}
+            <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700">
+              <h3 className="font-semibold text-gray-200 mb-3">🔗 Useful Links</h3>
+              <div className="space-y-2">
+                {[
+                  { name: "Official Site", url: "https://hsr.hoyoverse.com" },
+                  { name: "Redeem Codes", url: "https://hsr.hoyoverse.com/gift" },
+                  { name: "HoYoLAB", url: "https://www.hoyolab.com" },
+                ].map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-3 py-2 rounded bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white transition-colors"
+                  >
+                    {link.name} ↗
+                  </a>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Footer Info */}
+        {/* Footer */}
         <footer className="text-center text-sm text-gray-500 pt-8 border-t border-gray-800">
           <p>
-            Adjust character speeds using the sliders to see how turn order changes in real-time.
+            HSR Tools is a fan-made project. Not affiliated with HoYoverse.
           </p>
           <p className="mt-1">
-            Lower Action Value = Acts Earlier | Each cycle in MoC is 150 AV
+            Data sourced from community. Some information may not be accurate.
           </p>
         </footer>
       </main>

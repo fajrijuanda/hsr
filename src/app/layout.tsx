@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HSR Speed Tuner | Action Value Calculator",
-  description: "Honkai: Star Rail Speed Tuner - Calculate Action Value, visualize turn order, and optimize your team's speed tuning for Memory of Chaos.",
-  keywords: ["Honkai Star Rail", "HSR", "Speed Tuner", "Action Value", "AV Calculator", "MoC", "Turn Order"],
+  title: "HSR Tools Hub | Honkai: Star Rail Companion",
+  description: "Your all-in-one Honkai: Star Rail toolkit. Track banners, redeem codes, optimize team speed, simulate battles, and more.",
+  keywords: ["Honkai Star Rail", "HSR", "Speed Tuner", "Banner Countdown", "Redeem Codes", "MoC", "Pull Planner"],
 };
 
 export default function RootLayout({

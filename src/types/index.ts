@@ -55,3 +55,42 @@ export type PathType =
   | "Nihility"
   | "Preservation"
   | "Abundance";
+
+// Dashboard Types
+export interface Banner {
+  id: string;
+  phase: string;
+  name: string;
+  characters: string[];
+  lightCones: string[];
+  startDate: string;
+  endDate: string;
+  type: "limited" | "standard" | "weapon";
+  imageUrl: string;
+}
+
+export interface RedemptionCode {
+  code: string;
+  rewards: string;
+  source: string;
+  addedAt: string;
+  expiresAt: string | null;
+  status: "active" | "expired" | "new";
+}
+
+export interface GameEvent {
+  id: string;
+  name: string;
+  type: "story" | "farming" | "permanent" | "recurring";
+  startDate: string;
+  endDate: string | null;
+  rewards: string[];
+  description: string;
+}
+
+export interface TimeLeft {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}

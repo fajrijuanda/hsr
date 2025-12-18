@@ -1,0 +1,38 @@
+[
+  {
+    "id": "event-1",
+    "name": "Penacony's Grand Finale",
+    "type": "story",
+    "startDate": "2024-12-18T06:00:00Z",
+    "endDate": "2025-01-08T03:59:59Z",
+    "rewards": ["Stellar Jade", "Credits", "Character EXP"],
+    "description": "Complete the story event to earn rewards"
+  },
+  {
+    "id": "event-2",
+    "name": "Calyx Double Drop",
+    "type": "farming",
+    "startDate": "2024-12-20T04:00:00Z",
+    "endDate": "2024-12-27T03:59:59Z",
+    "rewards": ["2x Calyx Drops"],
+    "description": "Double drops from Golden and Crimson Calyx"
+  },
+  {
+    "id": "event-3",
+    "name": "Simulated Universe: World 9",
+    "type": "permanent",
+    "startDate": "2024-12-18T06:00:00Z",
+    "endDate": null,
+    "rewards": ["Stellar Jade", "Herta Bond"],
+    "description": "New Simulated Universe world available"
+  },
+  {
+    "id": "event-4",
+    "name": "Memory of Chaos Reset",
+    "type": "recurring",
+    "startDate": "2024-12-16T04:00:00Z",
+    "endDate": "2024-12-30T03:59:59Z",
+    "rewards": ["Stellar Jade", "Tracks of Destiny"],
+    "description": "New MoC cycle with fresh challenges"
+  }
+]

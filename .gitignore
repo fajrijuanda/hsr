@@ -44,3 +44,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/.agent
+
+# blueprints
+blueprint-battle-simulator.md
+blueprint-dashboard.md
+blueprint-lore-graph.md
+blueprint-pull-planner.md
+blueprint-showcase.md
+blueprint-speed-tuner.md
+
