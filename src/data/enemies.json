@@ -1,0 +1,97 @@
+[
+  {
+    "id": "phantylia",
+    "name": "Phantylia the Undying",
+    "type": "boss",
+    "hp": 2000000,
+    "speed": 80,
+    "weakness": ["Lightning", "Wind"],
+    "resistance": {
+      "Physical": 0.2,
+      "Fire": 0.2,
+      "Ice": 0.2,
+      "Lightning": 0,
+      "Wind": 0,
+      "Quantum": 0.2,
+      "Imaginary": 0.2
+    },
+    "def": 1000,
+    "imageUrl": "/enemies/phantylia.png"
+  },
+  {
+    "id": "kafka_boss",
+    "name": "Kafka (Boss)",
+    "type": "boss",
+    "hp": 1500000,
+    "speed": 110,
+    "weakness": ["Physical", "Quantum"],
+    "resistance": {
+      "Physical": 0,
+      "Fire": 0.3,
+      "Ice": 0.3,
+      "Lightning": 0.5,
+      "Wind": 0.3,
+      "Quantum": 0,
+      "Imaginary": 0.3
+    },
+    "def": 950,
+    "imageUrl": "/enemies/kafka.png"
+  },
+  {
+    "id": "argenti_boss",
+    "name": "Argenti",
+    "type": "boss",
+    "hp": 1800000,
+    "speed": 95,
+    "weakness": ["Ice", "Lightning"],
+    "resistance": {
+      "Physical": 0.3,
+      "Fire": 0.3,
+      "Ice": 0,
+      "Lightning": 0,
+      "Wind": 0.3,
+      "Quantum": 0.3,
+      "Imaginary": 0.3
+    },
+    "def": 1050,
+    "imageUrl": "/enemies/argenti.png"
+  },
+  {
+    "id": "sam_boss",
+    "name": "Hoolay (Sam)",
+    "type": "boss",
+    "hp": 2200000,
+    "speed": 100,
+    "weakness": ["Fire", "Imaginary"],
+    "resistance": {
+      "Physical": 0.3,
+      "Fire": 0,
+      "Ice": 0.3,
+      "Lightning": 0.3,
+      "Wind": 0.3,
+      "Quantum": 0.3,
+      "Imaginary": 0
+    },
+    "def": 1100,
+    "imageUrl": "/enemies/sam.png"
+  },
+  {
+    "id": "custom",
+    "name": "Custom Boss",
+    "type": "custom",
+    "hp": 1000000,
+    "speed": 80,
+    "weakness": ["Lightning"],
+    "resistance": {
+      "Physical": 0,
+      "Fire": 0,
+      "Ice": 0,
+      "Lightning": 0,
+      "Wind": 0,
+      "Quantum": 0,
+      "Imaginary": 0
+    },
+    "def": 1000,
+    "imageUrl": "/enemies/custom.png"
+  }
+]

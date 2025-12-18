@@ -31,7 +31,7 @@ const FEATURES: FeatureLink[] = [
         description: "Turn-by-turn combat simulation",
         href: "/battle-simulator",
         icon: "⚔️",
-        status: "coming-soon",
+        status: "available",
         color: "from-red-600 to-orange-600",
     },
     {

@@ -1,0 +1,131 @@
+{
+  "acheron": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.6,
+    "ultMultiplier": 3.72,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 9,
+    "ultType": "stacks",
+    "passive": "Gains Slashed Dream stacks from ally debuffs",
+    "baseAtk": 698,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "sparkle": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Skill advances ally action and buffs CRIT DMG",
+    "skillBuff": {
+      "stat": "critDmg",
+      "value": 0.48,
+      "duration": 1
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "jiaoqiu": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.5,
+    "ultMultiplier": 1.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 100,
+    "ultType": "normal",
+    "passive": "Applies Ashen Roast debuff increasing damage taken",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.15,
+      "duration": 2
+    },
+    "ultDebuff": {
+      "stat": "vulnerability",
+      "value": 0.25,
+      "duration": 2
+    },
+    "baseAtk": 601,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "firefly": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 240,
+    "ultType": "normal",
+    "passive": "SAM form deals massive Break damage",
+    "baseAtk": 756,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "seele": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.2,
+    "ultMultiplier": 4.25,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Resurgence on kill grants extra turn",
+    "baseAtk": 640,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "dan_heng_il": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.6,
+    "ultMultiplier": 4.5,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Gains Righteous Heart stacks for increased damage",
+    "baseAtk": 698,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "fu_xuan": {
+    "basicMultiplier": 0.5,
+    "skillMultiplier": 0,
+    "ultMultiplier": 1.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Matrix of Prescience shares damage",
+    "baseAtk": 465,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "ruan_mei": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "Increases Break Efficiency and All-Type RES PEN",
+    "skillBuff": {
+      "stat": "dmgBonus",
+      "value": 0.32,
+      "duration": 3
+    },
+    "ultBuff": {
+      "stat": "resPen",
+      "value": 0.25,
+      "duration": 2
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  }
+}

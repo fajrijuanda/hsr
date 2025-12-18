@@ -94,3 +94,102 @@ export interface TimeLeft {
   minutes: number;
   seconds: number;
 }
+
+// Battle Simulator Types
+export interface Enemy {
+  id: string;
+  name: string;
+  type: "boss" | "elite" | "custom";
+  hp: number;
+  speed: number;
+  weakness: ElementType[];
+  resistance: Record<ElementType, number>;
+  def: number;
+  imageUrl: string;
+}
+
+export interface BattleCharacter {
+  id: string;
+  name: string;
+  element: ElementType;
+  path: PathType;
+  baseAtk: number;
+  currentHp: number;
+  maxHp: number;
+  currentEnergy: number;
+  maxEnergy: number;
+  speed: number;
+  critRate: number;
+  critDmg: number;
+  dmgBonus: number;
+  effects: BattleEffect[];
+}
+
+export interface BattleEnemy {
+  id: string;
+  name: string;
+  currentHp: number;
+  maxHp: number;
+  speed: number;
+  weakness: ElementType[];
+  resistance: Record<ElementType, number>;
+  def: number;
+  effects: BattleEffect[];
+  toughness: number;
+  maxToughness: number;
+  isBroken: boolean;
+}
+
+export interface BattleEffect {
+  id: string;
+  name: string;
+  type: "buff" | "debuff";
+  stat: string;
+  value: number;
+  duration: number;
+  stacks: number;
+  maxStacks: number;
+  source: string;
+}
+
+export interface BattleAction {
+  type: "basic" | "skill" | "ultimate";
+  characterId: string;
+  targetId?: string;
+}
+
+export interface BattleLogEntry {
+  turn: number;
+  characterName: string;
+  action: string;
+  damage?: number;
+  isCrit?: boolean;
+  effects?: string[];
+  timestamp: number;
+}
+
+export interface BattleState {
+  turn: number;
+  phase: "setup" | "battle" | "victory" | "defeat";
+  team: BattleCharacter[];
+  enemy: BattleEnemy;
+  turnOrder: string[];
+  currentActorId: string;
+  battleLog: BattleLogEntry[];
+  totalDamage: number;
+}
+
+export interface DamageResult {
+  baseDamage: number;
+  finalDamage: number;
+  isCrit: boolean;
+  breakdown: {
+    attackStat: number;
+    skillMultiplier: number;
+    critMultiplier: number;
+    dmgBonusMultiplier: number;
+    defMultiplier: number;
+    resMultiplier: number;
+    vulnerabilityMultiplier: number;
+  };
+}
