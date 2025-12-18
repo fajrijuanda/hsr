@@ -6,11 +6,13 @@ import { ShowcaseProfile, ShowcaseCharacter } from "@/types";
 import { ProfileHeader } from "@/components/Showcase/ProfileHeader";
 import { ShowcaseCharacterCard } from "@/components/Showcase/CharacterCard";
 import { RelicRater } from "@/components/Showcase/RelicRater";
+import { fetchProfile } from "@/lib/mihomo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-// Sample demo data
+// Sample demo data for fallback
 const DEMO_PROFILE: ShowcaseProfile = {
     uid: "800123456",
     nickname: "HSR Player",
@@ -120,109 +122,6 @@ const DEMO_PROFILE: ShowcaseProfile = {
                 },
             ],
         },
-        {
-            id: "sparkle",
-            name: "Sparkle",
-            element: "Quantum",
-            path: "Harmony",
-            level: 80,
-            eidolon: 0,
-            stats: {
-                hp: 15800,
-                atk: 1890,
-                def: 1340,
-                spd: 168,
-                critRate: 12.3,
-                critDmg: 156.8,
-            },
-            lightCone: {
-                id: "lc_sparkle",
-                name: "Earthly Escapade",
-                level: 80,
-                superimposition: 1,
-                stats: { hp: 1164, atk: 476, def: 529 },
-            },
-            relics: [
-                {
-                    id: "s1",
-                    slot: "head",
-                    setName: "Sacerdos' Relived Ordeal",
-                    level: 15,
-                    mainStat: { type: "HP", value: 705 },
-                    substats: [
-                        { type: "CRIT DMG", rolls: 3, value: 16.5 },
-                        { type: "SPD", rolls: 3, value: 7.2 },
-                        { type: "DEF%", rolls: 1, value: 4.8 },
-                        { type: "Effect RES", rolls: 1, value: 3.9 },
-                    ],
-                },
-                {
-                    id: "s2",
-                    slot: "hands",
-                    setName: "Sacerdos' Relived Ordeal",
-                    level: 15,
-                    mainStat: { type: "ATK", value: 352 },
-                    substats: [
-                        { type: "CRIT DMG", rolls: 2, value: 11.0 },
-                        { type: "SPD", rolls: 2, value: 4.8 },
-                        { type: "HP%", rolls: 2, value: 7.3 },
-                        { type: "DEF%", rolls: 2, value: 9.2 },
-                    ],
-                },
-                {
-                    id: "s3",
-                    slot: "body",
-                    setName: "Sacerdos' Relived Ordeal",
-                    level: 15,
-                    mainStat: { type: "CRIT DMG", value: 64.8 },
-                    substats: [
-                        { type: "SPD", rolls: 4, value: 9.5 },
-                        { type: "HP%", rolls: 2, value: 7.8 },
-                        { type: "DEF%", rolls: 1, value: 4.3 },
-                        { type: "Effect RES", rolls: 1, value: 3.9 },
-                    ],
-                },
-                {
-                    id: "s4",
-                    slot: "feet",
-                    setName: "Sacerdos' Relived Ordeal",
-                    level: 15,
-                    mainStat: { type: "SPD", value: 25 },
-                    substats: [
-                        { type: "CRIT DMG", rolls: 2, value: 10.4 },
-                        { type: "HP%", rolls: 3, value: 11.7 },
-                        { type: "DEF%", rolls: 2, value: 9.7 },
-                        { type: "Effect RES", rolls: 1, value: 3.9 },
-                    ],
-                },
-                {
-                    id: "s5",
-                    slot: "orb",
-                    setName: "Penacony",
-                    level: 15,
-                    mainStat: { type: "HP%", value: 43.2 },
-                    substats: [
-                        { type: "CRIT DMG", rolls: 1, value: 5.2 },
-                        { type: "SPD", rolls: 2, value: 4.6 },
-                        { type: "DEF%", rolls: 3, value: 14.6 },
-                        { type: "Effect RES", rolls: 2, value: 7.8 },
-                    ],
-                },
-                {
-                    id: "s6",
-                    slot: "rope",
-                    setName: "Penacony",
-                    level: 15,
-                    mainStat: { type: "Energy Regen", value: 19.4 },
-                    substats: [
-                        { type: "CRIT DMG", rolls: 2, value: 10.4 },
-                        { type: "SPD", rolls: 3, value: 7.2 },
-                        { type: "HP%", rolls: 2, value: 7.3 },
-                        { type: "DEF%", rolls: 1, value: 4.8 },
-                    ],
-                },
-            ],
-        },
     ],
 };
 
@@ -231,19 +130,37 @@ export default function ShowcasePage() {
     const [profile, setProfile] = useState<ShowcaseProfile | null>(null);
     const [selectedChar, setSelectedChar] = useState<ShowcaseCharacter | null>(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const loadDemoData = () => {
         setLoading(true);
+        setError(null);
         setTimeout(() => {
             setProfile(DEMO_PROFILE);
             setLoading(false);
         }, 500);
     };
 
-    const handleImport = () => {
+    const handleImport = async () => {
         if (!uid) return;
-        // For MVP, just load demo data
-        loadDemoData();
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const data = await fetchProfile(uid);
+
+            if (data) {
+                setProfile(data);
+            } else {
+                setError("Could not fetch profile. Make sure the UID is correct and the profile is public.");
+            }
+        } catch (err) {
+            console.error(err);
+            setError("Failed to connect to API. Please try again later.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -283,15 +200,23 @@ export default function ShowcasePage() {
                             <div className="flex gap-2">
                                 <Input
                                     type="text"
-                                    placeholder="Enter UID (e.g., 800123456)"
+                                    placeholder="Enter UID (e.g., 801334365)"
                                     value={uid}
                                     onChange={(e) => setUid(e.target.value)}
                                     className="bg-gray-800 border-gray-700"
+                                    onKeyDown={(e) => e.key === "Enter" && handleImport()}
                                 />
-                                <Button onClick={handleImport} disabled={loading}>
-                                    Import
+                                <Button onClick={handleImport} disabled={loading || !uid}>
+                                    {loading ? "Loading..." : "Import"}
                                 </Button>
                             </div>
+
+                            {error && (
+                                <div className="p-3 rounded bg-red-900/30 border border-red-700 text-red-400 text-sm">
+                                    {error}
+                                </div>
+                            )}
+
                             <div className="text-center">
                                 <span className="text-gray-500 text-sm">or</span>
                             </div>
@@ -301,10 +226,10 @@ export default function ShowcasePage() {
                                 disabled={loading}
                                 className="w-full"
                             >
-                                {loading ? "Loading..." : "📊 View Demo Data"}
+                                📊 View Demo Data
                             </Button>
                             <p className="text-xs text-gray-500 text-center">
-                                Note: Live API integration coming soon. Demo uses sample data.
+                                Using Mihomo API for live data. Make sure your in-game showcase is public.
                             </p>
                         </CardContent>
                     </Card>
@@ -317,21 +242,37 @@ export default function ShowcasePage() {
 
                         {/* Character Grid */}
                         <div>
-                            <h3 className="text-lg font-bold text-white mb-4">
-                                Showcased Characters ({profile.characters.length})
-                            </h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {profile.characters.map((char) => (
-                                    <ShowcaseCharacterCard
-                                        key={char.id}
-                                        character={char}
-                                        isSelected={selectedChar?.id === char.id}
-                                        onClick={() => setSelectedChar(
-                                            selectedChar?.id === char.id ? null : char
-                                        )}
-                                    />
-                                ))}
+                            <div className="flex items-center gap-3 mb-4">
+                                <h3 className="text-lg font-bold text-white">
+                                    Showcased Characters
+                                </h3>
+                                <Badge variant="outline" className="border-purple-500 text-purple-400">
+                                    {profile.characters.length} Characters
+                                </Badge>
                             </div>
+                            {profile.characters.length === 0 ? (
+                                <Card className="bg-gray-900/50 border-gray-700">
+                                    <CardContent className="py-8 text-center">
+                                        <p className="text-gray-400">No characters in showcase.</p>
+                                        <p className="text-sm text-gray-500 mt-2">
+                                            Make sure you have characters displayed in your in-game showcase.
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    {profile.characters.map((char) => (
+                                        <ShowcaseCharacterCard
+                                            key={char.id}
+                                            character={char}
+                                            isSelected={selectedChar?.id === char.id}
+                                            onClick={() => setSelectedChar(
+                                                selectedChar?.id === char.id ? null : char
+                                            )}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Selected Character Relic Details */}
@@ -361,6 +302,7 @@ export default function ShowcasePage() {
                                     setProfile(null);
                                     setSelectedChar(null);
                                     setUid("");
+                                    setError(null);
                                 }}
                             >
                                 🔄 Load Different Profile
