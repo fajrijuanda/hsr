@@ -40,7 +40,7 @@ const FEATURES: FeatureLink[] = [
         description: "Relic rating with brutal honesty",
         href: "/showcase",
         icon: "🎭",
-        status: "coming-soon",
+        status: "available",
         color: "from-cyan-600 to-blue-600",
     },
     {

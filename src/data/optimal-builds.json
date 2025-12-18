@@ -1,0 +1,185 @@
+{
+  "acheron": {
+    "name": "Acheron",
+    "substats": {
+      "CRIT Rate": 1.0,
+      "CRIT DMG": 1.0,
+      "ATK%": 0.8,
+      "SPD": 0.6,
+      "HP%": 0.2,
+      "DEF%": 0.1,
+      "Effect Hit Rate": 0.3,
+      "Break Effect": 0.1
+    },
+    "mainStats": {
+      "body": "CRIT Rate",
+      "feet": "SPD",
+      "orb": "Lightning DMG",
+      "rope": "ATK%"
+    },
+    "sets": ["Pioneer Diver", "Izumo Gensei"]
+  },
+  "sparkle": {
+    "name": "Sparkle",
+    "substats": {
+      "CRIT DMG": 1.0,
+      "SPD": 0.8,
+      "HP%": 0.6,
+      "DEF%": 0.5,
+      "Effect RES": 0.4,
+      "CRIT Rate": 0.2
+    },
+    "mainStats": {
+      "body": "CRIT DMG",
+      "feet": "SPD",
+      "orb": "HP%",
+      "rope": "Energy Regen"
+    },
+    "sets": ["Sacerdos' Relived Ordeal", "Penacony"]
+  },
+  "jiaoqiu": {
+    "name": "Jiaoqiu",
+    "substats": {
+      "Effect Hit Rate": 1.0,
+      "SPD": 0.9,
+      "HP%": 0.6,
+      "DEF%": 0.5,
+      "ATK%": 0.4,
+      "Effect RES": 0.3
+    },
+    "mainStats": {
+      "body": "Effect Hit Rate",
+      "feet": "SPD",
+      "orb": "Fire DMG",
+      "rope": "ATK%"
+    },
+    "sets": ["Prisoner in Deep Confinement", "Pan-Cosmic Enterprise"]
+  },
+  "firefly": {
+    "name": "Firefly",
+    "substats": {
+      "Break Effect": 1.0,
+      "ATK%": 0.8,
+      "SPD": 0.7,
+      "Effect RES": 0.3,
+      "HP%": 0.2,
+      "DEF%": 0.1
+    },
+    "mainStats": {
+      "body": "ATK%",
+      "feet": "SPD",
+      "orb": "ATK%",
+      "rope": "Break Effect"
+    },
+    "sets": ["Iron Cavalry Against Scourge", "Talia: Kingdom of Banditry"]
+  },
+  "fu_xuan": {
+    "name": "Fu Xuan",
+    "substats": {
+      "HP%": 1.0,
+      "DEF%": 0.8,
+      "SPD": 0.6,
+      "Effect RES": 0.5,
+      "CRIT Rate": 0.3,
+      "CRIT DMG": 0.2
+    },
+    "mainStats": {
+      "body": "HP%",
+      "feet": "SPD",
+      "orb": "HP%",
+      "rope": "HP%"
+    },
+    "sets": ["Knight of Purity Palace", "Penacony"]
+  },
+  "robin": {
+    "name": "Robin",
+    "substats": {
+      "ATK%": 1.0,
+      "SPD": 0.8,
+      "HP%": 0.5,
+      "DEF%": 0.4,
+      "Effect RES": 0.3
+    },
+    "mainStats": {
+      "body": "ATK%",
+      "feet": "SPD",
+      "orb": "ATK%",
+      "rope": "Energy Regen"
+    },
+    "sets": ["Musketeer of Wild Wheat", "Penacony"]
+  },
+  "sunday": {
+    "name": "Sunday",
+    "substats": {
+      "SPD": 1.0,
+      "CRIT DMG": 0.8,
+      "HP%": 0.6,
+      "DEF%": 0.5,
+      "Effect RES": 0.4
+    },
+    "mainStats": {
+      "body": "CRIT DMG",
+      "feet": "SPD",
+      "orb": "HP%",
+      "rope": "Energy Regen"
+    },
+    "sets": ["Sacerdos' Relived Ordeal", "Penacony"]
+  },
+  "the_herta": {
+    "name": "The Herta",
+    "substats": {
+      "CRIT Rate": 1.0,
+      "CRIT DMG": 1.0,
+      "ATK%": 0.7,
+      "SPD": 0.5,
+      "HP%": 0.2,
+      "DEF%": 0.1
+    },
+    "mainStats": {
+      "body": "CRIT Rate",
+      "feet": "SPD",
+      "orb": "Ice DMG",
+      "rope": "ATK%"
+    },
+    "sets": ["Scholar Lost in Erudition", "Izumo Gensei"]
+  },
+  "feixiao": {
+    "name": "Feixiao",
+    "substats": {
+      "CRIT Rate": 1.0,
+      "CRIT DMG": 1.0,
+      "ATK%": 0.8,
+      "SPD": 0.5,
+      "HP%": 0.2,
+      "DEF%": 0.1
+    },
+    "mainStats": {
+      "body": "CRIT Rate",
+      "feet": "ATK%",
+      "orb": "Wind DMG",
+      "rope": "ATK%"
+    },
+    "sets": ["Wind-Soaring Valorous", "Duran"]
+  },
+  "default": {
+    "name": "Default",
+    "substats": {
+      "CRIT Rate": 1.0,
+      "CRIT DMG": 1.0,
+      "ATK%": 0.8,
+      "SPD": 0.6,
+      "HP%": 0.4,
+      "DEF%": 0.3,
+      "Effect Hit Rate": 0.3,
+      "Effect RES": 0.3,
+      "Break Effect": 0.3
+    },
+    "mainStats": {
+      "body": "CRIT Rate",
+      "feet": "SPD",
+      "orb": "Element DMG",
+      "rope": "ATK%"
+    },
+    "sets": []
+  }
+}

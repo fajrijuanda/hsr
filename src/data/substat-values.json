@@ -1,0 +1,50 @@
+{
+  "CRIT Rate": {
+    "maxRoll": 3.24,
+    "minRoll": 2.43
+  },
+  "CRIT DMG": {
+    "maxRoll": 6.48,
+    "minRoll": 4.86
+  },
+  "ATK": {
+    "maxRoll": 21,
+    "minRoll": 16
+  },
+  "ATK%": {
+    "maxRoll": 4.32,
+    "minRoll": 3.24
+  },
+  "DEF": {
+    "maxRoll": 21,
+    "minRoll": 16
+  },
+  "DEF%": {
+    "maxRoll": 5.4,
+    "minRoll": 4.05
+  },
+  "HP": {
+    "maxRoll": 42,
+    "minRoll": 31
+  },
+  "HP%": {
+    "maxRoll": 4.32,
+    "minRoll": 3.24
+  },
+  "SPD": {
+    "maxRoll": 2.6,
+    "minRoll": 2.0
+  },
+  "Effect Hit Rate": {
+    "maxRoll": 4.32,
+    "minRoll": 3.24
+  },
+  "Effect RES": {
+    "maxRoll": 4.32,
+    "minRoll": 3.24
+  },
+  "Break Effect": {
+    "maxRoll": 6.48,
+    "minRoll": 4.86
+  }
+}

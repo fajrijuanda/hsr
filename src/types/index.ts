@@ -193,3 +193,65 @@ export interface DamageResult {
     vulnerabilityMultiplier: number;
   };
 }
+
+// ============== Showcase Types ==============
+
+export interface ShowcaseSubstat {
+  type: string;
+  value: number;
+  rolls: number;
+}
+
+export interface ShowcaseRelic {
+  id: string;
+  slot: "head" | "hands" | "body" | "feet" | "orb" | "rope";
+  setName: string;
+  level: number;
+  mainStat: {
+    type: string;
+    value: number;
+  };
+  substats: ShowcaseSubstat[];
+}
+
+export interface ShowcaseLightCone {
+  id: string;
+  name: string;
+  level: number;
+  superimposition: number;
+  stats: {
+    hp: number;
+    atk: number;
+    def: number;
+  };
+}
+
+export interface ShowcaseCharacter {
+  id: string;
+  name: string;
+  element: ElementType;
+  path: string;
+  level: number;
+  eidolon: number;
+  stats: {
+    hp: number;
+    atk: number;
+    def: number;
+    spd: number;
+    critRate: number;
+    critDmg: number;
+    effectHit?: number;
+    effectRes?: number;
+    breakEffect?: number;
+  };
+  lightCone?: ShowcaseLightCone;
+  relics: ShowcaseRelic[];
+}
+
+export interface ShowcaseProfile {
+  uid: string;
+  nickname: string;
+  level: number;
+  signature?: string;
+  characters: ShowcaseCharacter[];
+}
