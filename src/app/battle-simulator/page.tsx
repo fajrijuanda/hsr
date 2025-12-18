@@ -84,100 +84,106 @@ export default function BattleSimulatorPage() {
                     </motion.div>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    {/* Left Column - Setup & Log */}
-                    <div className="space-y-6">
+                {phase === "setup" ? (
+                    /* Setup Mode - Centered */
+                    <div className="max-w-md mx-auto">
                         <BattleSetup />
-                        {phase !== "setup" && <BattleLog entries={battleLog} />}
+                        <div className="mt-8 h-64 flex items-center justify-center bg-gray-900/30 rounded-xl border border-gray-800">
+                            <div className="text-center">
+                                <p className="text-4xl mb-4">⚔️</p>
+                                <p className="text-gray-400">Select your team and enemy to begin</p>
+                            </div>
+                        </div>
                     </div>
+                ) : (
+                    /* Battle Mode - Full Layout */
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        {/* Left Column - Setup & Log */}
+                        <div className="flex flex-col gap-6">
+                            <BattleSetup />
+                            {/* Battle Log - fills remaining space */}
+                            <div className="flex-1 min-h-0">
+                                <BattleLog entries={battleLog} maxHeight="calc(100vh - 420px)" />
+                            </div>
+                        </div>
 
-                    {/* Main Battle Area */}
-                    <div className="lg:col-span-3 space-y-6">
-                        {phase === "setup" ? (
-                            <div className="h-96 flex items-center justify-center bg-gray-900/30 rounded-xl border border-gray-800">
-                                <div className="text-center">
-                                    <p className="text-4xl mb-4">⚔️</p>
-                                    <p className="text-gray-400">Select your team and enemy to begin</p>
+                        {/* Main Battle Area */}
+                        <div className="lg:col-span-3 space-y-6">
+                            {/* Enemy */}
+                            {enemy && <EnemyDisplay enemy={enemy} />}
+
+                            {/* Turn Order */}
+                            {phase === "battle" && (
+                                <div className="p-3 rounded-lg bg-gray-900/50 border border-gray-700">
+                                    <div className="flex items-center gap-2 text-sm flex-wrap">
+                                        <span className="text-gray-400">Turn Order:</span>
+                                        <div className="flex gap-2 flex-wrap">
+                                            {team.map((char) => (
+                                                <Badge
+                                                    key={char.id}
+                                                    variant={currentActorId === char.id ? "default" : "outline"}
+                                                    className={currentActorId === char.id ? "bg-white text-black" : ""}
+                                                >
+                                                    {char.name}
+                                                </Badge>
+                                            ))}
+                                            {enemy && (
+                                                <Badge
+                                                    variant={currentActorId === enemy.id ? "default" : "outline"}
+                                                    className={currentActorId === enemy.id ? "bg-red-600 text-white" : "text-red-400 border-red-500/50"}
+                                                >
+                                                    {enemy.name}
+                                                </Badge>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Team */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {team.map((char) => (
+                                    <CharacterCard
+                                        key={char.id}
+                                        character={char}
+                                        isActive={currentActorId === char.id}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Action Bar */}
+                            {phase === "battle" && <ActionBar />}
+
+                            {/* Stats Summary */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
+                                    <div className="text-sm text-gray-400">Total Damage</div>
+                                    <div className="text-2xl font-bold text-white font-mono">
+                                        {formatDamage(totalDamage)}
+                                    </div>
+                                </div>
+                                <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
+                                    <div className="text-sm text-gray-400">Turn</div>
+                                    <div className="text-2xl font-bold text-white">
+                                        {turn}
+                                    </div>
+                                </div>
+                                <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
+                                    <div className="text-sm text-gray-400">DPT (Avg)</div>
+                                    <div className="text-2xl font-bold text-cyan-400 font-mono">
+                                        {turn > 0 ? formatDamage(Math.floor(totalDamage / turn)) : "0"}
+                                    </div>
+                                </div>
+                                <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
+                                    <div className="text-sm text-gray-400">Actions</div>
+                                    <div className="text-2xl font-bold text-white">
+                                        {battleLog.filter(e => e.damage).length}
+                                    </div>
                                 </div>
                             </div>
-                        ) : (
-                            <>
-                                {/* Enemy */}
-                                {enemy && <EnemyDisplay enemy={enemy} />}
-
-                                {/* Turn Order */}
-                                {phase === "battle" && (
-                                    <div className="p-3 rounded-lg bg-gray-900/50 border border-gray-700">
-                                        <div className="flex items-center gap-2 text-sm">
-                                            <span className="text-gray-400">Turn Order:</span>
-                                            <div className="flex gap-2">
-                                                {team.map((char) => (
-                                                    <Badge
-                                                        key={char.id}
-                                                        variant={currentActorId === char.id ? "default" : "outline"}
-                                                        className={currentActorId === char.id ? "bg-white text-black" : ""}
-                                                    >
-                                                        {char.name}
-                                                    </Badge>
-                                                ))}
-                                                {enemy && (
-                                                    <Badge
-                                                        variant={currentActorId === enemy.id ? "default" : "outline"}
-                                                        className={currentActorId === enemy.id ? "bg-red-600 text-white" : "text-red-400 border-red-500/50"}
-                                                    >
-                                                        {enemy.name}
-                                                    </Badge>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Team */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {team.map((char) => (
-                                        <CharacterCard
-                                            key={char.id}
-                                            character={char}
-                                            isActive={currentActorId === char.id}
-                                        />
-                                    ))}
-                                </div>
-
-                                {/* Action Bar */}
-                                {phase === "battle" && <ActionBar />}
-
-                                {/* Stats Summary */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
-                                        <div className="text-sm text-gray-400">Total Damage</div>
-                                        <div className="text-2xl font-bold text-white font-mono">
-                                            {formatDamage(totalDamage)}
-                                        </div>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
-                                        <div className="text-sm text-gray-400">Turn</div>
-                                        <div className="text-2xl font-bold text-white">
-                                            {turn}
-                                        </div>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
-                                        <div className="text-sm text-gray-400">DPT (Avg)</div>
-                                        <div className="text-2xl font-bold text-cyan-400 font-mono">
-                                            {turn > 0 ? formatDamage(Math.floor(totalDamage / turn)) : "0"}
-                                        </div>
-                                    </div>
-                                    <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700 text-center">
-                                        <div className="text-sm text-gray-400">Actions</div>
-                                        <div className="text-2xl font-bold text-white">
-                                            {battleLog.filter(e => e.damage).length}
-                                        </div>
-                                    </div>
-                                </div>
-                            </>
-                        )}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Footer */}
                 <footer className="text-center text-sm text-gray-500 pt-8 mt-8 border-t border-gray-800">

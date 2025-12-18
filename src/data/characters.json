@@ -6,52 +6,7 @@
     "element": "Lightning",
     "rarity": 5,
     "baseSpeed": 101,
-    "imageUrl": "/characters/acheron.png"
-  },
-  {
-    "id": "firefly",
-    "name": "Firefly",
-    "path": "Destruction",
-    "element": "Fire",
-    "rarity": 5,
-    "baseSpeed": 104,
-    "imageUrl": "/characters/firefly.png"
-  },
-  {
-    "id": "sparkle",
-    "name": "Sparkle",
-    "path": "Harmony",
-    "element": "Quantum",
-    "rarity": 5,
-    "baseSpeed": 101,
-    "imageUrl": "/characters/sparkle.png"
-  },
-  {
-    "id": "ruan_mei",
-    "name": "Ruan Mei",
-    "path": "Harmony",
-    "element": "Ice",
-    "rarity": 5,
-    "baseSpeed": 104,
-    "imageUrl": "/characters/ruan_mei.png"
-  },
-  {
-    "id": "robin",
-    "name": "Robin",
-    "path": "Harmony",
-    "element": "Physical",
-    "rarity": 5,
-    "baseSpeed": 102,
-    "imageUrl": "/characters/robin.png"
-  },
-  {
-    "id": "fu_xuan",
-    "name": "Fu Xuan",
-    "path": "Preservation",
-    "element": "Quantum",
-    "rarity": 5,
-    "baseSpeed": 100,
-    "imageUrl": "/characters/fu_xuan.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/801.webp"
   },
   {
     "id": "aventurine",
@@ -60,25 +15,34 @@
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 106,
-    "imageUrl": "/characters/aventurine.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1304.webp"
   },
   {
-    "id": "jiaoqiu",
-    "name": "Jiaoqiu",
+    "id": "black_swan",
+    "name": "Black Swan",
     "path": "Nihility",
-    "element": "Fire",
+    "element": "Wind",
     "rarity": 5,
-    "baseSpeed": 98,
-    "imageUrl": "/characters/jiaoqiu.png"
+    "baseSpeed": 102,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1307.webp"
   },
   {
-    "id": "seele",
-    "name": "Seele",
-    "path": "Hunt",
-    "element": "Quantum",
+    "id": "blade",
+    "name": "Blade",
+    "path": "Destruction",
+    "element": "Wind",
     "rarity": 5,
-    "baseSpeed": 115,
-    "imageUrl": "/characters/seele.png"
+    "baseSpeed": 97,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1205.webp"
+  },
+  {
+    "id": "boothill",
+    "name": "Boothill",
+    "path": "Hunt",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 107,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1315.webp"
   },
   {
     "id": "bronya",
@@ -87,7 +51,16 @@
     "element": "Wind",
     "rarity": 5,
     "baseSpeed": 99,
-    "imageUrl": "/characters/bronya.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1101.webp"
+  },
+  {
+    "id": "clara",
+    "name": "Clara",
+    "path": "Destruction",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 90,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1107.webp"
   },
   {
     "id": "dan_heng_il",
@@ -95,8 +68,116 @@
     "path": "Destruction",
     "element": "Imaginary",
     "rarity": 5,
+    "baseSpeed": 96,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1213.webp"
+  },
+  {
+    "id": "dr_ratio",
+    "name": "Dr. Ratio",
+    "path": "Hunt",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 103,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1305.webp"
+  },
+  {
+    "id": "feixiao",
+    "name": "Feixiao",
+    "path": "Hunt",
+    "element": "Wind",
+    "rarity": 5,
+    "baseSpeed": 112,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1220.webp"
+  },
+  {
+    "id": "firefly",
+    "name": "Firefly",
+    "path": "Destruction",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 104,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1310.webp"
+  },
+  {
+    "id": "fu_xuan",
+    "name": "Fu Xuan",
+    "path": "Preservation",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 100,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1208.webp"
+  },
+  {
+    "id": "fugue",
+    "name": "Fugue",
+    "path": "Nihility",
+    "element": "Fire",
+    "rarity": 5,
     "baseSpeed": 102,
-    "imageUrl": "/characters/dan_heng_il.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1317.webp"
+  },
+  {
+    "id": "gepard",
+    "name": "Gepard",
+    "path": "Preservation",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 92,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1104.webp"
+  },
+  {
+    "id": "himeko",
+    "name": "Himeko",
+    "path": "Erudition",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 96,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1003.webp"
+  },
+  {
+    "id": "huohuo",
+    "name": "Huohuo",
+    "path": "Abundance",
+    "element": "Wind",
+    "rarity": 5,
+    "baseSpeed": 98,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1215.webp"
+  },
+  {
+    "id": "jade",
+    "name": "Jade",
+    "path": "Erudition",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 103,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1314.webp"
+  },
+  {
+    "id": "jiaoqiu",
+    "name": "Jiaoqiu",
+    "path": "Nihility",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 98,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1218.webp"
+  },
+  {
+    "id": "jing_yuan",
+    "name": "Jing Yuan",
+    "path": "Erudition",
+    "element": "Lightning",
+    "rarity": 5,
+    "baseSpeed": 99,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1204.webp"
+  },
+  {
+    "id": "jingliu",
+    "name": "Jingliu",
+    "path": "Destruction",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 96,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1212.webp"
   },
   {
     "id": "kafka",
@@ -105,7 +186,52 @@
     "element": "Lightning",
     "rarity": 5,
     "baseSpeed": 100,
-    "imageUrl": "/characters/kafka.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1005.webp"
+  },
+  {
+    "id": "lingsha",
+    "name": "Lingsha",
+    "path": "Abundance",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 98,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1222.webp"
+  },
+  {
+    "id": "luocha",
+    "name": "Luocha",
+    "path": "Abundance",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 101,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1203.webp"
+  },
+  {
+    "id": "robin",
+    "name": "Robin",
+    "path": "Harmony",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 102,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1309.webp"
+  },
+  {
+    "id": "ruan_mei",
+    "name": "Ruan Mei",
+    "path": "Harmony",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 104,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1303.webp"
+  },
+  {
+    "id": "seele",
+    "name": "Seele",
+    "path": "Hunt",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 115,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1102.webp"
   },
   {
     "id": "silver_wolf",
@@ -114,16 +240,52 @@
     "element": "Quantum",
     "rarity": 5,
     "baseSpeed": 107,
-    "imageUrl": "/characters/silver_wolf.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1006.webp"
   },
   {
-    "id": "pela",
-    "name": "Pela",
+    "id": "sparkle",
+    "name": "Sparkle",
+    "path": "Harmony",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 101,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1306.webp"
+  },
+  {
+    "id": "sunday",
+    "name": "Sunday",
+    "path": "Harmony",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 96,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1313.webp"
+  },
+  {
+    "id": "topaz",
+    "name": "Topaz & Numby",
+    "path": "Hunt",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 110,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1210.webp"
+  },
+  {
+    "id": "welt",
+    "name": "Welt",
     "path": "Nihility",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 102,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1004.webp"
+  },
+  {
+    "id": "yanqing",
+    "name": "Yanqing",
+    "path": "Hunt",
     "element": "Ice",
-    "rarity": 4,
-    "baseSpeed": 105,
-    "imageUrl": "/characters/pela.png"
+    "rarity": 5,
+    "baseSpeed": 109,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1209.webp"
   },
   {
     "id": "gallagher",
@@ -132,15 +294,69 @@
     "element": "Fire",
     "rarity": 4,
     "baseSpeed": 98,
-    "imageUrl": "/characters/gallagher.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1301.webp"
   },
   {
-    "id": "trailblazer_harmony",
+    "id": "pela",
+    "name": "Pela",
+    "path": "Nihility",
+    "element": "Ice",
+    "rarity": 4,
+    "baseSpeed": 105,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1106.webp"
+  },
+  {
+    "id": "tingyun",
+    "name": "Tingyun",
+    "path": "Harmony",
+    "element": "Lightning",
+    "rarity": 4,
+    "baseSpeed": 112,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1202.webp"
+  },
+  {
+    "id": "march_7th",
+    "name": "March 7th",
+    "path": "Preservation",
+    "element": "Ice",
+    "rarity": 4,
+    "baseSpeed": 101,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1001.webp"
+  },
+  {
+    "id": "hmc",
     "name": "Trailblazer (Harmony)",
     "path": "Harmony",
     "element": "Imaginary",
     "rarity": 5,
     "baseSpeed": 105,
-    "imageUrl": "/characters/trailblazer_harmony.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/8006.webp"
+  },
+  {
+    "id": "mydei",
+    "name": "Mydei",
+    "path": "Destruction",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 96,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1318.webp"
+  },
+  {
+    "id": "the_herta",
+    "name": "The Herta",
+    "path": "Erudition",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 99,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1401.webp"
+  },
+  {
+    "id": "tribbie",
+    "name": "Tribbie",
+    "path": "Harmony",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 100,
+    "imageUrl": "https://api.hakush.in/hsr/UI/avatarshopicon/1402.webp"
   }
 ]

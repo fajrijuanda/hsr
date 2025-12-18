@@ -16,7 +16,7 @@
       "Imaginary": 0.2
     },
     "def": 1000,
-    "imageUrl": "/enemies/phantylia.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3014.webp"
   },
   {
     "id": "kafka_boss",
@@ -35,7 +35,83 @@
       "Imaginary": 0.3
     },
     "def": 950,
-    "imageUrl": "/enemies/kafka.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3001.webp"
+  },
+  {
+    "id": "cocolia",
+    "name": "Cocolia, Mother of Deception",
+    "type": "boss",
+    "hp": 1800000,
+    "speed": 85,
+    "weakness": ["Quantum", "Imaginary"],
+    "resistance": {
+      "Physical": 0.2,
+      "Fire": 0.2,
+      "Ice": 0.5,
+      "Lightning": 0.2,
+      "Wind": 0.2,
+      "Quantum": 0,
+      "Imaginary": 0
+    },
+    "def": 1100,
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3005.webp"
+  },
+  {
+    "id": "gepard_boss",
+    "name": "Gepard (Boss)",
+    "type": "boss",
+    "hp": 1200000,
+    "speed": 92,
+    "weakness": ["Fire", "Lightning", "Imaginary"],
+    "resistance": {
+      "Physical": 0.2,
+      "Fire": 0,
+      "Ice": 0.4,
+      "Lightning": 0,
+      "Wind": 0.2,
+      "Quantum": 0.2,
+      "Imaginary": 0
+    },
+    "def": 1200,
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3003.webp"
+  },
+  {
+    "id": "svarog",
+    "name": "Svarog",
+    "type": "boss",
+    "hp": 1600000,
+    "speed": 88,
+    "weakness": ["Lightning", "Wind", "Quantum"],
+    "resistance": {
+      "Physical": 0.4,
+      "Fire": 0.2,
+      "Ice": 0.2,
+      "Lightning": 0,
+      "Wind": 0,
+      "Quantum": 0,
+      "Imaginary": 0.2
+    },
+    "def": 1050,
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3002.webp"
+  },
+  {
+    "id": "sunday_boss",
+    "name": "Sunday (Boss)",
+    "type": "boss",
+    "hp": 2200000,
+    "speed": 100,
+    "weakness": ["Fire", "Ice", "Physical"],
+    "resistance": {
+      "Physical": 0,
+      "Fire": 0,
+      "Ice": 0,
+      "Lightning": 0.3,
+      "Wind": 0.3,
+      "Quantum": 0.3,
+      "Imaginary": 0.5
+    },
+    "def": 1000,
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3016.webp"
   },
   {
     "id": "argenti_boss",
@@ -54,7 +130,7 @@
       "Imaginary": 0.3
     },
     "def": 1050,
-    "imageUrl": "/enemies/argenti.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3013.webp"
   },
   {
     "id": "sam_boss",
@@ -73,7 +149,64 @@
       "Imaginary": 0
     },
     "def": 1100,
-    "imageUrl": "/enemies/sam.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/3011.webp"
+  },
+  {
+    "id": "stagnant_shadow_blade",
+    "name": "Stagnant Shadow: Blade",
+    "type": "elite",
+    "hp": 800000,
+    "speed": 97,
+    "weakness": ["Fire", "Lightning"],
+    "resistance": {
+      "Physical": 0.2,
+      "Fire": 0,
+      "Ice": 0.2,
+      "Lightning": 0,
+      "Wind": 0.4,
+      "Quantum": 0.2,
+      "Imaginary": 0.2
+    },
+    "def": 800,
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/2008.webp"
+  },
+  {
+    "id": "mara_struck_soldier",
+    "name": "Mara-Struck Soldier",
+    "type": "elite",
+    "hp": 500000,
+    "speed": 105,
+    "weakness": ["Ice", "Lightning", "Imaginary"],
+    "resistance": {
+      "Physical": 0.2,
+      "Fire": 0.2,
+      "Ice": 0,
+      "Lightning": 0,
+      "Wind": 0.2,
+      "Quantum": 0.2,
+      "Imaginary": 0
+    },
+    "def": 700,
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/2001.webp"
+  },
+  {
+    "id": "ice_out_of_space",
+    "name": "Ice Out of Space",
+    "type": "elite",
+    "hp": 600000,
+    "speed": 90,
+    "weakness": ["Fire", "Physical", "Quantum"],
+    "resistance": {
+      "Physical": 0,
+      "Fire": 0,
+      "Ice": 0.5,
+      "Lightning": 0.2,
+      "Wind": 0.2,
+      "Quantum": 0,
+      "Imaginary": 0.2
+    },
+    "def": 750,
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/2002.webp"
   },
   {
     "id": "custom",
@@ -92,6 +225,6 @@
       "Imaginary": 0
     },
     "def": 1000,
-    "imageUrl": "/enemies/custom.png"
+    "imageUrl": "https://api.hakush.in/hsr/UI/monsterbigicon/0.webp"
   }
 ]

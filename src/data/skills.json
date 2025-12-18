@@ -3,8 +3,8 @@
     "basicMultiplier": 1.0,
     "skillMultiplier": 1.6,
     "ultMultiplier": 3.72,
-    "basicEnergy": 20,
-    "skillEnergy": 30,
+    "basicEnergy": 1,
+    "skillEnergy": 2,
     "ultCost": 9,
     "ultType": "stacks",
     "passive": "Gains Slashed Dream stacks from ally debuffs",
@@ -12,44 +12,91 @@
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
   },
-  "sparkle": {
+  "aventurine": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 2.7,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Provides shields and follow-up attacks",
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "black_swan": {
+    "basicMultiplier": 0.6,
+    "skillMultiplier": 0.9,
+    "ultMultiplier": 1.2,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Applies Arcana DoT stacks",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.2,
+      "duration": 2
+    },
+    "baseAtk": 659,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "blade": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.1,
+    "ultMultiplier": 2.4,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "Consumes HP for increased damage",
+    "baseAtk": 543,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "boothill": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.6,
+    "ultMultiplier": 4.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 115,
+    "ultType": "normal",
+    "passive": "Break damage specialist",
+    "baseAtk": 620,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "bronya": {
     "basicMultiplier": 1.0,
     "skillMultiplier": 0,
     "ultMultiplier": 0,
     "basicEnergy": 20,
     "skillEnergy": 30,
-    "ultCost": 110,
+    "ultCost": 120,
     "ultType": "normal",
-    "passive": "Skill advances ally action and buffs CRIT DMG",
+    "passive": "Advances ally action by 100%",
     "skillBuff": {
-      "stat": "critDmg",
-      "value": 0.48,
+      "stat": "dmgBonus",
+      "value": 0.66,
       "duration": 1
     },
     "baseAtk": 523,
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
   },
-  "jiaoqiu": {
+  "feixiao": {
     "basicMultiplier": 1.0,
-    "skillMultiplier": 1.5,
-    "ultMultiplier": 1.0,
-    "basicEnergy": 20,
-    "skillEnergy": 30,
-    "ultCost": 100,
-    "ultType": "normal",
-    "passive": "Applies Ashen Roast debuff increasing damage taken",
-    "skillDebuff": {
-      "stat": "vulnerability",
-      "value": 0.15,
-      "duration": 2
-    },
-    "ultDebuff": {
-      "stat": "vulnerability",
-      "value": 0.25,
-      "duration": 2
-    },
-    "baseAtk": 601,
+    "skillMultiplier": 2.0,
+    "ultMultiplier": 6.0,
+    "basicEnergy": 1,
+    "skillEnergy": 1,
+    "ultCost": 6,
+    "ultType": "stacks",
+    "passive": "Flying Aureus stacks from follow-up attacks",
+    "baseAtk": 659,
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
   },
@@ -66,32 +113,6 @@
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
   },
-  "seele": {
-    "basicMultiplier": 1.0,
-    "skillMultiplier": 2.2,
-    "ultMultiplier": 4.25,
-    "basicEnergy": 20,
-    "skillEnergy": 30,
-    "ultCost": 120,
-    "ultType": "normal",
-    "passive": "Resurgence on kill grants extra turn",
-    "baseAtk": 640,
-    "baseCritRate": 0.05,
-    "baseCritDmg": 0.5
-  },
-  "dan_heng_il": {
-    "basicMultiplier": 1.0,
-    "skillMultiplier": 2.6,
-    "ultMultiplier": 4.5,
-    "basicEnergy": 20,
-    "skillEnergy": 30,
-    "ultCost": 140,
-    "ultType": "normal",
-    "passive": "Gains Righteous Heart stacks for increased damage",
-    "baseAtk": 698,
-    "baseCritRate": 0.05,
-    "baseCritDmg": 0.5
-  },
   "fu_xuan": {
     "basicMultiplier": 0.5,
     "skillMultiplier": 0,
@@ -105,6 +126,132 @@
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
   },
+  "fugue": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0.8,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Applies Foxian Prayer for Super Break",
+    "skillDebuff": {
+      "stat": "defReduction",
+      "value": 0.18,
+      "duration": 2
+    },
+    "baseAtk": 543,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "huohuo": {
+    "basicMultiplier": 0.5,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Heals and boosts team ATK",
+    "ultBuff": {
+      "stat": "atkPercent",
+      "value": 0.4,
+      "duration": 2
+    },
+    "baseAtk": 465,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "jiaoqiu": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.5,
+    "ultMultiplier": 1.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 100,
+    "ultType": "normal",
+    "passive": "Applies Ashen Roast debuff",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.15,
+      "duration": 2
+    },
+    "ultDebuff": {
+      "stat": "vulnerability",
+      "value": 0.25,
+      "duration": 2
+    },
+    "baseAtk": 601,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "jingliu": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.0,
+    "ultMultiplier": 3.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Spectral Transmigration state",
+    "baseAtk": 679,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "kafka": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.6,
+    "ultMultiplier": 0.8,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Triggers DoT immediately",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.1,
+      "duration": 2
+    },
+    "baseAtk": 679,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "lingsha": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0.8,
+    "ultMultiplier": 1.5,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Heals and breaks via Fuyuan",
+    "baseAtk": 543,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "robin": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 160,
+    "ultType": "normal",
+    "passive": "Concerto grants massive ATK and actions",
+    "skillBuff": {
+      "stat": "dmgBonus",
+      "value": 0.5,
+      "duration": 3
+    },
+    "ultBuff": {
+      "stat": "atk",
+      "value": 800,
+      "duration": 3
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
   "ruan_mei": {
     "basicMultiplier": 1.0,
     "skillMultiplier": 0,
@@ -113,7 +260,7 @@
     "skillEnergy": 30,
     "ultCost": 130,
     "ultType": "normal",
-    "passive": "Increases Break Efficiency and All-Type RES PEN",
+    "passive": "Increases Break and RES PEN",
     "skillBuff": {
       "stat": "dmgBonus",
       "value": 0.32,
@@ -125,6 +272,269 @@
       "duration": 2
     },
     "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "seele": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.2,
+    "ultMultiplier": 4.25,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Resurgence on kill grants extra turn",
+    "baseAtk": 640,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "silver_wolf": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.96,
+    "ultMultiplier": 3.8,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Implants weakness and DEF shred",
+    "skillDebuff": {
+      "stat": "defReduction",
+      "value": 0.12,
+      "duration": 3
+    },
+    "baseAtk": 640,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "sparkle": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Advances ally and buffs CRIT DMG",
+    "skillBuff": {
+      "stat": "critDmg",
+      "value": 0.48,
+      "duration": 1
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "sunday": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "100% action advance and CRIT DMG buff",
+    "skillBuff": {
+      "stat": "critDmg",
+      "value": 0.3,
+      "duration": 1
+    },
+    "ultBuff": {
+      "stat": "dmgBonus",
+      "value": 0.5,
+      "duration": 3
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "topaz": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.5,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "Numby follow-up attacks",
+    "skillDebuff": {
+      "stat": "vulnerability",
+      "value": 0.5,
+      "duration": 2
+    },
+    "baseAtk": 620,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "dan_heng_il": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.6,
+    "ultMultiplier": 4.5,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Righteous Heart stacks",
+    "baseAtk": 698,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "dr_ratio": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.5,
+    "ultMultiplier": 2.4,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Follow-up on debuffed enemies",
+    "baseAtk": 659,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "jade": {
+    "basicMultiplier": 0.9,
+    "skillMultiplier": 1.5,
+    "ultMultiplier": 2.4,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Debt Collector follow-ups",
+    "baseAtk": 659,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "jing_yuan": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.0,
+    "ultMultiplier": 2.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "Lightning Lord follow-up",
+    "baseAtk": 698,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "the_herta": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.2,
+    "ultMultiplier": 4.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Interpretation stacks for massive AoE",
+    "baseAtk": 679,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "tribbie": {
+    "basicMultiplier": 0.5,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "normal",
+    "passive": "Numby Z's Whimsy adds coordination",
+    "skillBuff": {
+      "stat": "dmgBonus",
+      "value": 0.48,
+      "duration": 3
+    },
+    "ultBuff": {
+      "stat": "critDmg",
+      "value": 0.36,
+      "duration": 2
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "gallagher": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 1.5,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Heals on Basic and Besotted debuff",
+    "ultDebuff": {
+      "stat": "vulnerability",
+      "value": 0.12,
+      "duration": 2
+    },
+    "baseAtk": 465,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "pela": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.05,
+    "ultMultiplier": 1.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "DEF shred on Ultimate",
+    "ultDebuff": {
+      "stat": "defReduction",
+      "value": 0.42,
+      "duration": 2
+    },
+    "baseAtk": 543,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "tingyun": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "Buffs ATK and restores Energy",
+    "skillBuff": {
+      "stat": "atk",
+      "value": 500,
+      "duration": 1
+    },
+    "baseAtk": 543,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "hmc": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Super Break support",
+    "skillBuff": {
+      "stat": "breakDmg",
+      "value": 0.3,
+      "duration": 2
+    },
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "mydei": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.2,
+    "ultMultiplier": 5.0,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 180,
+    "ultType": "normal",
+    "passive": "HP consumption for damage",
+    "baseAtk": 698,
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
   }

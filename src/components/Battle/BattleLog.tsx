@@ -7,25 +7,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface BattleLogProps {
     entries: BattleLogEntry[];
+    maxHeight?: string;
 }
 
-export function BattleLog({ entries }: BattleLogProps) {
+export function BattleLog({ entries, maxHeight = "400px" }: BattleLogProps) {
     return (
-        <Card className="bg-gray-900/50 border-gray-700 h-full">
+        <Card className="bg-gray-900/50 border-gray-700">
             <CardHeader className="pb-2">
                 <CardTitle className="text-sm flex items-center gap-2">
                     📜 Battle Log
+                    {entries.length > 0 && (
+                        <span className="text-xs text-gray-500 ml-auto">
+                            {entries.length} entries
+                        </span>
+                    )}
                 </CardTitle>
             </CardHeader>
-            <CardContent className="overflow-y-auto max-h-80">
+            <CardContent
+                className="overflow-y-auto custom-scrollbar"
+                style={{ maxHeight }}
+            >
                 <div className="space-y-2">
                     <AnimatePresence mode="popLayout">
                         {entries.length === 0 ? (
-                            <p className="text-gray-500 text-sm text-center py-4">
+                            <p className="text-gray-500 text-sm text-center py-8">
                                 Start the battle to see action log
                             </p>
                         ) : (
-                            entries.slice(0, 20).map((entry) => (
+                            entries.slice(0, 50).map((entry) => (
                                 <motion.div
                                     key={entry.timestamp}
                                     initial={{ opacity: 0, x: -20 }}
@@ -33,14 +42,14 @@ export function BattleLog({ entries }: BattleLogProps) {
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.2 }}
                                     className={`
-                    p-2 rounded text-sm border-l-2
-                    ${entry.damage
+                                        p-2 rounded text-sm border-l-2
+                                        ${entry.damage
                                             ? entry.isCrit
                                                 ? "bg-yellow-900/20 border-yellow-500"
                                                 : "bg-gray-800/50 border-gray-600"
                                             : "bg-gray-800/30 border-gray-700"
                                         }
-                  `}
+                                    `}
                                 >
                                     <div className="flex items-center justify-between">
                                         <span className="text-gray-400 text-xs">Turn {entry.turn}</span>
@@ -68,3 +77,4 @@ export function BattleLog({ entries }: BattleLogProps) {
         </Card>
     );
 }
+
