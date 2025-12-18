@@ -109,7 +109,7 @@
   },
   {
     "id": "fugue",
-    "charId": "1313",
+    "charId": "1316",
     "name": "Fugue",
     "path": "Nihility",
     "element": "Fire",
@@ -136,7 +136,7 @@
   },
   {
     "id": "huohuo",
-    "charId": "1215",
+    "charId": "1217",
     "name": "Huohuo",
     "path": "Abundance",
     "element": "Wind",
@@ -288,6 +288,141 @@
     "baseSpeed": 109
   },
   {
+    "id": "the_herta",
+    "charId": "1401",
+    "name": "The Herta",
+    "path": "Erudition",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 99
+  },
+  {
+    "id": "aglaea",
+    "charId": "1402",
+    "name": "Aglaea",
+    "path": "Remembrance",
+    "element": "Lightning",
+    "rarity": 5,
+    "baseSpeed": 101
+  },
+  {
+    "id": "tribbie",
+    "charId": "1403",
+    "name": "Tribbie",
+    "path": "Harmony",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "mydei",
+    "charId": "1404",
+    "name": "Mydei",
+    "path": "Destruction",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 96
+  },
+  {
+    "id": "anaxa",
+    "charId": "1405",
+    "name": "Anaxa",
+    "path": "Erudition",
+    "element": "Wind",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "cipher",
+    "charId": "1406",
+    "name": "Cipher",
+    "path": "Nihility",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "castorice",
+    "charId": "1407",
+    "name": "Castorice",
+    "path": "Remembrance",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 98
+  },
+  {
+    "id": "phainon",
+    "charId": "1408",
+    "name": "Phainon",
+    "path": "Destruction",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "hyacine",
+    "charId": "1409",
+    "name": "Hyacine",
+    "path": "Remembrance",
+    "element": "Wind",
+    "rarity": 5,
+    "baseSpeed": 98
+  },
+  {
+    "id": "cerydra",
+    "charId": "1412",
+    "name": "Cerydra",
+    "path": "Harmony",
+    "element": "Wind",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "cyrene",
+    "charId": "1415",
+    "name": "Cyrene",
+    "path": "Remembrance",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "the_dahlia",
+    "charId": "1321",
+    "name": "The Dahlia",
+    "path": "Nihility",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "rappa",
+    "charId": "1317",
+    "name": "Rappa",
+    "path": "Erudition",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "argenti",
+    "charId": "1302",
+    "name": "Argenti",
+    "path": "Erudition",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 103
+  },
+  {
+    "id": "bailu",
+    "charId": "1211",
+    "name": "Bailu",
+    "path": "Abundance",
+    "element": "Lightning",
+    "rarity": 5,
+    "baseSpeed": 98
+  },
+  {
     "id": "gallagher",
     "charId": "1301",
     "name": "Gallagher",
@@ -322,87 +457,6 @@
     "element": "Ice",
     "rarity": 4,
     "baseSpeed": 101
-  },
-  {
-    "id": "hmc",
-    "charId": "8006",
-    "name": "Trailblazer (Harmony)",
-    "path": "Harmony",
-    "element": "Imaginary",
-    "rarity": 5,
-    "baseSpeed": 105
-  },
-  {
-    "id": "mydei",
-    "charId": "1316",
-    "name": "Mydei",
-    "path": "Destruction",
-    "element": "Imaginary",
-    "rarity": 5,
-    "baseSpeed": 96
-  },
-  {
-    "id": "the_herta",
-    "charId": "1401",
-    "name": "The Herta",
-    "path": "Erudition",
-    "element": "Ice",
-    "rarity": 5,
-    "baseSpeed": 99
-  },
-  {
-    "id": "tribbie",
-    "charId": "1402",
-    "name": "Tribbie",
-    "path": "Harmony",
-    "element": "Quantum",
-    "rarity": 5,
-    "baseSpeed": 100
-  },
-  {
-    "id": "the_dahlia",
-    "charId": "1403",
-    "name": "The Dahlia",
-    "path": "Harmony",
-    "element": "Quantum",
-    "rarity": 5,
-    "baseSpeed": 100
-  },
-  {
-    "id": "castorice",
-    "charId": "1404",
-    "name": "Castorice",
-    "path": "Remembrance",
-    "element": "Quantum",
-    "rarity": 5,
-    "baseSpeed": 98
-  },
-  {
-    "id": "aglaea",
-    "charId": "1405",
-    "name": "Aglaea",
-    "path": "Remembrance",
-    "element": "Lightning",
-    "rarity": 5,
-    "baseSpeed": 101
-  },
-  {
-    "id": "argenti",
-    "charId": "1302",
-    "name": "Argenti",
-    "path": "Erudition",
-    "element": "Physical",
-    "rarity": 5,
-    "baseSpeed": 103
-  },
-  {
-    "id": "bailu",
-    "charId": "1211",
-    "name": "Bailu",
-    "path": "Abundance",
-    "element": "Lightning",
-    "rarity": 5,
-    "baseSpeed": 98
   },
   {
     "id": "hanya",
@@ -448,5 +502,41 @@
     "element": "Physical",
     "rarity": 4,
     "baseSpeed": 103
+  },
+  {
+    "id": "tb_destruction",
+    "charId": "8002",
+    "name": "Trailblazer (Destruction)",
+    "path": "Destruction",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 100
+  },
+  {
+    "id": "tb_preservation",
+    "charId": "8004",
+    "name": "Trailblazer (Preservation)",
+    "path": "Preservation",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 95
+  },
+  {
+    "id": "tb_harmony",
+    "charId": "8006",
+    "name": "Trailblazer (Harmony)",
+    "path": "Harmony",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 105
+  },
+  {
+    "id": "tb_remembrance",
+    "charId": "8008",
+    "name": "Trailblazer (Remembrance)",
+    "path": "Remembrance",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 100
   }
 ]
