@@ -5,8 +5,6 @@ import {
   ElementType,
 } from "@/types";
 
-const MIHOMO_API_URL = "https://api.mihomo.me/sr_info_parsed";
-
 // Element mapping from API to our types
 const ELEMENT_MAP: Record<string, ElementType> = {
   Physical: "Physical",
@@ -172,28 +170,31 @@ function parseCharacter(char: MihomoCharacter): ShowcaseCharacter {
   };
 }
 
+function parseResponse(data: MihomoResponse): ShowcaseProfile {
+  return {
+    uid: data.player.uid,
+    nickname: data.player.nickname,
+    level: data.player.level,
+    signature: data.player.signature,
+    characters: data.characters.map(parseCharacter),
+  };
+}
+
 export async function fetchProfile(
   uid: string
 ): Promise<ShowcaseProfile | null> {
   try {
-    const response = await fetch(`${MIHOMO_API_URL}/${uid}?lang=en`, {
-      next: { revalidate: 300 }, // Cache for 5 minutes
-    });
+    // Use our own API route to bypass CORS
+    const response = await fetch(`/api/profile/${uid}`);
 
     if (!response.ok) {
-      console.error("Mihomo API error:", response.status);
+      console.error("API error:", response.status);
       return null;
     }
 
     const data: MihomoResponse = await response.json();
 
-    return {
-      uid: data.player.uid,
-      nickname: data.player.nickname,
-      level: data.player.level,
-      signature: data.player.signature,
-      characters: data.characters.map(parseCharacter),
-    };
+    return parseResponse(data);
   } catch (error) {
     console.error("Failed to fetch profile:", error);
     return null;

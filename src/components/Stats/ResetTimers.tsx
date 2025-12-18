@@ -1,11 +1,13 @@
 "use client";
 
+import { useMemo } from "react";
 import { useCountdown, getDailyResetTime, getWeeklyResetTime, formatTimeLeft } from "@/lib/countdown";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function ResetTimers() {
-    const dailyReset = getDailyResetTime();
-    const weeklyReset = getWeeklyResetTime();
+    // Memoize the reset times to prevent recreation on each render
+    const dailyReset = useMemo(() => getDailyResetTime(), []);
+    const weeklyReset = useMemo(() => getWeeklyResetTime(), []);
 
     const dailyTimeLeft = useCountdown(dailyReset);
     const weeklyTimeLeft = useCountdown(weeklyReset);
