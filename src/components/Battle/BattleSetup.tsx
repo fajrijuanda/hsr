@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { useBattleStore } from "@/stores/battleStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -30,24 +31,20 @@ const characters = charactersData as Character[];
 const enemies = enemiesData as Enemy[];
 const skills = skillsData as Record<string, { ultCost: number }>;
 
-const ELEMENT_COLORS: Record<string, string> = {
-    Physical: "bg-gray-400",
-    Fire: "bg-red-500",
-    Ice: "bg-cyan-400",
-    Lightning: "bg-purple-500",
-    Wind: "bg-emerald-400",
-    Quantum: "bg-indigo-500",
-    Imaginary: "bg-yellow-400",
-};
+// StarRailRes CDN base URL for character icons
+const STARRAIL_CDN = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
 
-const ELEMENT_ICONS: Record<string, string> = {
-    Physical: "⚪",
-    Fire: "🔥",
-    Ice: "❄️",
-    Lightning: "⚡",
-    Wind: "🌪️",
-    Quantum: "🔮",
-    Imaginary: "✨",
+const getCharacterIcon = (charId: string) =>
+    `${STARRAIL_CDN}/icon/character/${charId}.png`;
+
+const ELEMENT_COLORS: Record<string, string> = {
+    Physical: "border-gray-400",
+    Fire: "border-red-500",
+    Ice: "border-cyan-400",
+    Lightning: "border-purple-500",
+    Wind: "border-emerald-400",
+    Quantum: "border-indigo-500",
+    Imaginary: "border-yellow-400",
 };
 
 const PATH_ICONS: Record<string, string> = {
@@ -144,14 +141,19 @@ export function BattleSetup() {
                             return (
                                 <div
                                     key={charId}
-                                    className="relative flex items-center gap-2 p-2 rounded bg-gray-800/80 border border-gray-600"
+                                    className={`relative flex items-center gap-2 p-2 rounded bg-gray-800/80 border-2 ${ELEMENT_COLORS[char.element]}`}
                                 >
                                     <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600 text-xs">
                                         {index + 1}
                                     </Badge>
-                                    <div className={`w-8 h-8 rounded flex items-center justify-center text-lg ${ELEMENT_COLORS[char.element]}`}>
-                                        {ELEMENT_ICONS[char.element]}
-                                    </div>
+                                    <Image
+                                        src={getCharacterIcon(char.charId)}
+                                        alt={char.name}
+                                        width={36}
+                                        height={36}
+                                        className="rounded-full"
+                                        unoptimized
+                                    />
                                     <span className="text-sm text-white truncate">{char.name}</span>
                                     <button
                                         onClick={() => toggleChar(charId)}
@@ -174,7 +176,7 @@ export function BattleSetup() {
                                 + Select Characters
                             </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-5xl max-h-[90vh] bg-gray-900 border-gray-700">
+                        <DialogContent className="max-w-[90vw] w-[1200px] max-h-[90vh] bg-gray-900 border-gray-700">
                             <DialogHeader>
                                 <DialogTitle className="text-xl">Select Team ({selectedChars.length}/4)</DialogTitle>
                             </DialogHeader>
@@ -182,12 +184,12 @@ export function BattleSetup() {
                                 <div className="space-y-6">
                                     {Object.entries(charsByPath).map(([path, chars]) => (
                                         <div key={path}>
-                                            <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center gap-2 sticky top-0 bg-gray-900 py-2">
+                                            <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center gap-2 sticky top-0 bg-gray-900 py-2 z-10">
                                                 <span className="text-lg">{PATH_ICONS[path] || "❓"}</span>
                                                 {path}
                                                 <span className="text-xs text-gray-500">({chars.length})</span>
                                             </h4>
-                                            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                                            <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
                                                 {chars.map((char) => {
                                                     const isSelected = selectedChars.includes(char.id);
                                                     const isDisabled = !isSelected && selectedChars.length >= 4;
@@ -197,31 +199,34 @@ export function BattleSetup() {
                                                             onClick={() => toggleChar(char.id)}
                                                             disabled={isDisabled}
                                                             className={`
-                                                                relative p-3 rounded-lg border transition-all text-center
+                                                                relative p-2 rounded-lg border-2 transition-all text-center
                                                                 ${isSelected
                                                                     ? "border-purple-500 bg-purple-500/20 ring-2 ring-purple-500"
-                                                                    : "border-gray-700 bg-gray-800/50 hover:border-gray-500 hover:bg-gray-800"
+                                                                    : `${ELEMENT_COLORS[char.element]} bg-gray-800/50 hover:bg-gray-800`
                                                                 }
-                                                                ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+                                                                ${isDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:scale-105"}
                                                             `}
                                                         >
                                                             {isSelected && (
-                                                                <Badge className="absolute -top-2 -right-2 h-6 w-6 p-0 flex items-center justify-center bg-purple-600 text-sm font-bold">
+                                                                <Badge className="absolute -top-2 -right-2 h-6 w-6 p-0 flex items-center justify-center bg-purple-600 text-sm font-bold z-10">
                                                                     {selectedChars.indexOf(char.id) + 1}
                                                                 </Badge>
                                                             )}
-                                                            <div className="flex flex-col items-center gap-2">
-                                                                <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl ${ELEMENT_COLORS[char.element]}`}>
-                                                                    {ELEMENT_ICONS[char.element]}
-                                                                </div>
-                                                                <div className="w-full">
-                                                                    <span className="text-xs text-white block truncate">
-                                                                        {char.name.length > 10 ? char.name.split(' ')[0] : char.name}
-                                                                    </span>
-                                                                    <span className="text-[10px] text-gray-500">
-                                                                        {char.rarity}★
-                                                                    </span>
-                                                                </div>
+                                                            <div className="flex flex-col items-center gap-1">
+                                                                <Image
+                                                                    src={getCharacterIcon(char.charId)}
+                                                                    alt={char.name}
+                                                                    width={56}
+                                                                    height={56}
+                                                                    className="rounded-full"
+                                                                    unoptimized
+                                                                />
+                                                                <span className="text-[10px] text-white truncate w-full">
+                                                                    {char.name.length > 12 ? char.name.split(' ')[0] : char.name}
+                                                                </span>
+                                                                <span className="text-[9px] text-gray-500">
+                                                                    {char.rarity}★
+                                                                </span>
                                                             </div>
                                                         </button>
                                                     );

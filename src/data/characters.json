@@ -1,452 +1,452 @@
 [
   {
     "id": "acheron",
+    "charId": "1308",
     "name": "Acheron",
     "path": "Nihility",
     "element": "Lightning",
     "rarity": 5,
-    "baseSpeed": 101,
-    "imageUrl": ""
+    "baseSpeed": 101
   },
   {
     "id": "aventurine",
+    "charId": "1304",
     "name": "Aventurine",
     "path": "Preservation",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 106,
-    "imageUrl": ""
+    "baseSpeed": 106
   },
   {
     "id": "black_swan",
+    "charId": "1307",
     "name": "Black Swan",
     "path": "Nihility",
     "element": "Wind",
     "rarity": 5,
-    "baseSpeed": 102,
-    "imageUrl": ""
+    "baseSpeed": 102
   },
   {
     "id": "blade",
+    "charId": "1205",
     "name": "Blade",
     "path": "Destruction",
     "element": "Wind",
     "rarity": 5,
-    "baseSpeed": 97,
-    "imageUrl": ""
+    "baseSpeed": 97
   },
   {
     "id": "boothill",
+    "charId": "1315",
     "name": "Boothill",
     "path": "Hunt",
     "element": "Physical",
     "rarity": 5,
-    "baseSpeed": 107,
-    "imageUrl": ""
+    "baseSpeed": 107
   },
   {
     "id": "bronya",
+    "charId": "1101",
     "name": "Bronya",
     "path": "Harmony",
     "element": "Wind",
     "rarity": 5,
-    "baseSpeed": 99,
-    "imageUrl": ""
+    "baseSpeed": 99
   },
   {
     "id": "clara",
+    "charId": "1107",
     "name": "Clara",
     "path": "Destruction",
     "element": "Physical",
     "rarity": 5,
-    "baseSpeed": 90,
-    "imageUrl": ""
+    "baseSpeed": 90
   },
   {
     "id": "dan_heng_il",
+    "charId": "1213",
     "name": "Dan Heng IL",
     "path": "Destruction",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 96,
-    "imageUrl": ""
+    "baseSpeed": 96
   },
   {
     "id": "dr_ratio",
+    "charId": "1305",
     "name": "Dr. Ratio",
     "path": "Hunt",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 103,
-    "imageUrl": ""
+    "baseSpeed": 103
   },
   {
     "id": "feixiao",
+    "charId": "1220",
     "name": "Feixiao",
     "path": "Hunt",
     "element": "Wind",
     "rarity": 5,
-    "baseSpeed": 112,
-    "imageUrl": ""
+    "baseSpeed": 112
   },
   {
     "id": "firefly",
+    "charId": "1310",
     "name": "Firefly",
     "path": "Destruction",
     "element": "Fire",
     "rarity": 5,
-    "baseSpeed": 104,
-    "imageUrl": ""
+    "baseSpeed": 104
   },
   {
     "id": "fu_xuan",
+    "charId": "1208",
     "name": "Fu Xuan",
     "path": "Preservation",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 100,
-    "imageUrl": ""
+    "baseSpeed": 100
   },
   {
     "id": "fugue",
+    "charId": "1313",
     "name": "Fugue",
     "path": "Nihility",
     "element": "Fire",
     "rarity": 5,
-    "baseSpeed": 102,
-    "imageUrl": ""
+    "baseSpeed": 102
   },
   {
     "id": "gepard",
+    "charId": "1104",
     "name": "Gepard",
     "path": "Preservation",
     "element": "Ice",
     "rarity": 5,
-    "baseSpeed": 92,
-    "imageUrl": ""
+    "baseSpeed": 92
   },
   {
     "id": "himeko",
+    "charId": "1003",
     "name": "Himeko",
     "path": "Erudition",
     "element": "Fire",
     "rarity": 5,
-    "baseSpeed": 96,
-    "imageUrl": ""
+    "baseSpeed": 96
   },
   {
     "id": "huohuo",
+    "charId": "1215",
     "name": "Huohuo",
     "path": "Abundance",
     "element": "Wind",
     "rarity": 5,
-    "baseSpeed": 98,
-    "imageUrl": ""
+    "baseSpeed": 98
   },
   {
     "id": "jade",
+    "charId": "1314",
     "name": "Jade",
     "path": "Erudition",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 103,
-    "imageUrl": ""
+    "baseSpeed": 103
   },
   {
     "id": "jiaoqiu",
+    "charId": "1218",
     "name": "Jiaoqiu",
     "path": "Nihility",
     "element": "Fire",
     "rarity": 5,
-    "baseSpeed": 98,
-    "imageUrl": ""
+    "baseSpeed": 98
   },
   {
     "id": "jing_yuan",
+    "charId": "1204",
     "name": "Jing Yuan",
     "path": "Erudition",
     "element": "Lightning",
     "rarity": 5,
-    "baseSpeed": 99,
-    "imageUrl": ""
+    "baseSpeed": 99
   },
   {
     "id": "jingliu",
+    "charId": "1212",
     "name": "Jingliu",
     "path": "Destruction",
     "element": "Ice",
     "rarity": 5,
-    "baseSpeed": 96,
-    "imageUrl": ""
+    "baseSpeed": 96
   },
   {
     "id": "kafka",
+    "charId": "1005",
     "name": "Kafka",
     "path": "Nihility",
     "element": "Lightning",
     "rarity": 5,
-    "baseSpeed": 100,
-    "imageUrl": ""
+    "baseSpeed": 100
   },
   {
     "id": "lingsha",
+    "charId": "1222",
     "name": "Lingsha",
     "path": "Abundance",
     "element": "Fire",
     "rarity": 5,
-    "baseSpeed": 98,
-    "imageUrl": ""
+    "baseSpeed": 98
   },
   {
     "id": "luocha",
+    "charId": "1203",
     "name": "Luocha",
     "path": "Abundance",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 101,
-    "imageUrl": ""
+    "baseSpeed": 101
   },
   {
     "id": "robin",
+    "charId": "1309",
     "name": "Robin",
     "path": "Harmony",
     "element": "Physical",
     "rarity": 5,
-    "baseSpeed": 102,
-    "imageUrl": ""
+    "baseSpeed": 102
   },
   {
     "id": "ruan_mei",
+    "charId": "1303",
     "name": "Ruan Mei",
     "path": "Harmony",
     "element": "Ice",
     "rarity": 5,
-    "baseSpeed": 104,
-    "imageUrl": ""
+    "baseSpeed": 104
   },
   {
     "id": "seele",
+    "charId": "1102",
     "name": "Seele",
     "path": "Hunt",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 115,
-    "imageUrl": ""
+    "baseSpeed": 115
   },
   {
     "id": "silver_wolf",
+    "charId": "1006",
     "name": "Silver Wolf",
     "path": "Nihility",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 107,
-    "imageUrl": ""
+    "baseSpeed": 107
   },
   {
     "id": "sparkle",
+    "charId": "1306",
     "name": "Sparkle",
     "path": "Harmony",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 101,
-    "imageUrl": ""
+    "baseSpeed": 101
   },
   {
     "id": "sunday",
+    "charId": "1313",
     "name": "Sunday",
     "path": "Harmony",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 96,
-    "imageUrl": ""
+    "baseSpeed": 96
   },
   {
     "id": "topaz",
+    "charId": "1112",
     "name": "Topaz & Numby",
     "path": "Hunt",
     "element": "Fire",
     "rarity": 5,
-    "baseSpeed": 110,
-    "imageUrl": ""
+    "baseSpeed": 110
   },
   {
     "id": "welt",
+    "charId": "1004",
     "name": "Welt",
     "path": "Nihility",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 102,
-    "imageUrl": ""
+    "baseSpeed": 102
   },
   {
     "id": "yanqing",
+    "charId": "1209",
     "name": "Yanqing",
     "path": "Hunt",
     "element": "Ice",
     "rarity": 5,
-    "baseSpeed": 109,
-    "imageUrl": ""
+    "baseSpeed": 109
   },
   {
     "id": "gallagher",
+    "charId": "1301",
     "name": "Gallagher",
     "path": "Abundance",
     "element": "Fire",
     "rarity": 4,
-    "baseSpeed": 98,
-    "imageUrl": ""
+    "baseSpeed": 98
   },
   {
     "id": "pela",
+    "charId": "1106",
     "name": "Pela",
     "path": "Nihility",
     "element": "Ice",
     "rarity": 4,
-    "baseSpeed": 105,
-    "imageUrl": ""
+    "baseSpeed": 105
   },
   {
     "id": "tingyun",
+    "charId": "1202",
     "name": "Tingyun",
     "path": "Harmony",
     "element": "Lightning",
     "rarity": 4,
-    "baseSpeed": 112,
-    "imageUrl": ""
+    "baseSpeed": 112
   },
   {
     "id": "march_7th",
+    "charId": "1001",
     "name": "March 7th",
     "path": "Preservation",
     "element": "Ice",
     "rarity": 4,
-    "baseSpeed": 101,
-    "imageUrl": ""
+    "baseSpeed": 101
   },
   {
     "id": "hmc",
+    "charId": "8006",
     "name": "Trailblazer (Harmony)",
     "path": "Harmony",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 105,
-    "imageUrl": ""
+    "baseSpeed": 105
   },
   {
     "id": "mydei",
+    "charId": "1316",
     "name": "Mydei",
     "path": "Destruction",
     "element": "Imaginary",
     "rarity": 5,
-    "baseSpeed": 96,
-    "imageUrl": ""
+    "baseSpeed": 96
   },
   {
     "id": "the_herta",
+    "charId": "1401",
     "name": "The Herta",
     "path": "Erudition",
     "element": "Ice",
     "rarity": 5,
-    "baseSpeed": 99,
-    "imageUrl": ""
+    "baseSpeed": 99
   },
   {
     "id": "tribbie",
+    "charId": "1402",
     "name": "Tribbie",
     "path": "Harmony",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 100,
-    "imageUrl": ""
+    "baseSpeed": 100
   },
   {
     "id": "the_dahlia",
+    "charId": "1403",
     "name": "The Dahlia",
     "path": "Harmony",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 100,
-    "imageUrl": ""
+    "baseSpeed": 100
   },
   {
     "id": "castorice",
+    "charId": "1404",
     "name": "Castorice",
     "path": "Remembrance",
     "element": "Quantum",
     "rarity": 5,
-    "baseSpeed": 98,
-    "imageUrl": ""
+    "baseSpeed": 98
   },
   {
     "id": "aglaea",
+    "charId": "1405",
     "name": "Aglaea",
     "path": "Remembrance",
     "element": "Lightning",
     "rarity": 5,
-    "baseSpeed": 101,
-    "imageUrl": ""
+    "baseSpeed": 101
   },
   {
     "id": "argenti",
+    "charId": "1302",
     "name": "Argenti",
     "path": "Erudition",
     "element": "Physical",
     "rarity": 5,
-    "baseSpeed": 103,
-    "imageUrl": ""
+    "baseSpeed": 103
   },
   {
     "id": "bailu",
+    "charId": "1211",
     "name": "Bailu",
     "path": "Abundance",
     "element": "Lightning",
     "rarity": 5,
-    "baseSpeed": 98,
-    "imageUrl": ""
+    "baseSpeed": 98
   },
   {
     "id": "hanya",
+    "charId": "1215",
     "name": "Hanya",
     "path": "Harmony",
     "element": "Physical",
     "rarity": 4,
-    "baseSpeed": 110,
-    "imageUrl": ""
+    "baseSpeed": 110
   },
   {
     "id": "guinaifen",
+    "charId": "1210",
     "name": "Guinaifen",
     "path": "Nihility",
     "element": "Fire",
     "rarity": 4,
-    "baseSpeed": 106,
-    "imageUrl": ""
+    "baseSpeed": 106
   },
   {
     "id": "asta",
+    "charId": "1009",
     "name": "Asta",
     "path": "Harmony",
     "element": "Fire",
     "rarity": 4,
-    "baseSpeed": 106,
-    "imageUrl": ""
+    "baseSpeed": 106
   },
   {
     "id": "sampo",
+    "charId": "1108",
     "name": "Sampo",
     "path": "Nihility",
     "element": "Wind",
     "rarity": 4,
-    "baseSpeed": 102,
-    "imageUrl": ""
+    "baseSpeed": 102
   },
   {
     "id": "luka",
+    "charId": "1111",
     "name": "Luka",
     "path": "Nihility",
     "element": "Physical",
     "rarity": 4,
-    "baseSpeed": 103,
-    "imageUrl": ""
+    "baseSpeed": 103
   }
 ]

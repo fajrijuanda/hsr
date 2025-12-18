@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: "act-webstatic.hoyoverse.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/Mar-7th/StarRailRes/**",
+      },
     ],
   },
 };

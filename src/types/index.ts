@@ -1,11 +1,11 @@
 export interface Character {
   id: string;
+  charId: string;
   name: string;
   path: string;
   element: string;
   rarity: number;
   baseSpeed: number;
-  imageUrl: string;
 }
 
 export interface TeamMember {
