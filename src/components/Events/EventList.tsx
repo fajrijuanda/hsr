@@ -6,22 +6,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useCountdown, formatTimeLeft } from "@/lib/countdown";
 
-const EVENT_TYPE_STYLES = {
+const EVENT_TYPE_STYLES: Record<string, { bg: string; text: string; icon: string }> = {
     story: { bg: "bg-purple-500/20", text: "text-purple-400", icon: "📖" },
     farming: { bg: "bg-emerald-500/20", text: "text-emerald-400", icon: "🌾" },
     permanent: { bg: "bg-blue-500/20", text: "text-blue-400", icon: "♾️" },
     recurring: { bg: "bg-orange-500/20", text: "text-orange-400", icon: "🔄" },
+    main: { bg: "bg-yellow-500/20", text: "text-yellow-400", icon: "⭐" },
+    login: { bg: "bg-pink-500/20", text: "text-pink-400", icon: "🎁" },
+    battle: { bg: "bg-red-500/20", text: "text-red-400", icon: "⚔️" },
 };
+
+const DEFAULT_STYLE = { bg: "bg-gray-500/20", text: "text-gray-400", icon: "📌" };
 
 interface EventItemProps {
     event: GameEvent;
 }
 
 function EventItem({ event }: EventItemProps) {
-    const timeLeft = event.endDate ? useCountdown(event.endDate) : null;
-    const style = EVENT_TYPE_STYLES[event.type];
+    const endDate = event.endDate || "";
+    const timeLeft = useCountdown(endDate);
+    const style = EVENT_TYPE_STYLES[event.type] || DEFAULT_STYLE;
 
-    const isEnding = timeLeft && timeLeft.days < 2;
+    const hasEndDate = !!event.endDate;
+    const isEnding = hasEndDate && timeLeft && timeLeft.days < 2;
 
     return (
         <div className={`

@@ -1,34 +1,58 @@
 [
   {
-    "code": "HSRVER27GIFT",
-    "rewards": "60 Stellar Jade + 10,000 Credits",
-    "source": "Version 2.7 Livestream",
-    "addedAt": "2024-12-13T00:00:00Z",
-    "expiresAt": "2025-01-13T00:00:00Z",
-    "status": "active"
+    "code": "THEDAHLIA",
+    "rewards": "3 Traveler's Guide + 2 Dream Syrup",
+    "source": "Version 3.8 Character Code",
+    "addedAt": "2025-12-17T00:00:00Z",
+    "expiresAt": null,
+    "status": "new"
   },
   {
-    "code": "STARRAILGIFT",
-    "rewards": "50 Stellar Jade + 2 Traveler's Guide",
-    "source": "Promotional Code",
-    "addedAt": "2024-12-01T00:00:00Z",
+    "code": "OMEGA",
+    "rewards": "60 Stellar Jade + 1 Fuel",
+    "source": "Special Code",
+    "addedAt": "2025-12-17T00:00:00Z",
     "expiresAt": null,
     "status": "active"
   },
   {
-    "code": "HSRNEWYEAR25",
-    "rewards": "100 Stellar Jade + Refined Aether",
-    "source": "New Year Event",
-    "addedAt": "2024-12-18T00:00:00Z",
-    "expiresAt": "2025-01-31T00:00:00Z",
-    "status": "new"
+    "code": "STORYOFLOVE",
+    "rewards": "3 Traveler's Guide + 2 Oronyx Slate",
+    "source": "Social Media Code",
+    "addedAt": "2025-12-17T00:00:00Z",
+    "expiresAt": null,
+    "status": "active"
   },
   {
-    "code": "WINTERFEST24",
-    "rewards": "30 Stellar Jade + 5 Fuel",
-    "source": "Winter Festival",
-    "addedAt": "2024-12-10T00:00:00Z",
-    "expiresAt": "2024-12-25T00:00:00Z",
+    "code": "CREATIONNYMPH",
+    "rewards": "60 Stellar Jade + 1 Fuel + 2 Heroic Variable",
+    "source": "Promotional Code",
+    "addedAt": "2025-12-17T00:00:00Z",
+    "expiresAt": null,
+    "status": "active"
+  },
+  {
+    "code": "FAREWELL",
+    "rewards": "60 Stellar Jade + 1 Fuel",
+    "source": "Special Code",
+    "addedAt": "2025-12-15T00:00:00Z",
+    "expiresAt": null,
+    "status": "active"
+  },
+  {
+    "code": "IFYOUAREREADINGTHIS",
+    "rewards": "60 Stellar Jade + 1 Fuel",
+    "source": "Hidden Code",
+    "addedAt": "2025-12-15T00:00:00Z",
+    "expiresAt": null,
+    "status": "active"
+  },
+  {
+    "code": "STARRAILGIFT",
+    "rewards": "100 Stellar Jade + 4 Traveler's Guide + 50,000 Credits",
+    "source": "Permanent Code",
+    "addedAt": "2024-04-26T00:00:00Z",
+    "expiresAt": null,
     "status": "active"
   }
 ]

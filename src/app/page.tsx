@@ -39,7 +39,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center gap-2">
               <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/50">
-                v2.7
+                v3.8
               </Badge>
               <Badge variant="outline" className="bg-gray-800/50">
                 {new Date().toLocaleDateString("en-US", {
@@ -95,14 +95,15 @@ export default function DashboardPage() {
             {/* Reset Timers */}
             <ResetTimers />
 
-            {/* Version Info */}
             <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700">
-              <h3 className="font-semibold text-gray-200 mb-2">📢 Version 2.7</h3>
+              <h3 className="font-semibold text-gray-200 mb-2">📢 Version 3.8</h3>
+              <p className="text-xs text-purple-400 mb-2">&quot;Memories are the Prelude to Dreams&quot;</p>
               <ul className="text-sm text-gray-400 space-y-1">
-                <li>• New Characters: Fugue, Mydei</li>
-                <li>• New Story Content</li>
-                <li>• Memory of Chaos Updated</li>
-                <li>• New Events & Rewards</li>
+                <li>• New Characters: The Dahlia, Cyrene, Hyacine</li>
+                <li>• New Story: Okhema Continuation</li>
+                <li>• Main Event: Chrysos Awoo Championship</li>
+                <li>• Gift of Odyssey: 10 Free Passes</li>
+                <li>• Extended 8-week update cycle</li>
               </ul>
             </div>
 

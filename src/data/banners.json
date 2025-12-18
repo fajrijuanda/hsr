@@ -1,24 +1,24 @@
 [
   {
-    "id": "banner-2-7-1",
-    "phase": "2.7.1",
-    "name": "Fugue & Mydei Banner",
-    "characters": ["Fugue", "Mydei"],
-    "lightCones": ["Long Road Leads Home", "After the Curtain Falls"],
-    "startDate": "2024-12-18T06:00:00Z",
-    "endDate": "2025-01-08T14:59:59Z",
+    "id": "banner-3-8-1",
+    "phase": "3.8.1",
+    "name": "The Dahlia & Cyrene",
+    "characters": ["The Dahlia", "Cyrene"],
+    "lightCones": ["Concert for Two", "Shared Feeling"],
+    "startDate": "2025-12-17T06:00:00Z",
+    "endDate": "2026-01-06T14:59:59Z",
     "type": "limited",
-    "imageUrl": "/banners/fugue.png"
+    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1321.png"
   },
   {
-    "id": "banner-2-7-2",
-    "phase": "2.7.2",
-    "name": "Rerun Banner",
-    "characters": ["Castorice", "Tribbie"],
-    "lightCones": ["TBD"],
-    "startDate": "2025-01-08T06:00:00Z",
-    "endDate": "2025-01-29T14:59:59Z",
+    "id": "banner-3-8-2",
+    "phase": "3.8.2",
+    "name": "Hyacine & Rerun",
+    "characters": ["Hyacine", "Feixiao"],
+    "lightCones": ["Destined Encounter", "I Venture Forth to Hunt"],
+    "startDate": "2026-01-06T06:00:00Z",
+    "endDate": "2026-01-27T14:59:59Z",
     "type": "limited",
-    "imageUrl": "/banners/rerun.png"
+    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1409.png"
   }
 ]
