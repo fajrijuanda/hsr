@@ -1,0 +1,146 @@
+[
+  {
+    "id": "acheron",
+    "name": "Acheron",
+    "path": "Nihility",
+    "element": "Lightning",
+    "rarity": 5,
+    "baseSpeed": 101,
+    "imageUrl": "/characters/acheron.png"
+  },
+  {
+    "id": "firefly",
+    "name": "Firefly",
+    "path": "Destruction",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 104,
+    "imageUrl": "/characters/firefly.png"
+  },
+  {
+    "id": "sparkle",
+    "name": "Sparkle",
+    "path": "Harmony",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 101,
+    "imageUrl": "/characters/sparkle.png"
+  },
+  {
+    "id": "ruan_mei",
+    "name": "Ruan Mei",
+    "path": "Harmony",
+    "element": "Ice",
+    "rarity": 5,
+    "baseSpeed": 104,
+    "imageUrl": "/characters/ruan_mei.png"
+  },
+  {
+    "id": "robin",
+    "name": "Robin",
+    "path": "Harmony",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 102,
+    "imageUrl": "/characters/robin.png"
+  },
+  {
+    "id": "fu_xuan",
+    "name": "Fu Xuan",
+    "path": "Preservation",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 100,
+    "imageUrl": "/characters/fu_xuan.png"
+  },
+  {
+    "id": "aventurine",
+    "name": "Aventurine",
+    "path": "Preservation",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 106,
+    "imageUrl": "/characters/aventurine.png"
+  },
+  {
+    "id": "jiaoqiu",
+    "name": "Jiaoqiu",
+    "path": "Nihility",
+    "element": "Fire",
+    "rarity": 5,
+    "baseSpeed": 98,
+    "imageUrl": "/characters/jiaoqiu.png"
+  },
+  {
+    "id": "seele",
+    "name": "Seele",
+    "path": "Hunt",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 115,
+    "imageUrl": "/characters/seele.png"
+  },
+  {
+    "id": "bronya",
+    "name": "Bronya",
+    "path": "Harmony",
+    "element": "Wind",
+    "rarity": 5,
+    "baseSpeed": 99,
+    "imageUrl": "/characters/bronya.png"
+  },
+  {
+    "id": "dan_heng_il",
+    "name": "Dan Heng IL",
+    "path": "Destruction",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 102,
+    "imageUrl": "/characters/dan_heng_il.png"
+  },
+  {
+    "id": "kafka",
+    "name": "Kafka",
+    "path": "Nihility",
+    "element": "Lightning",
+    "rarity": 5,
+    "baseSpeed": 100,
+    "imageUrl": "/characters/kafka.png"
+  },
+  {
+    "id": "silver_wolf",
+    "name": "Silver Wolf",
+    "path": "Nihility",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 107,
+    "imageUrl": "/characters/silver_wolf.png"
+  },
+  {
+    "id": "pela",
+    "name": "Pela",
+    "path": "Nihility",
+    "element": "Ice",
+    "rarity": 4,
+    "baseSpeed": 105,
+    "imageUrl": "/characters/pela.png"
+  },
+  {
+    "id": "gallagher",
+    "name": "Gallagher",
+    "path": "Abundance",
+    "element": "Fire",
+    "rarity": 4,
+    "baseSpeed": 98,
+    "imageUrl": "/characters/gallagher.png"
+  },
+  {
+    "id": "trailblazer_harmony",
+    "name": "Trailblazer (Harmony)",
+    "path": "Harmony",
+    "element": "Imaginary",
+    "rarity": 5,
+    "baseSpeed": 105,
+    "imageUrl": "/characters/trailblazer_harmony.png"
+  }
+]
