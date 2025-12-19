@@ -122,6 +122,55 @@ export default function PullPlannerPage() {
         });
     };
 
+    // Load saved plan
+    useEffect(() => {
+        if (!uid) return;
+
+        const loadPlan = async () => {
+            try {
+                const res = await fetch(`/api/user/pull-plan?uid=${uid}`);
+                const data = await res.json();
+                if (data.success && data.data) {
+                    const plan = data.data;
+                    setCurrentPity(plan.currentPity);
+                    setIsGuaranteed(plan.isGuaranteed);
+                    setStellarJade(plan.stellarJade);
+                    setPasses(plan.passes);
+                    if (plan.targetBanner) setTargetBanner(plan.targetBanner);
+                }
+            } catch (error) {
+                console.error("Failed to load pull plan", error);
+            }
+        };
+        loadPlan();
+    }, [uid]);
+
+    // Save plan with debounce
+    useEffect(() => {
+        if (!uid) return;
+
+        const timer = setTimeout(async () => {
+            try {
+                await fetch("/api/user/pull-plan", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        uid,
+                        currentPity,
+                        isGuaranteed,
+                        stellarJade,
+                        passes,
+                        targetBanner
+                    })
+                });
+            } catch (error) {
+                console.error("Failed to save plan", error);
+            }
+        }, 2000); // 2 second debounce
+
+        return () => clearTimeout(timer);
+    }, [uid, currentPity, isGuaranteed, stellarJade, passes, targetBanner]);
+
     // Auto-run simulation when inputs change
     useEffect(() => {
         if (resources.totalPulls > 0) {

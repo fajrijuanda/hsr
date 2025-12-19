@@ -104,25 +104,54 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Load from localStorage on mount
+    // Load from localStorage on mount and sync with DB
     useEffect(() => {
-        const savedUID = localStorage.getItem("hsr_uid");
-        const savedProfile = localStorage.getItem("hsr_profile");
-
-        if (savedUID) {
-            setUid(savedUID);
-            if (savedProfile) {
+        const checkSession = async () => {
+            const savedUID = localStorage.getItem("hsr_uid");
+            if (savedUID) {
+                setUid(savedUID);
+                setIsLoading(true);
                 try {
-                    setProfile(JSON.parse(savedProfile));
-                } catch {
-                    // Invalid JSON, clear it
-                    localStorage.removeItem("hsr_profile");
+                    // Try to fetch from our DB first
+                    const res = await fetch(`/api/user?uid=${savedUID}`);
+                    const data = await res.json();
+
+                    if (data.success && data.data) {
+                        // User exists in DB
+                        if (data.data.profile?.data) {
+                            setProfile(data.data.profile.data as UserProfile);
+                        } else {
+                            // No profile data in DB, try to load from local storage fallback
+                            const savedProfile = localStorage.getItem("hsr_profile");
+                            if (savedProfile) {
+                                try {
+                                    setProfile(JSON.parse(savedProfile));
+                                } catch (e) { console.error(e) }
+                            }
+                        }
+                    } else {
+                        // User not in DB (cleared?), fallback to localStorage
+                        const savedProfile = localStorage.getItem("hsr_profile");
+                        if (savedProfile) {
+                            try {
+                                setProfile(JSON.parse(savedProfile));
+                            } catch (e) {
+                                console.error(e);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error("Failed to restore session from DB", error);
+                } finally {
+                    setIsLoading(false);
                 }
             }
-        }
+        };
+
+        checkSession();
     }, []);
 
-    const fetchProfile = async (targetUid: string): Promise<UserProfile | null> => {
+    const fetchProfileFromMihomo = async (targetUid: string): Promise<UserProfile | null> => {
         const response = await fetch(`/api/mihomo/${targetUid}`);
         const data = await response.json();
 
@@ -133,16 +162,55 @@ export function UserProvider({ children }: { children: ReactNode }) {
         return data.data;
     };
 
+    const saveUserToDB = async (uid: string, profileData: UserProfile) => {
+        try {
+            await fetch("/api/user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    uid,
+                    nickname: profileData.nickname,
+                    level: profileData.level,
+                    avatar: profileData.avatar,
+                    signature: profileData.signature,
+                    profileData: dataWrapper(profileData), // Ensure we pass standard JSON
+                }),
+            });
+        } catch (e) {
+            console.error("Failed to save user to DB", e);
+        }
+    };
+
+    // Helper to wrapping profile for DB (if needed structure adjustment)
+    const dataWrapper = (p: UserProfile) => {
+        return {
+            uid: p.uid,
+            nickname: p.nickname,
+            level: p.level,
+            worldLevel: p.worldLevel,
+            signature: p.signature,
+            avatar: p.avatar,
+            achievements: p.achievements,
+            characters: p.characters
+        };
+    }
+
     const login = async (newUid: string): Promise<boolean> => {
         setIsLoading(true);
         setError(null);
 
         try {
-            const profileData = await fetchProfile(newUid);
+            // 1. Fetch from Mihomo
+            const profileData = await fetchProfileFromMihomo(newUid);
 
             if (profileData) {
                 setUid(newUid);
                 setProfile(profileData);
+
+                // 2. Save to DB
+                await saveUserToDB(newUid, profileData);
+
+                // 3. Fallback/Session storage
                 localStorage.setItem("hsr_uid", newUid);
                 localStorage.setItem("hsr_profile", JSON.stringify(profileData));
                 return true;
@@ -169,10 +237,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
         setIsLoading(true);
         try {
-            const profileData = await fetchProfile(uid);
+            const profileData = await fetchProfileFromMihomo(uid);
             if (profileData) {
                 setProfile(profileData);
+                await saveUserToDB(uid, profileData);
                 localStorage.setItem("hsr_profile", JSON.stringify(profileData));
+
+                // Log refresh activity
+                await fetch("/api/user/activity", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ uid, type: "profile_refresh", data: { timestamp: new Date() } })
+                });
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : "Failed to refresh profile");

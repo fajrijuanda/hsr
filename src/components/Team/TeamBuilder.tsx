@@ -7,6 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useUser } from "@/context/UserContext";
+import { useState } from "react";
 
 const STAR_RAIL_RES_CDN = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
 
@@ -23,6 +28,38 @@ const ELEMENT_COLORS: Record<string, string> = {
 export function TeamBuilder() {
     const { team, removeCharacter, updateMemberSpeed, clearTeam } = useTeamStore();
     const teamStats = useTeamStats();
+    const { uid } = useUser();
+
+    const [isSaveOpen, setIsSaveOpen] = useState(false);
+    const [saveName, setSaveName] = useState("");
+
+    const savePreset = async () => {
+        if (!saveName || !uid) return;
+
+        try {
+            const characters = team.map(m => ({
+                characterId: m.character.id,
+                speedBonus: m.speedBonus,
+                speedPercent: m.speedPercent,
+                relicSpeedBonus: m.relicSpeedBonus,
+                lightConeSpeed: m.lightConeSpeed
+            }));
+
+            const res = await fetch("/api/user/team-presets", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uid, name: saveName, characters })
+            });
+
+            if (res.ok) {
+                setIsSaveOpen(false);
+                setSaveName("");
+                alert("Preset saved! refresh the page to see it in the list.");
+            }
+        } catch (error) {
+            console.error("Failed to save preset", error);
+        }
+    };
 
     const getCharacterAvatarUrl = (charId: string) => {
         return `${STAR_RAIL_RES_CDN}/icon/character/${charId}.png`;
@@ -44,14 +81,49 @@ export function TeamBuilder() {
         <Card className="bg-gray-900/50 border-gray-700">
             <CardHeader className="pb-3 flex flex-row items-center justify-between">
                 <CardTitle className="text-lg">Your Team</CardTitle>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearTeam}
-                    className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
-                >
-                    Clear All
-                </Button>
+                <div className="flex gap-2">
+                    {uid && (
+                        <Dialog open={isSaveOpen} onOpenChange={setIsSaveOpen}>
+                            <DialogTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/10"
+                                >
+                                    Save Preset
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="bg-gray-900 border-gray-700">
+                                <DialogHeader>
+                                    <DialogTitle>Save Team Preset</DialogTitle>
+                                </DialogHeader>
+                                <div className="space-y-4 py-4">
+                                    <div className="space-y-2">
+                                        <Label>Preset Name</Label>
+                                        <Input
+                                            value={saveName}
+                                            onChange={(e) => setSaveName(e.target.value)}
+                                            placeholder="e.g. My Meta Team"
+                                            className="bg-gray-800 border-gray-600"
+                                        />
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button variant="outline" onClick={() => setIsSaveOpen(false)}>Cancel</Button>
+                                    <Button onClick={savePreset} disabled={!saveName}>Save</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    )}
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearTeam}
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                    >
+                        Clear All
+                    </Button>
+                </div>
             </CardHeader>
             <CardContent className="space-y-4">
                 {teamStats.map((member, index) => {

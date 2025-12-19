@@ -11,9 +11,47 @@ import { BattleSetup } from "@/components/Battle/BattleSetup";
 import { formatDamage } from "@/lib/battle-engine";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/UserContext";
+import { useEffect, useRef } from "react";
 
 export default function BattleSimulatorPage() {
     const { phase, team, enemy, battleLog, totalDamage, turn, currentActorId, resetBattle, skillPoints, maxSkillPoints } = useBattleStore();
+    const { uid } = useUser();
+    const loggedRef = useRef(false);
+
+    // Log battle result when finished
+    useEffect(() => {
+        if (!uid || (phase !== "victory" && phase !== "defeat")) {
+            loggedRef.current = false;
+            return;
+        }
+
+        if (loggedRef.current) return;
+
+        const logBattle = async () => {
+            try {
+                loggedRef.current = true;
+                await fetch("/api/user/battles", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        uid,
+                        team: team.map(c => c.name), // Simplified logging
+                        enemy: enemy?.name || "Unknown",
+                        result: phase,
+                        totalDamage,
+                        turns: turn,
+                        duration: 0
+                    })
+                });
+            } catch (error) {
+                console.error("Failed to log battle", error);
+                loggedRef.current = false;
+            }
+        };
+
+        logBattle();
+    }, [phase, uid, team, enemy, totalDamage, turn]);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-950 via-red-950/20 to-gray-950">
