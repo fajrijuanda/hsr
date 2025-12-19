@@ -241,30 +241,11 @@ export default function PullPlannerPage() {
     const recommendation = getRecommendation();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-yellow-950">
+        <div className="min-h-screen">
             {/* Header */}
-            <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center gap-4">
-                        <Link
-                            href="/"
-                            className="text-gray-400 hover:text-white transition-colors"
-                        >
-                            ← Back
-                        </Link>
-                        <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 bg-clip-text text-transparent">
-                                🎰 Pull Planner
-                            </h1>
-                            <p className="text-sm text-gray-400">
-                                Plan your Stellar Jade spending wisely
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </header>
 
-            <main className="container mx-auto px-4 py-8">
+
+            <div className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Left Column - Inputs */}
                     <div className="space-y-6">
@@ -691,7 +672,7 @@ export default function PullPlannerPage() {
                         </Card>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     );
 }

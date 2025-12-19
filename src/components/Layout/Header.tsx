@@ -35,7 +35,7 @@ export function Header() {
         iconDisplay = (
             <div className="relative w-10 h-10 flex-shrink-0">
                 <Image
-                    src="/logo.png"
+                    src="/app-logo.png"
                     alt="Logo"
                     fill
                     className="object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]"

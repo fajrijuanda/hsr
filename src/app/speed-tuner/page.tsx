@@ -34,35 +34,11 @@ export default function SpeedTunerPage() {
   const uniqueOrder = [...new Set(turnOrder)];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-purple-950">
+    <div>
       {/* Header */}
-      <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                ← Back
-              </Link>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  Speed Tuner
-                </h1>
-                <p className="text-sm text-gray-400">
-                  Action Value Calculator & Timeline Visualizer
-                </p>
-              </div>
-            </div>
-            <Badge variant="outline" className="bg-gray-800/50">
-              v1.0
-            </Badge>
-          </div>
-        </div>
-      </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-6">
+
+      <div className="container mx-auto px-4 py-8 space-y-6">
         {/* Timeline Section - Full Width */}
         <section className="space-y-4">
           <div className="flex items-center justify-between flex-wrap gap-2">
@@ -170,7 +146,7 @@ export default function SpeedTunerPage() {
         <footer className="text-center text-sm text-gray-500 pt-6 border-t border-gray-800">
           <p>Adjust character speeds using the sliders to see how turn order changes in real-time.</p>
         </footer>
-      </main>
+      </div>
     </div>
   );
 }

@@ -126,7 +126,7 @@ export function SplashScreen({ onComplete, duration = 2500 }: SplashScreenProps)
                             }}
                         >
                             <Image
-                                src="/logo.png"
+                                src="/app-logo.png"
                                 alt="Logo"
                                 fill
                                 className="object-contain drop-shadow-[0_0_30px_rgba(168,85,247,0.6)]"

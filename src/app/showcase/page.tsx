@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { ShowcaseProfile, ShowcaseCharacter } from "@/types";
 import { ProfileHeader } from "@/components/Showcase/ProfileHeader";
 import { ShowcaseCharacterCard } from "@/components/Showcase/CharacterCard";
@@ -164,28 +163,9 @@ export default function ShowcasePage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950/20 to-gray-950">
+        <div className="min-h-screen">
             {/* Header */}
-            <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center gap-4">
-                        <Link
-                            href="/"
-                            className="text-gray-400 hover:text-white transition-colors"
-                        >
-                            ← Back
-                        </Link>
-                        <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                                Character Showcase
-                            </h1>
-                            <p className="text-sm text-gray-400">
-                                Brutally Honest Relic Rating
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </header>
+
 
             <main className="container mx-auto px-4 py-8">
                 {/* UID Input */}

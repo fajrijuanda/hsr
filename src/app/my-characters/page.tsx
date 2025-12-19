@@ -2,13 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import { Input } from "@/components/ui/input";
-import { LoadingScreen, LoadingSpinner, AlertDialog } from "@/components/ui/feedback";
+import { LoadingScreen, AlertDialog } from "@/components/ui/feedback";
 import charactersData from "@/data/characters.json";
 
 const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
@@ -44,7 +43,7 @@ export default function MyCharactersPage() {
     const [filterPath, setFilterPath] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "name">("newest");
     const [isLoading, setIsLoading] = useState(true);
-    const [isSaving, setIsSaving] = useState(false);
+
     const [showAlert, setShowAlert] = useState(false);
     const [selectedChar, setSelectedChar] = useState<Character | null>(null);
 
@@ -83,7 +82,7 @@ export default function MyCharactersPage() {
             return;
         }
 
-        setIsSaving(true);
+
         const isOwned = ownedChars.has(charId);
 
         try {
@@ -113,7 +112,7 @@ export default function MyCharactersPage() {
         } catch {
             // Handle error
         } finally {
-            setIsSaving(false);
+
         }
     };
 
@@ -165,35 +164,13 @@ export default function MyCharactersPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-950 text-white">
+        <div className="min-h-screen text-white">
             {/* Header */}
-            <header className="bg-gray-900/80 border-b border-gray-800 px-6 py-4 sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link href="/">
-                            <Button variant="ghost" size="sm">← Back</Button>
-                        </Link>
-                        <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                                My Characters
-                            </h1>
-                            <p className="text-sm text-gray-400">
-                                Manage your owned characters
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="text-emerald-400">
-                            {ownedChars.size} Owned
-                        </Badge>
-                        {isSaving && <LoadingSpinner size="sm" />}
-                    </div>
-                </div>
-            </header>
+
 
             {/* Filters */}
             {/* Filters */}
-            <div className="sticky top-[73px] z-40 bg-gray-900/90 backdrop-blur-sm border-b border-gray-800 px-6 py-3">
+            <div className="sticky top-16 z-40 bg-gray-900/90 backdrop-blur-sm border-b border-gray-800 px-6 py-3">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 items-center justify-between">
                     <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
                         <Input

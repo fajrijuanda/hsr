@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useBattleStore } from "@/stores/battleStore";
 import { EnemyDisplay } from "@/components/Battle/EnemyDisplay";
@@ -54,54 +53,36 @@ export default function BattleSimulatorPage() {
     }, [phase, uid, team, enemy, totalDamage, turn]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-red-950/20 to-gray-950">
+        <div className="min-h-screen">
             {/* Header */}
-            <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <Link
-                                href="/"
-                                className="text-gray-400 hover:text-white transition-colors"
-                            >
-                                ← Back
-                            </Link>
-                            <div>
-                                <h1 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-                                    Battle Simulator
-                                </h1>
-                                <p className="text-sm text-gray-400">
-                                    Turn-by-turn Combat Engine
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            {phase === "battle" && (
-                                <>
-                                    <Badge variant="outline" className="bg-gray-800/50">
-                                        Turn {turn}
-                                    </Badge>
-                                    <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">
-                                        SP: {skillPoints}/{maxSkillPoints}
-                                    </Badge>
-                                </>
-                            )}
-                            <Badge
-                                className={
-                                    phase === "victory" ? "bg-emerald-500/20 text-emerald-400" :
-                                        phase === "defeat" ? "bg-red-500/20 text-red-400" :
-                                            phase === "battle" ? "bg-orange-500/20 text-orange-400" :
-                                                "bg-gray-500/20 text-gray-400"
-                                }
-                            >
-                                {phase.toUpperCase()}
-                            </Badge>
-                        </div>
-                    </div>
-                </div>
-            </header>
 
-            <main className="container mx-auto px-4 py-8">
+
+            <div className="container mx-auto px-4 py-8 space-y-4">
+                {/* Battle Status Bar */}
+                {phase !== "setup" && (
+                    <div className="flex justify-end items-center gap-2 mb-2 sticky top-16 z-40 py-2 bg-gradient-to-b from-gray-950/80 to-transparent backdrop-blur-sm -mx-4 px-4 sm:mx-0 sm:px-0 rounded-b-xl">
+                        {phase === "battle" && (
+                            <>
+                                <Badge variant="outline" className="bg-gray-800/50">
+                                    Turn {turn}
+                                </Badge>
+                                <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">
+                                    SP: {skillPoints}/{maxSkillPoints}
+                                </Badge>
+                            </>
+                        )}
+                        <Badge
+                            className={
+                                phase === "victory" ? "bg-emerald-500/20 text-emerald-400" :
+                                    phase === "defeat" ? "bg-red-500/20 text-red-400" :
+                                        phase === "battle" ? "bg-orange-500/20 text-orange-400" :
+                                            "bg-gray-500/20 text-gray-400"
+                            }
+                        >
+                            {phase.toUpperCase()}
+                        </Badge>
+                    </div>
+                )}
                 {/* Victory/Defeat Screen */}
                 {(phase === "victory" || phase === "defeat") && (
                     <motion.div
@@ -233,7 +214,7 @@ export default function BattleSimulatorPage() {
                     <p>Select actions to deal damage to the enemy. Ultimate becomes available when energy is full.</p>
                     <p className="mt-1">Damage calculated using approximate HSR formulas.</p>
                 </footer>
-            </main>
+            </div>
         </div>
     );
 }
