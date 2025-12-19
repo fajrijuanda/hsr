@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BannerCard } from "@/components/Banner/BannerCard";
 import { CodeList } from "@/components/Codes/CodeList";
@@ -23,16 +23,37 @@ import eventsData from "@/data/events.json";
 export default function DashboardPage() {
   const [showSplash, setShowSplash] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const { uid: userUID, profile, logout } = useUser();
 
   const banners = bannersData as Banner[];
   const codes = codesData as RedemptionCode[];
   const events = eventsData as GameEvent[];
 
-  // Get the current active banner (first one that hasn't ended)
-  const activeBanner = banners.find(
-    (b) => new Date(b.endDate) > new Date()
-  ) || banners[0];
+  // Update time every minute for real-time banner switching
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // Update every minute
+    return () => clearInterval(interval);
+  }, []);
+
+  // Get the current active banner (has started and hasn't ended)
+  const activeBanner = useMemo(() => {
+    const now = currentTime;
+    // Find banner that has started and hasn't ended yet
+    const active = banners.find((b) => {
+      const startDate = new Date(b.startDate);
+      const endDate = new Date(b.endDate);
+      return startDate <= now && endDate > now;
+    });
+    // If no active banner, find the next upcoming one
+    if (!active) {
+      const upcoming = banners.find((b) => new Date(b.startDate) > now);
+      return upcoming || banners[0];
+    }
+    return active;
+  }, [banners, currentTime]);
 
   return (
     <>
