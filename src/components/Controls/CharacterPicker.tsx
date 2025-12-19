@@ -23,16 +23,17 @@ const ELEMENT_CONFIG: Record<string, { color: string; bgClass: string }> = {
     Imaginary: { color: "#facc15", bgClass: "bg-yellow-400" },
 };
 
-const PATH_CONFIG: Record<string, { icon: string; label: string }> = {
-    Destruction: { icon: "⚔️", label: "Destruction" },
-    Hunt: { icon: "🎯", label: "Hunt" },
-    Erudition: { icon: "📚", label: "Erudition" },
-    Harmony: { icon: "🎵", label: "Harmony" },
-    Nihility: { icon: "💀", label: "Nihility" },
-    Preservation: { icon: "🛡️", label: "Preservation" },
-    Abundance: { icon: "💚", label: "Abundance" },
-    Remembrance: { icon: "🦋", label: "Remembrance" },
-};
+const PATH_LIST = [
+    "Destruction", "Hunt", "Erudition", "Harmony",
+    "Nihility", "Preservation", "Abundance", "Remembrance"
+];
+
+// Helper functions for CDN icon URLs
+const getElementIconUrl = (element: string) =>
+    `${STAR_RAIL_RES_CDN}/icon/element/${element}.png`;
+
+const getPathIconUrl = (path: string) =>
+    `${STAR_RAIL_RES_CDN}/icon/path/${path}.png`;
 
 type FilterTab = "all" | "owned";
 
@@ -163,7 +164,7 @@ export function CharacterPicker() {
     };
 
     const elements = Object.keys(ELEMENT_CONFIG);
-    const paths = Object.keys(PATH_CONFIG);
+    const paths = PATH_LIST;
 
     return (
         <Card className="bg-gray-900/50 border-gray-700">
@@ -225,8 +226,13 @@ export function CharacterPicker() {
                                 : "bg-gray-800/50 hover:bg-gray-700/50"
                                 }`}
                         >
-                            <span
-                                className={`w-2 h-2 rounded-full mr-1 ${ELEMENT_CONFIG[element].bgClass}`}
+                            <Image
+                                src={getElementIconUrl(element)}
+                                alt={element}
+                                width={16}
+                                height={16}
+                                className="mr-1"
+                                unoptimized
                             />
                             {element}
                         </Button>
@@ -246,7 +252,14 @@ export function CharacterPicker() {
                                 : "bg-gray-800/50 hover:bg-gray-700/50"
                                 }`}
                         >
-                            <span className="mr-1">{PATH_CONFIG[path].icon}</span>
+                            <Image
+                                src={getPathIconUrl(path)}
+                                alt={path}
+                                width={16}
+                                height={16}
+                                className="mr-1"
+                                unoptimized
+                            />
                             {path}
                         </Button>
                     ))}
@@ -257,7 +270,13 @@ export function CharacterPicker() {
                     {Object.entries(groupedByPath).map(([path, chars]) => (
                         <div key={path}>
                             <h3 className="text-sm text-gray-400 mb-2 flex items-center gap-1 sticky top-0 bg-gray-900/90 py-1">
-                                <span>{PATH_CONFIG[path]?.icon}</span>
+                                <Image
+                                    src={getPathIconUrl(path)}
+                                    alt={path}
+                                    width={16}
+                                    height={16}
+                                    unoptimized
+                                />
                                 <span>{path}</span>
                                 <span className="text-gray-500 ml-1">({chars.length})</span>
                             </h3>
@@ -308,8 +327,13 @@ export function CharacterPicker() {
                                                     unoptimized
                                                 />
                                                 {/* Element Badge */}
-                                                <div
-                                                    className={`absolute top-0.5 right-0.5 w-3 h-3 rounded-full ${ELEMENT_CONFIG[char.element]?.bgClass}`}
+                                                <Image
+                                                    src={getElementIconUrl(char.element)}
+                                                    alt={char.element}
+                                                    width={16}
+                                                    height={16}
+                                                    className="absolute top-0.5 right-0.5"
+                                                    unoptimized
                                                 />
                                                 {/* Ownership Indicator */}
                                                 {uid && (
