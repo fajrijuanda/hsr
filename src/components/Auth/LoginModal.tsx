@@ -7,16 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSpinner } from "@/components/Loading/LoadingSpinner";
+import { useUser } from "@/context/UserContext";
 
 interface LoginModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onLogin: (uid: string) => void;
 }
 
-export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
+export function LoginModal({ isOpen, onClose }: LoginModalProps) {
+    const { login, isLoading, error: contextError } = useUser();
     const [uid, setUid] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -28,19 +28,19 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
             return;
         }
 
-        setIsLoading(true);
-
-        // Simulate API call
-        try {
-            // In real implementation, this would fetch from Mihomo/Enka API
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-            onLogin(uid);
+        const success = await login(uid);
+        if (success) {
             onClose();
-        } catch (err) {
-            setError("Failed to fetch profile. Please try again.");
-        } finally {
-            setIsLoading(false);
+            setUid("");
+        } else {
+            setError(contextError || "Failed to fetch profile. Please try again.");
         }
+    };
+
+    const handleClose = () => {
+        setUid("");
+        setError(null);
+        onClose();
     };
 
     return (
@@ -52,7 +52,7 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onClick={onClose}
+                        onClick={handleClose}
                         className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
                     />
 
@@ -83,7 +83,7 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
                                         Your UID can be found in-game at the bottom of your profile.
                                     </p>
                                     <p className="text-xs text-blue-400/70 mt-1">
-                                        We use Enka.Network API to fetch your public profile data.
+                                        We use Mihomo API to fetch your public showcase data.
                                     </p>
                                 </div>
                             </div>
@@ -100,6 +100,7 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
                                     onChange={(e) => setUid(e.target.value.replace(/\D/g, "").slice(0, 9))}
                                     className="mt-2 bg-gray-800 border-gray-700 text-center text-lg tracking-widest"
                                     maxLength={9}
+                                    disabled={isLoading}
                                 />
                                 <p className="text-xs text-gray-500 mt-1 text-center">
                                     {uid.length}/9 digits
@@ -145,8 +146,9 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
                         {/* Guest mode */}
                         <Button
                             variant="outline"
-                            onClick={onClose}
+                            onClick={handleClose}
                             className="w-full border-gray-700 text-gray-400 hover:text-white"
+                            disabled={isLoading}
                         >
                             Continue as Guest
                         </Button>
@@ -157,9 +159,9 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
                             <div className="grid grid-cols-2 gap-2">
                                 {[
                                     "Character sync",
-                                    "Pull history",
                                     "Build ratings",
                                     "Smart recommendations",
+                                    "Pull priority",
                                 ].map((feature) => (
                                     <Badge
                                         key={feature}
@@ -174,8 +176,9 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
 
                         {/* Close button */}
                         <button
-                            onClick={onClose}
+                            onClick={handleClose}
                             className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+                            disabled={isLoading}
                         >
                             ✕
                         </button>
