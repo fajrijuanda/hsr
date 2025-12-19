@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Users - main user table
+model User {
+  id          String   @id @default(cuid())
+  uid         String   @unique // HSR UID
+  nickname    String?
+  level       Int      @default(0)
+  avatar      String?
+  createdAt   DateTime @default(now())
+  lastLoginAt DateTime @default(now())
+  
+  // Relations
+  profile       UserProfile?
+  activities    Activity[]
+  teamPresets   TeamPreset[]
+  pullPlans     PullPlan[]
+  battleHistory Battle[]
+}
+
+// Cached profile data from Mihomo API
+model UserProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  data        Json     // Full profile JSON
+  updatedAt   DateTime @updatedAt
+}
+
+// Activity log for tracking user history
+model Activity {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // login, speed_tuner, pull_planner, battle, profile_refresh
+  data      Json?    // Additional data (team used, simulation results, etc)
+  createdAt DateTime @default(now())
+}
+
+// Saved team presets for Speed Tuner
+model TeamPreset {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  name        String
+  characters  Json     // Array of character configs with speed settings
+  createdAt   DateTime @default(now())
+}
+
+// Pull planner saved state
+model PullPlan {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  currentPity  Int
+  isGuaranteed Boolean
+  stellarJade  Int
+  passes       Int
+  targetBanner String?
+  updatedAt    DateTime @updatedAt
+}
+
+// Battle history
+model Battle {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  team        Json     // Characters used
+  enemy       Json     // Enemy config
+  result      String   // victory, defeat, abandoned
+  totalDamage Int
+  turns       Int
+  duration    Int?     // seconds
+  createdAt   DateTime @default(now())
+}

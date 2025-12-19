@@ -12,6 +12,20 @@
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
   },
+  "arlan": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 2.4,
+    "ultMultiplier": 3.2,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Skill does NOT cost SP - consumes HP instead",
+    "skillSPCost": 0,
+    "baseAtk": 599,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
   "aventurine": {
     "basicMultiplier": 1.0,
     "skillMultiplier": 0,
@@ -153,6 +167,7 @@
     "ultCost": 140,
     "ultType": "normal",
     "passive": "Heals and boosts team ATK",
+    "ultSPChange": 1,
     "ultBuff": {
       "stat": "atkPercent",
       "value": 0.4,
@@ -315,6 +330,7 @@
     "ultCost": 110,
     "ultType": "normal",
     "passive": "Advances ally and buffs CRIT DMG",
+    "ultSPChange": 4,
     "skillBuff": {
       "stat": "critDmg",
       "value": 0.48,

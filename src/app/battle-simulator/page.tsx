@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export default function BattleSimulatorPage() {
-    const { phase, team, enemy, battleLog, totalDamage, turn, currentActorId, resetBattle } = useBattleStore();
+    const { phase, team, enemy, battleLog, totalDamage, turn, currentActorId, resetBattle, skillPoints, maxSkillPoints } = useBattleStore();
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-950 via-red-950/20 to-gray-950">
@@ -39,9 +39,14 @@ export default function BattleSimulatorPage() {
                         </div>
                         <div className="flex items-center gap-2">
                             {phase === "battle" && (
-                                <Badge variant="outline" className="bg-gray-800/50">
-                                    Turn {turn}
-                                </Badge>
+                                <>
+                                    <Badge variant="outline" className="bg-gray-800/50">
+                                        Turn {turn}
+                                    </Badge>
+                                    <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">
+                                        SP: {skillPoints}/{maxSkillPoints}
+                                    </Badge>
+                                </>
                             )}
                             <Badge
                                 className={

@@ -9,6 +9,19 @@ import { BossSettings } from "@/components/Controls/BossSettings";
 import { getActionsPerCycle, formatAV } from "@/lib/calculator";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import Image from "next/image";
+
+const STAR_RAIL_RES_CDN = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
+
+const ELEMENT_COLORS: Record<string, string> = {
+  Physical: "bg-gray-400",
+  Fire: "bg-red-500",
+  Ice: "bg-cyan-400",
+  Lightning: "bg-purple-500",
+  Wind: "bg-emerald-400",
+  Quantum: "bg-indigo-500",
+  Imaginary: "bg-yellow-400",
+};
 
 export default function SpeedTunerPage() {
   const { timeline, cycles, team } = useTeamStore();
@@ -27,8 +40,8 @@ export default function SpeedTunerPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 ← Back
@@ -49,10 +62,10 @@ export default function SpeedTunerPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-8">
-        {/* Timeline Section */}
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        {/* Timeline Section - Full Width */}
         <section className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-2">
             <h2 className="text-xl font-semibold text-gray-200">
               Turn Order Timeline
             </h2>
@@ -68,9 +81,9 @@ export default function SpeedTunerPage() {
           <TimelineBar entries={timeline} cycles={cycles} />
         </section>
 
-        {/* Quick Stats */}
+        {/* Quick Stats - Compact Cards with Avatars */}
         {team.length > 0 && (
-          <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {team.map((member) => {
               const totalSpeed = member.character.baseSpeed +
                 member.speedBonus +
@@ -83,12 +96,30 @@ export default function SpeedTunerPage() {
               return (
                 <div
                   key={member.character.id}
-                  className="p-4 rounded-lg bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700"
+                  className="p-3 rounded-lg bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 flex items-center gap-3"
                 >
-                  <div className="text-sm text-gray-400">{member.character.name}</div>
-                  <div className="text-2xl font-bold text-white">{totalSpeed} SPD</div>
-                  <div className="text-sm text-gray-500">
-                    AV: {formatAV(av)} • {actions} act/cycle
+                  {/* Avatar */}
+                  <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 ring-2 ring-gray-600">
+                    <Image
+                      src={`${STAR_RAIL_RES_CDN}/icon/character/${member.character.charId}.png`}
+                      alt={member.character.name}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                    <div
+                      className={`absolute bottom-0 right-0 w-2 h-2 rounded-tl ${ELEMENT_COLORS[member.character.element]}`}
+                    />
+                  </div>
+                  {/* Stats */}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm text-gray-400 truncate">{member.character.name}</div>
+                    <div className="text-lg font-bold text-white">{totalSpeed} SPD</div>
+                  </div>
+                  {/* AV & Actions */}
+                  <div className="text-right">
+                    <div className="text-xs text-cyan-400">AV: {formatAV(av)}</div>
+                    <div className="text-xs text-emerald-400">{actions} act/c</div>
                   </div>
                 </div>
               );
@@ -96,53 +127,48 @@ export default function SpeedTunerPage() {
           </section>
         )}
 
-        {/* Main Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
+        {/* Main Grid - 2 Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column - Character Picker */}
           <div className="space-y-6">
             <TeamPresets />
             <CharacterPicker />
           </div>
 
-          {/* Middle Column */}
-          <div className="lg:col-span-1">
-            <TeamBuilder />
-          </div>
-
-          {/* Right Column */}
+          {/* Right Column - Team Builder & Settings */}
           <div className="space-y-6">
+            <TeamBuilder />
+
             <BossSettings />
 
-            {/* Speed Guide */}
+            {/* Speed Guide - Compact */}
             <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-700">
               <h3 className="font-semibold mb-3 text-gray-200">Speed Breakpoints</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">1 action/cycle</span>
-                  <span className="text-emerald-400">67+ SPD</span>
+              <div className="grid grid-cols-3 gap-3 text-sm mb-4">
+                <div className="text-center p-2 rounded bg-gray-800/50">
+                  <div className="text-emerald-400 font-bold">67+</div>
+                  <div className="text-xs text-gray-500">1 act/cycle</div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">2 actions/cycle</span>
-                  <span className="text-cyan-400">134+ SPD</span>
+                <div className="text-center p-2 rounded bg-gray-800/50">
+                  <div className="text-cyan-400 font-bold">134+</div>
+                  <div className="text-xs text-gray-500">2 acts/cycle</div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">3 actions/cycle</span>
-                  <span className="text-purple-400">200+ SPD</span>
+                <div className="text-center p-2 rounded bg-gray-800/50">
+                  <div className="text-purple-400 font-bold">200+</div>
+                  <div className="text-xs text-gray-500">3 acts/cycle</div>
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t border-gray-700 text-xs text-gray-500">
+              <div className="pt-3 border-t border-gray-700 text-xs text-gray-500 space-y-1">
                 <p>Action Value = 10000 / Speed</p>
-                <p>Each cycle = 150 AV</p>
-                <p>First turn = 50% normal AV</p>
+                <p>Each cycle = 150 AV | First turn = 50% AV</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="text-center text-sm text-gray-500 pt-8 border-t border-gray-800">
+        <footer className="text-center text-sm text-gray-500 pt-6 border-t border-gray-800">
           <p>Adjust character speeds using the sliders to see how turn order changes in real-time.</p>
-          <p className="mt-1">Lower Action Value = Acts Earlier | Each cycle in MoC is 150 AV</p>
         </footer>
       </main>
     </div>

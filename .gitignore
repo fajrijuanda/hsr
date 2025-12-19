@@ -50,3 +50,5 @@ next-env.d.ts
 # blueprints and planning docs
 blueprint-*.md
 gemini.md
+
+/src/generated/prisma

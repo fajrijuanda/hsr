@@ -21,6 +21,10 @@ import charactersData from "@/data/characters.json";
 import skillsData from "@/data/skills.json";
 
 interface BattleStore extends BattleState {
+  // SP state
+  skillPoints: number;
+  maxSkillPoints: number;
+
   // Setup actions
   initBattle: (
     characterIds: string[],
@@ -34,6 +38,7 @@ interface BattleStore extends BattleState {
   // Utility
   resetBattle: () => void;
   getActiveCharacter: () => BattleCharacter | null;
+  canUseSkill: () => boolean;
 }
 
 const characters = charactersData as Character[];
@@ -49,6 +54,8 @@ const skills = skillsData as Record<
     baseAtk: number;
     baseCritRate: number;
     baseCritDmg: number;
+    ultSPChange?: number;
+    skillSPCost?: number; // 0 for Arlan, default is 1
     skillBuff?: { stat: string; value: number; duration: number };
     skillDebuff?: { stat: string; value: number; duration: number };
     ultDebuff?: { stat: string; value: number; duration: number };
@@ -115,17 +122,22 @@ function calculateTurnOrder(
   return all.sort((a, b) => b.speed - a.speed).map((x) => x.id);
 }
 
-const initialState: Omit<BattleState, "enemy"> & { enemy: BattleEnemy | null } =
-  {
-    turn: 0,
-    phase: "setup",
-    team: [],
-    enemy: null,
-    turnOrder: [],
-    currentActorId: "",
-    battleLog: [],
-    totalDamage: 0,
-  };
+const initialState: Omit<BattleState, "enemy"> & {
+  enemy: BattleEnemy | null;
+  skillPoints: number;
+  maxSkillPoints: number;
+} = {
+  turn: 0,
+  phase: "setup",
+  team: [],
+  enemy: null,
+  turnOrder: [],
+  currentActorId: "",
+  battleLog: [],
+  totalDamage: 0,
+  skillPoints: 3,
+  maxSkillPoints: 5,
+};
 
 export const useBattleStore = create<BattleStore>((set, get) => ({
   ...initialState,
@@ -148,6 +160,10 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
 
     const turnOrder = calculateTurnOrder(team, enemy);
 
+    // Sparkle's Talent: If Sparkle is in team, max SP becomes 7
+    const hasSparkle = team.some((c) => c.id === "sparkle");
+    const maxSP = hasSparkle ? 7 : 5;
+
     set({
       turn: 1,
       phase: "battle",
@@ -157,6 +173,8 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
       currentActorId: turnOrder[0],
       battleLog: [],
       totalDamage: 0,
+      skillPoints: 3,
+      maxSkillPoints: maxSP,
     });
   },
 
@@ -195,10 +213,22 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
         isCrit = result.isCrit;
         newEnemy = applyDamage(newEnemy, damage);
         newChar = addEnergy(newChar, skillData.basicEnergy);
-        logMessage = `${char.name} uses Basic ATK`;
+        logMessage = `${char.name} uses Basic ATK (+1 SP)`;
+        // Basic gives +1 SP
+        const newSP = Math.min(state.maxSkillPoints, state.skillPoints + 1);
+        set({ skillPoints: newSP });
         break;
       }
       case "skill": {
+        // Get skill SP cost (default is 1, Arlan is 0)
+        const skillCost =
+          skillData.skillSPCost !== undefined ? skillData.skillSPCost : 1;
+
+        // Check if we have enough SP (skip check if free skill like Arlan)
+        if (skillCost > 0 && state.skillPoints < skillCost) {
+          return; // Cannot use skill without enough SP
+        }
+
         if (skillData.skillMultiplier > 0) {
           const result = calculateDamage(
             char,
@@ -208,12 +238,23 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
           damage = result.finalDamage;
           isCrit = result.isCrit;
           newEnemy = applyDamage(newEnemy, damage);
-          logMessage = `${char.name} uses Skill`;
+          logMessage =
+            skillCost > 0
+              ? `${char.name} uses Skill (-${skillCost} SP)`
+              : `${char.name} uses Skill (Free!)`;
         } else {
           // Support skill (Sparkle, Ruan Mei, etc.)
-          logMessage = `${char.name} uses Skill (Support)`;
+          logMessage =
+            skillCost > 0
+              ? `${char.name} uses Skill (Support) (-${skillCost} SP)`
+              : `${char.name} uses Skill (Support) (Free!)`;
         }
         newChar = addEnergy(newChar, skillData.skillEnergy);
+
+        // Apply skill SP cost
+        if (skillCost > 0) {
+          set({ skillPoints: state.skillPoints - skillCost });
+        }
 
         // Apply skill debuff if exists
         if (skillData.skillDebuff) {
@@ -248,6 +289,17 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
           logMessage = `${char.name} uses Ultimate (Support)!`;
         }
         newChar = consumeUltimateEnergy(newChar);
+
+        // Check for SP-generating Ultimates (Sparkle +4, Huohuo +1)
+        if (skillData.ultSPChange && skillData.ultSPChange > 0) {
+          const newSP = Math.min(
+            state.maxSkillPoints,
+            state.skillPoints + skillData.ultSPChange
+          );
+          set({ skillPoints: newSP });
+          logMessage += ` (+${skillData.ultSPChange} SP)`;
+          effects.push(`+${skillData.ultSPChange} SP`);
+        }
 
         // Apply ult debuff if exists
         if (skillData.ultDebuff) {
@@ -353,5 +405,10 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
   getActiveCharacter: () => {
     const state = get();
     return state.team.find((c) => c.id === state.currentActorId) || null;
+  },
+
+  canUseSkill: () => {
+    const state = get();
+    return state.skillPoints >= 1;
   },
 }));

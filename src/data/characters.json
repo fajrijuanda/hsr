@@ -9,6 +9,15 @@
     "baseSpeed": 101
   },
   {
+    "id": "arlan",
+    "charId": "1008",
+    "name": "Arlan",
+    "path": "Destruction",
+    "element": "Lightning",
+    "rarity": 4,
+    "baseSpeed": 102
+  },
+  {
     "id": "aventurine",
     "charId": "1304",
     "name": "Aventurine",
