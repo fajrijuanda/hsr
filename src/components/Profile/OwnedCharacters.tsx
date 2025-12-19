@@ -36,7 +36,7 @@ const PATH_ICONS: Record<string, string> = {
 };
 
 export function OwnedCharacters() {
-    const { profile, isLoading, refresh } = useUser();
+    const { profile, isLoading, refresh, isLoggedIn, hasUid } = useUser();
 
     if (isLoading) {
         return (
@@ -48,6 +48,52 @@ export function OwnedCharacters() {
         );
     }
 
+    // Not logged in
+    if (!isLoggedIn) {
+        return (
+            <Card className="bg-gray-900/50 border-gray-700">
+                <CardHeader className="pb-3">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                        👤 Your Characters
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-center py-8 text-gray-500">
+                        <p>Login to see your characters</p>
+                        <p className="text-sm mt-1">
+                            Your showcase characters will appear here
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
+
+    // Logged in but no UID
+    if (!hasUid) {
+        return (
+            <Card className="bg-gray-900/50 border-gray-700">
+                <CardHeader className="pb-3">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                        👤 Your Characters
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-center py-8 text-gray-500">
+                        <p className="text-lg mb-2">📱 UID belum terhubung</p>
+                        <p className="text-sm">
+                            Tambahkan UID Star Rail kamu untuk melihat karakter showcase
+                        </p>
+                        <p className="text-xs mt-2 text-gray-600">
+                            UID dapat ditemukan di bagian bawah profil in-game
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
+
+    // Has UID but no characters
     if (!profile || profile.characters.length === 0) {
         return (
             <Card className="bg-gray-900/50 border-gray-700">
@@ -58,10 +104,13 @@ export function OwnedCharacters() {
                 </CardHeader>
                 <CardContent>
                     <div className="text-center py-8 text-gray-500">
-                        <p>Connect your account to see your characters</p>
+                        <p>No characters in showcase</p>
                         <p className="text-sm mt-1">
-                            Your showcase characters will appear here
+                            Set up your in-game showcase to display characters here
                         </p>
+                        <Button variant="outline" size="sm" onClick={refresh} className="mt-4">
+                            🔄 Refresh
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
