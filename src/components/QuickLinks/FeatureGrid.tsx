@@ -56,9 +56,9 @@ const FEATURES: FeatureLink[] = [
         id: "lore-graph",
         name: "Lore Graph",
         description: "Interactive character relationships",
-        href: "/lore-graph",
+        href: "/lore",
         icon: "🕸️",
-        status: "coming-soon",
+        status: "new",
         color: "from-emerald-600 to-teal-600",
     },
 ];
@@ -79,7 +79,7 @@ export function FeatureGrid() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {FEATURES.map((feature, index) => {
                         const statusStyle = STATUS_STYLES[feature.status];
-                        const isAvailable = feature.status === "available";
+                        const isAvailable = feature.status === "available" || feature.status === "new";
 
                         const content = (
                             <motion.div

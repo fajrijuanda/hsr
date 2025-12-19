@@ -1,0 +1,52 @@
+{
+  "herta_space_station": {
+    "id": "herta_space_station",
+    "name": "Herta Space Station",
+    "type": "space_station",
+    "description": "A massive research station owned by Madam Herta of the Genius Society. Home to countless curios.",
+    "areas": ["master_control_zone", "storage_zone", "supply_zone"],
+    "connectedTo": ["jarilo_vi", "xianzhou_luofu"]
+  },
+  "jarilo_vi": {
+    "id": "jarilo_vi",
+    "name": "Jarilo-VI",
+    "type": "planet",
+    "description": "A frozen planet cut off from the universe for 700 years. The Stellaron was sealed beneath Belobog.",
+    "areas": ["belobog", "underworld", "silvermane_guard_hq"],
+    "connectedTo": ["herta_space_station", "xianzhou_luofu"]
+  },
+  "xianzhou_luofu": {
+    "id": "xianzhou_luofu",
+    "name": "Xianzhou Luofu",
+    "type": "flagship",
+    "description": "One of the six Xianzhou flagships. A massive vessel home to long-lifers who hunt the Abominations of Abundance.",
+    "areas": [
+      "central_starskiff_haven",
+      "exalting_sanctum",
+      "fyxestroll_garden",
+      "artisanship_commission"
+    ],
+    "connectedTo": ["jarilo_vi", "penacony"]
+  },
+  "penacony": {
+    "id": "penacony",
+    "name": "Penacony",
+    "type": "dreamscape",
+    "description": "The Planet of Festivities - a world where dreams become reality. Ruled by the Oak and Charmony families.",
+    "areas": [
+      "golden_hour",
+      "clock_studios",
+      "dewlight_pavilion",
+      "soulglad_scorchsand"
+    ],
+    "connectedTo": ["xianzhou_luofu", "amphoreus"]
+  },
+  "amphoreus": {
+    "id": "amphoreus",
+    "name": "Amphoreus",
+    "type": "planet",
+    "description": "A world inspired by Greek mythology. Home to the Remembrance path and the new Trailblazer form.",
+    "areas": ["okhema", "eternal_holy_city", "heroes_gate"],
+    "connectedTo": ["penacony"]
+  }
+}

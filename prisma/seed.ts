@@ -3,6 +3,12 @@ import characters from "../src/data/characters.json";
 import skills from "../src/data/skills.json";
 import enemies from "../src/data/enemies.json";
 
+// Lore data
+import charactersLore from "../src/data/lore/characters-lore.json";
+import factionsData from "../src/data/lore/factions.json";
+import locationsData from "../src/data/lore/locations.json";
+import timelineData from "../src/data/lore/timeline.json";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const prisma = new PrismaClient() as unknown as any;
 
@@ -195,6 +201,227 @@ async function main() {
   /* 
     // Example LightCone Seeding Logic... matches previous step
     */
+
+  // ============ LORE DATA SEEDING ============
+
+  console.log("Seeding Factions...");
+  const factions = factionsData as Record<
+    string,
+    {
+      id: string;
+      name: string;
+      type: string;
+      description: string;
+      leader: string;
+      members: string[];
+      color: string;
+      icon: string;
+    }
+  >;
+
+  for (const faction of Object.values(factions)) {
+    await prisma.faction.upsert({
+      where: { id: faction.id },
+      update: {
+        name: faction.name,
+        type: faction.type,
+        description: faction.description,
+        leader: faction.leader,
+        color: faction.color,
+        icon: faction.icon,
+      },
+      create: {
+        id: faction.id,
+        name: faction.name,
+        type: faction.type,
+        description: faction.description,
+        leader: faction.leader,
+        color: faction.color,
+        icon: faction.icon,
+      },
+    });
+  }
+
+  console.log("Seeding CharacterLore...");
+  const charLore = charactersLore as Record<
+    string,
+    {
+      id: string;
+      name: string;
+      title: string;
+      faction: string;
+      element: string;
+      path: string;
+      bio: string;
+      relationships: { target: string; type: string; label: string }[];
+    }
+  >;
+
+  for (const char of Object.values(charLore)) {
+    await prisma.characterLore.upsert({
+      where: { id: char.id },
+      update: {
+        name: char.name,
+        title: char.title,
+        bio: char.bio,
+        element: char.element,
+        path: char.path,
+        factionId: char.faction || null,
+      },
+      create: {
+        id: char.id,
+        name: char.name,
+        title: char.title,
+        bio: char.bio,
+        element: char.element,
+        path: char.path,
+        factionId: char.faction || null,
+      },
+    });
+  }
+
+  console.log("Seeding CharacterRelationships...");
+  for (const char of Object.values(charLore)) {
+    for (const rel of char.relationships) {
+      // Only create if target exists in our data
+      if (charLore[rel.target]) {
+        try {
+          await prisma.characterRelationship.upsert({
+            where: {
+              fromId_toId: {
+                fromId: char.id,
+                toId: rel.target,
+              },
+            },
+            update: {
+              type: rel.type,
+              label: rel.label,
+            },
+            create: {
+              fromId: char.id,
+              toId: rel.target,
+              type: rel.type,
+              label: rel.label,
+            },
+          });
+        } catch {
+          // Ignore duplicate key errors
+        }
+      }
+    }
+  }
+
+  console.log("Seeding Locations...");
+  const locations = locationsData as Record<
+    string,
+    {
+      id: string;
+      name: string;
+      type: string;
+      description: string;
+      areas: string[];
+      connectedTo: string[];
+    }
+  >;
+
+  for (const loc of Object.values(locations)) {
+    await prisma.location.upsert({
+      where: { id: loc.id },
+      update: {
+        name: loc.name,
+        type: loc.type,
+        description: loc.description,
+        areas: loc.areas,
+      },
+      create: {
+        id: loc.id,
+        name: loc.name,
+        type: loc.type,
+        description: loc.description,
+        areas: loc.areas,
+      },
+    });
+  }
+
+  console.log("Seeding LocationConnections...");
+  for (const loc of Object.values(locations)) {
+    for (const targetId of loc.connectedTo || []) {
+      if (locations[targetId]) {
+        try {
+          await prisma.locationConnection.upsert({
+            where: {
+              fromId_toId: {
+                fromId: loc.id,
+                toId: targetId,
+              },
+            },
+            update: {},
+            create: {
+              fromId: loc.id,
+              toId: targetId,
+            },
+          });
+        } catch {
+          // Ignore duplicate
+        }
+      }
+    }
+  }
+
+  console.log("Seeding TimelineEvents...");
+  const timeline = timelineData as {
+    id: string;
+    title: string;
+    location: string;
+    chapter: string;
+    description: string;
+    characters: string[];
+  }[];
+
+  for (let i = 0; i < timeline.length; i++) {
+    const event = timeline[i];
+    await prisma.timelineEvent.upsert({
+      where: { id: event.id },
+      update: {
+        title: event.title,
+        chapter: event.chapter,
+        description: event.description,
+        locationId: locations[event.location] ? event.location : null,
+        order: i,
+      },
+      create: {
+        id: event.id,
+        title: event.title,
+        chapter: event.chapter,
+        description: event.description,
+        locationId: locations[event.location] ? event.location : null,
+        order: i,
+      },
+    });
+
+    // Link characters to timeline events
+    for (const charId of event.characters) {
+      if (charLore[charId]) {
+        try {
+          await prisma.timelineCharacter.upsert({
+            where: {
+              eventId_characterId: {
+                eventId: event.id,
+                characterId: charId,
+              },
+            },
+            update: {},
+            create: {
+              eventId: event.id,
+              characterId: charId,
+            },
+          });
+        } catch {
+          // Ignore duplicate
+        }
+      }
+    }
+  }
 
   console.log("Seeding complete.");
 }

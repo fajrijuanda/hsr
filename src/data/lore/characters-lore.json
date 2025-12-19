@@ -1,0 +1,252 @@
+{
+  "acheron": {
+    "id": "acheron",
+    "name": "Acheron",
+    "title": "Nihility Emanator",
+    "faction": "stellaron_hunters",
+    "element": "Lightning",
+    "path": "Nihility",
+    "bio": "A drifter shrouded in mystery. She claims to be a Galaxy Ranger, but her power far exceeds that of ordinary beings. Wields a blade that can sever anything, even the concept of existence itself.",
+    "relationships": [
+      { "target": "kafka", "type": "ally", "label": "Fellow Hunter" },
+      { "target": "black_swan", "type": "ally", "label": "Collaborator" },
+      { "target": "silver_wolf", "type": "ally", "label": "Team member" }
+    ]
+  },
+  "kafka": {
+    "id": "kafka",
+    "name": "Kafka",
+    "title": "Destiny's Slave",
+    "faction": "stellaron_hunters",
+    "element": "Lightning",
+    "path": "Nihility",
+    "bio": "A member of the Stellaron Hunters. Elegant, poised, and intelligent. She has the ability to make anyone do her bidding, though she only exercises this power over those she deems 'deserving.'",
+    "relationships": [
+      { "target": "blade", "type": "ally", "label": "Partner" },
+      { "target": "silver_wolf", "type": "ally", "label": "Team member" },
+      { "target": "acheron", "type": "ally", "label": "Fellow Hunter" },
+      { "target": "elio", "type": "serves", "label": "Follows script" }
+    ]
+  },
+  "blade": {
+    "id": "blade",
+    "name": "Blade",
+    "title": "Immortal Broken Blade",
+    "faction": "stellaron_hunters",
+    "element": "Wind",
+    "path": "Destruction",
+    "bio": "A former member of the High-Cloud Quintet of the Xianzhou Luofu. He was granted immortality against his will and now seeks death, while being bound to serve the Stellaron Hunters.",
+    "relationships": [
+      { "target": "kafka", "type": "ally", "label": "Partner" },
+      { "target": "dan_heng", "type": "enemy", "label": "Past connection" },
+      { "target": "jingliu", "type": "related", "label": "Former comrade" }
+    ]
+  },
+  "silver_wolf": {
+    "id": "silver_wolf",
+    "name": "Silver Wolf",
+    "title": "Universe's Best Hacker",
+    "faction": "stellaron_hunters",
+    "element": "Quantum",
+    "path": "Nihility",
+    "bio": "A genius hacker who views the universe as one giant game. She can manipulate reality through her hacking, removing enemies' advantages at will.",
+    "relationships": [
+      { "target": "kafka", "type": "ally", "label": "Team member" },
+      { "target": "acheron", "type": "ally", "label": "Team member" }
+    ]
+  },
+  "march_7th": {
+    "id": "march_7th",
+    "name": "March 7th",
+    "title": "Ice-Preserved Beauty",
+    "faction": "astral_express",
+    "element": "Ice",
+    "path": "Preservation",
+    "bio": "A young woman who was found encased in ice and has no memory of her past. She's energetic, positive, and loves taking photos. Now travels with the Astral Express.",
+    "relationships": [
+      { "target": "himeko", "type": "ally", "label": "Crew member" },
+      { "target": "welt", "type": "ally", "label": "Crew member" },
+      { "target": "dan_heng", "type": "friend", "label": "Best friend" },
+      { "target": "trailblazer", "type": "friend", "label": "Close companion" }
+    ]
+  },
+  "dan_heng": {
+    "id": "dan_heng",
+    "name": "Dan Heng",
+    "title": "Cold Dragon",
+    "faction": "astral_express",
+    "element": "Wind",
+    "path": "Hunt",
+    "bio": "A cold and reserved young man who works as the archivist of the Astral Express. He carries the sin of his past incarnation and seeks to atone.",
+    "relationships": [
+      { "target": "march_7th", "type": "friend", "label": "Best friend" },
+      { "target": "himeko", "type": "ally", "label": "Crew member" },
+      { "target": "blade", "type": "enemy", "label": "Past incarnation rival" }
+    ]
+  },
+  "himeko": {
+    "id": "himeko",
+    "name": "Himeko",
+    "title": "Navigator of Astral Express",
+    "faction": "astral_express",
+    "element": "Fire",
+    "path": "Erudition",
+    "bio": "The navigator of the Astral Express. She repaired the train and invited new passengers to join her journey among the stars. A mature and reliable leader.",
+    "relationships": [
+      { "target": "welt", "type": "ally", "label": "Co-leader" },
+      { "target": "march_7th", "type": "ally", "label": "Crew member" },
+      { "target": "dan_heng", "type": "ally", "label": "Crew member" }
+    ]
+  },
+  "welt": {
+    "id": "welt",
+    "name": "Welt Yang",
+    "title": "Former Sovereign",
+    "faction": "astral_express",
+    "element": "Imaginary",
+    "path": "Nihility",
+    "bio": "A passenger from another world who once held the title of 'Sovereign.' He's experienced, wise, and serves as the senior member of the Astral Express crew.",
+    "relationships": [
+      { "target": "himeko", "type": "ally", "label": "Co-leader" },
+      { "target": "march_7th", "type": "ally", "label": "Crew member" }
+    ]
+  },
+  "trailblazer": {
+    "id": "trailblazer",
+    "name": "Trailblazer",
+    "title": "Stellaron Carrier",
+    "faction": "astral_express",
+    "element": "Physical",
+    "path": "Destruction",
+    "bio": "The protagonist who was awakened on the Herta Space Station with a Stellaron embedded in their chest. Now travels with the Astral Express.",
+    "relationships": [
+      { "target": "march_7th", "type": "friend", "label": "Close companion" },
+      { "target": "kafka", "type": "complex", "label": "Mysterious connection" }
+    ]
+  },
+  "sunday": {
+    "id": "sunday",
+    "name": "Sunday",
+    "title": "Head of the Oak Family",
+    "faction": "penacony",
+    "element": "Imaginary",
+    "path": "Harmony",
+    "bio": "The head of the Oak Family and Robin's older brother. He orchestrates events from behind the scenes in Penacony, seeking to create an eternal dream.",
+    "relationships": [
+      { "target": "robin", "type": "family", "label": "Brother" },
+      { "target": "aventurine", "type": "enemy", "label": "Opponent" }
+    ]
+  },
+  "robin": {
+    "id": "robin",
+    "name": "Robin",
+    "title": "Galaxy's Voice",
+    "faction": "penacony",
+    "element": "Physical",
+    "path": "Harmony",
+    "bio": "A famous singer known across the galaxy. She's Sunday's sister and possesses a pure heart, spreading joy through her music.",
+    "relationships": [
+      { "target": "sunday", "type": "family", "label": "Sister" }
+    ]
+  },
+  "aventurine": {
+    "id": "aventurine",
+    "name": "Aventurine",
+    "title": "IPC Senior Manager",
+    "faction": "ipc",
+    "element": "Imaginary",
+    "path": "Preservation",
+    "bio": "A senior manager of the IPC's Strategic Investment Department. He's a gambler at heart, always betting on the most dangerous odds.",
+    "relationships": [
+      { "target": "topaz", "type": "ally", "label": "IPC colleague" },
+      { "target": "sunday", "type": "enemy", "label": "Opponent" }
+    ]
+  },
+  "topaz": {
+    "id": "topaz",
+    "name": "Topaz",
+    "title": "IPC Strategic Investment Manager",
+    "faction": "ipc",
+    "element": "Fire",
+    "path": "Hunt",
+    "bio": "A senior manager of the Strategic Investment Department of the IPC. She's accompanied by her trusty partner Numby, a Warp Trotter.",
+    "relationships": [
+      { "target": "aventurine", "type": "ally", "label": "IPC colleague" }
+    ]
+  },
+  "jingliu": {
+    "id": "jingliu",
+    "name": "Jingliu",
+    "title": "Sword Champion of Luofu",
+    "faction": "xianzhou_luofu",
+    "element": "Ice",
+    "path": "Destruction",
+    "bio": "Former Sword Champion of the Luofu who fell to mara. She was once part of the High-Cloud Quintet alongside Blade.",
+    "relationships": [
+      { "target": "blade", "type": "related", "label": "Former comrade" },
+      { "target": "jing_yuan", "type": "related", "label": "Former student" }
+    ]
+  },
+  "jing_yuan": {
+    "id": "jing_yuan",
+    "name": "Jing Yuan",
+    "title": "General of the Cloud Knights",
+    "faction": "xianzhou_luofu",
+    "element": "Lightning",
+    "path": "Erudition",
+    "bio": "The Divine Foresight, one of the Seven Arbiter-Generals of the Xianzhou Alliance. Despite his lazy demeanor, he's a brilliant strategist.",
+    "relationships": [
+      { "target": "jingliu", "type": "related", "label": "Former teacher" },
+      { "target": "yanqing", "type": "related", "label": "Mentor" }
+    ]
+  },
+  "fu_xuan": {
+    "id": "fu_xuan",
+    "name": "Fu Xuan",
+    "title": "Master Diviner",
+    "faction": "xianzhou_luofu",
+    "element": "Quantum",
+    "path": "Preservation",
+    "bio": "The head of the Divination Commission of the Xianzhou Luofu. She can foresee the future and protects her allies from harm.",
+    "relationships": [
+      {
+        "target": "jing_yuan",
+        "type": "ally",
+        "label": "Arbiter-General colleague"
+      }
+    ]
+  },
+  "sparkle": {
+    "id": "sparkle",
+    "name": "Sparkle",
+    "title": "Masked Fool",
+    "faction": "masked_fools",
+    "element": "Quantum",
+    "path": "Harmony",
+    "bio": "A member of the Masked Fools who can see through disguises and illusions. Her true identity is shrouded in mystery.",
+    "relationships": [
+      {
+        "target": "black_swan",
+        "type": "related",
+        "label": "Memokeeper connection"
+      }
+    ]
+  },
+  "black_swan": {
+    "id": "black_swan",
+    "name": "Black Swan",
+    "title": "Memokeeper",
+    "faction": "garden_of_recollection",
+    "element": "Wind",
+    "path": "Nihility",
+    "bio": "A Memokeeper of the Garden of Recollection. She collects and stores memories, weaving them into her dance.",
+    "relationships": [
+      { "target": "acheron", "type": "ally", "label": "Collaborator" },
+      {
+        "target": "sparkle",
+        "type": "related",
+        "label": "Memokeeper connection"
+      }
+    ]
+  }
+}

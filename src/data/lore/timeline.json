@@ -1,0 +1,89 @@
+[
+  {
+    "id": "1",
+    "title": "Kafka Awakens the Trailblazer",
+    "location": "herta_space_station",
+    "chapter": "Prologue",
+    "description": "Kafka infiltrates the Herta Space Station and awakens the Trailblazer from cryo-sleep. The Stellaron is implanted.",
+    "characters": ["kafka", "trailblazer", "march_7th", "dan_heng"]
+  },
+  {
+    "id": "2",
+    "title": "Antimatter Legion Attack",
+    "location": "herta_space_station",
+    "chapter": "Prologue",
+    "description": "The Antimatter Legion, followers of Nanook, attacks the space station seeking the Stellaron.",
+    "characters": ["trailblazer", "march_7th", "dan_heng", "himeko"]
+  },
+  {
+    "id": "3",
+    "title": "Journey to Jarilo-VI",
+    "location": "jarilo_vi",
+    "chapter": "Chapter 1",
+    "description": "The Astral Express crew travels to the frozen planet Jarilo-VI to investigate a sealed Stellaron.",
+    "characters": ["trailblazer", "march_7th", "dan_heng", "himeko", "welt"]
+  },
+  {
+    "id": "4",
+    "title": "Cocolia's Betrayal",
+    "location": "jarilo_vi",
+    "chapter": "Chapter 1",
+    "description": "Supreme Guardian Cocolia is revealed to be under the Stellaron's influence, seeking to use its power.",
+    "characters": ["trailblazer", "bronya", "seele"]
+  },
+  {
+    "id": "5",
+    "title": "Arrival at the Xianzhou Luofu",
+    "location": "xianzhou_luofu",
+    "chapter": "Chapter 2",
+    "description": "The Astral Express arrives at the Xianzhou Luofu, where a Stellaron crisis and mara outbreak threaten the ship.",
+    "characters": ["trailblazer", "march_7th", "dan_heng", "jing_yuan"]
+  },
+  {
+    "id": "6",
+    "title": "Dan Heng's True Identity",
+    "location": "xianzhou_luofu",
+    "chapter": "Chapter 2",
+    "description": "Dan Heng is revealed to be the reincarnation of Dan Feng, the Imbibitor Lunae who committed a grave sin.",
+    "characters": ["dan_heng", "blade", "kafka", "jingliu"]
+  },
+  {
+    "id": "7",
+    "title": "The Dreamscape of Penacony",
+    "location": "penacony",
+    "chapter": "Chapter 3",
+    "description": "The crew arrives at Penacony for a Cosmos-wide peace summit, but becomes trapped in a web of dreams and conspiracies.",
+    "characters": [
+      "trailblazer",
+      "march_7th",
+      "sunday",
+      "robin",
+      "aventurine",
+      "acheron"
+    ]
+  },
+  {
+    "id": "8",
+    "title": "Sunday's Grand Plan",
+    "location": "penacony",
+    "chapter": "Chapter 3",
+    "description": "Sunday's plan to trap everyone in an eternal dream is revealed. Robin sacrifices herself but returns with the power of Harmony.",
+    "characters": [
+      "sunday",
+      "robin",
+      "trailblazer",
+      "acheron",
+      "aventurine",
+      "black_swan",
+      "sparkle"
+    ]
+  },
+  {
+    "id": "9",
+    "title": "Welcome to Amphoreus",
+    "location": "amphoreus",
+    "chapter": "Chapter 4",
+    "description": "The Astral Express crew enters the mythological world of Amphoreus, where the Trailblazer gains the Remembrance path.",
+    "characters": ["trailblazer", "march_7th", "castorice", "tribbie", "aglaea"]
+  }
+]

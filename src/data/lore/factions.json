@@ -1,0 +1,82 @@
+{
+  "astral_express": {
+    "id": "astral_express",
+    "name": "Astral Express",
+    "type": "allies",
+    "description": "A legendary train that travels across the stars, following the path of the Trailblaze. Its crew helps worlds affected by Stellarons.",
+    "leader": "himeko",
+    "members": ["himeko", "welt", "march_7th", "dan_heng", "trailblazer"],
+    "color": "#FFB347",
+    "icon": "🚂"
+  },
+  "stellaron_hunters": {
+    "id": "stellaron_hunters",
+    "name": "Stellaron Hunters",
+    "type": "ambiguous",
+    "description": "A mysterious organization that collects Stellarons. They follow the 'script' written by Elio, their leader who can see the future.",
+    "leader": "elio",
+    "members": ["kafka", "blade", "silver_wolf", "acheron"],
+    "color": "#9B59B6",
+    "icon": "🎭"
+  },
+  "xianzhou_luofu": {
+    "id": "xianzhou_luofu",
+    "name": "Xianzhou Luofu",
+    "type": "allies",
+    "description": "One of the six Xianzhou flagships of the Xianzhou Alliance. Its inhabitants are long-lived but plagued by mara corruption.",
+    "leader": "jing_yuan",
+    "members": ["jing_yuan", "fu_xuan", "jingliu", "dan_heng", "yanqing"],
+    "color": "#3498DB",
+    "icon": "⛵"
+  },
+  "ipc": {
+    "id": "ipc",
+    "name": "Interastral Peace Corporation",
+    "type": "neutral",
+    "description": "The largest commercial organization in the universe. Controls vast wealth and resources across countless worlds.",
+    "leader": "unknown",
+    "members": ["topaz", "aventurine"],
+    "color": "#F1C40F",
+    "icon": "💰"
+  },
+  "penacony": {
+    "id": "penacony",
+    "name": "Penacony - The Land of Dreams",
+    "type": "location",
+    "description": "A dreamscape world ruled by the Oak and Charmony families. Visitors can live out their dreams, but dark secrets lurk beneath.",
+    "leader": "sunday",
+    "members": ["sunday", "robin", "aventurine"],
+    "color": "#E74C3C",
+    "icon": "🌙"
+  },
+  "masked_fools": {
+    "id": "masked_fools",
+    "name": "Masked Fools",
+    "type": "ambiguous",
+    "description": "Followers of the Aeon of Joy, Aha. They find amusement in chaos and wear masks to hide their identities.",
+    "leader": "unknown",
+    "members": ["sparkle"],
+    "color": "#E91E63",
+    "icon": "🎪"
+  },
+  "garden_of_recollection": {
+    "id": "garden_of_recollection",
+    "name": "Garden of Recollection",
+    "type": "neutral",
+    "description": "An organization of Memokeepers who collect and preserve memories across the universe.",
+    "leader": "unknown",
+    "members": ["black_swan"],
+    "color": "#607D8B",
+    "icon": "🪷"
+  },
+  "herta_space_station": {
+    "id": "herta_space_station",
+    "name": "Herta Space Station",
+    "type": "allies",
+    "description": "A massive space station owned by the genius Herta. It houses countless curios and serves as a research facility.",
+    "leader": "herta",
+    "members": ["herta", "asta"],
+    "color": "#00BCD4",
+    "icon": "🛸"
+  }
+}

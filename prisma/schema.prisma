@@ -218,3 +218,94 @@ model UserCharacter {
   
   @@unique([userId, characterId])
 }
+
+// --- Lore Data Models ---
+
+model CharacterLore {
+  id            String   @id // same as GameCharacter id, e.g. "acheron"
+  name          String
+  title         String?
+  bio           String   @db.Text
+  element       String
+  path          String
+  factionId     String?
+  faction       Faction? @relation(fields: [factionId], references: [id])
+  
+  // Relations
+  outgoingRelations CharacterRelationship[] @relation("FromCharacter")
+  incomingRelations CharacterRelationship[] @relation("ToCharacter")
+  timelineEvents    TimelineCharacter[]
+}
+
+model CharacterRelationship {
+  id            String        @id @default(cuid())
+  fromId        String
+  fromCharacter CharacterLore @relation("FromCharacter", fields: [fromId], references: [id])
+  toId          String
+  toCharacter   CharacterLore @relation("ToCharacter", fields: [toId], references: [id])
+  
+  type          String        // ally, enemy, family, friend, related, serves, complex
+  label         String?       // Description like "Fellow Hunter", "Sister"
+  
+  @@unique([fromId, toId])
+}
+
+model Faction {
+  id          String          @id // e.g. "astral_express"
+  name        String
+  type        String          // allies, ambiguous, neutral, location
+  description String          @db.Text
+  leader      String?
+  color       String?         // Hex code
+  icon        String?         // Emoji icon
+  
+  members     CharacterLore[]
+}
+
+model Location {
+  id          String   @id // e.g. "jarilo_vi"
+  name        String
+  type        String   // space_station, planet, flagship, dreamscape
+  description String   @db.Text
+  areas       Json?    // String[] of area names
+  
+  // Connection relations
+  connectionsFrom LocationConnection[] @relation("FromLocation")
+  connectionsTo   LocationConnection[] @relation("ToLocation")
+  
+  // Timeline events at this location
+  timelineEvents  TimelineEvent[]
+}
+
+model LocationConnection {
+  id           String   @id @default(cuid())
+  fromId       String
+  fromLocation Location @relation("FromLocation", fields: [fromId], references: [id])
+  toId         String
+  toLocation   Location @relation("ToLocation", fields: [toId], references: [id])
+  
+  @@unique([fromId, toId])
+}
+
+model TimelineEvent {
+  id          String   @id // e.g. "1", "2"
+  title       String
+  chapter     String   // "Prologue", "Chapter 1", etc.
+  description String   @db.Text
+  locationId  String?
+  location    Location? @relation(fields: [locationId], references: [id])
+  order       Int      @default(0) // Order in timeline
+  
+  characters  TimelineCharacter[]
+}
+
+model TimelineCharacter {
+  id          String        @id @default(cuid())
+  eventId     String
+  event       TimelineEvent @relation(fields: [eventId], references: [id])
+  characterId String
+  character   CharacterLore @relation(fields: [characterId], references: [id])
+  
+  @@unique([eventId, characterId])
+}
+
