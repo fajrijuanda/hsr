@@ -20,6 +20,12 @@ const ELEMENT_CDN_MAP: Record<string, string> = {
 
 const getElementCdnName = (element: string) => ELEMENT_CDN_MAP[element] || element;
 
+const PATH_CDN_MAP: Record<string, string> = {
+    "The Hunt": "Hunt",
+};
+
+const getPathCdnName = (path: string) => PATH_CDN_MAP[path] || path;
+
 interface Character {
     id: string;
     charId: string;
@@ -259,7 +265,7 @@ export default function MyCharactersPage() {
                                     title={path}
                                 >
                                     <Image
-                                        src={`${STAR_RAIL_RES}/icon/path/${path}.png`}
+                                        src={`${STAR_RAIL_RES}/icon/path/${getPathCdnName(path)}.png`}
                                         alt={path}
                                         width={20}
                                         height={20}

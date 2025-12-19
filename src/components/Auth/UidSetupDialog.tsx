@@ -144,7 +144,7 @@ export function UidSetupDialog() {
                                             value={uid}
                                             onChange={(e) => setUid(e.target.value.replace(/\D/g, "").slice(0, 9))}
                                             placeholder="800123456"
-                                            className="h-14 text-xl text-center font-mono bg-gray-800 border-gray-600 tracking-wider"
+                                            className="h-14 text-xl text-center font-mono bg-gray-800 border-gray-600 tracking-wider text-white"
                                             maxLength={9}
                                         />
                                         <p className="text-xs text-gray-500 mt-2 text-center">

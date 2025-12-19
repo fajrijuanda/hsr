@@ -196,7 +196,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
     // Google login
     const handleGoogleLogin = async () => {
         setIsLoading(true);
-        await signIn("google", { callbackUrl: "/" });
+        await signIn("google");
     };
 
     const renderLoginStep = () => (
