@@ -9,7 +9,7 @@
     "startDate": "2025-12-17T06:00:00Z",
     "endDate": "2026-01-07T14:59:59Z",
     "type": "limited",
-    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1321.png"
+    "bannerImage": "https://fastcdn.hoyoverse.com/content-v2/hkrpg/125926/e3ac77bb1f455d2c15fb2b46f8eed6fb_7802712050426178640.png"
   },
   {
     "id": "banner-3-8-2",
@@ -21,7 +21,7 @@
     "startDate": "2026-01-07T06:00:00Z",
     "endDate": "2026-01-28T14:59:59Z",
     "type": "limited",
-    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1316.png"
+    "bannerImage": "https://fastcdn.hoyoverse.com/content-v2/hkrpg/125926/8efb2c1b8ff2c8e4a26ef82d65b6e7c1_3047259932476853548.png"
   },
   {
     "id": "banner-3-8-3",
@@ -33,6 +33,6 @@
     "startDate": "2026-01-28T06:00:00Z",
     "endDate": "2026-02-12T14:59:59Z",
     "type": "limited",
-    "imageUrl": "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/1402.png"
+    "bannerImage": "https://fastcdn.hoyoverse.com/content-v2/hkrpg/125926/4ba1c45b8f5e6a7e2c9d3f8e1b2a4c6d_1234567890123456789.png"
   }
 ]

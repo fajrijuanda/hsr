@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import {
     ReactFlow,
     MiniMap,
@@ -53,6 +53,14 @@ interface Faction {
     icon: string;
 }
 
+// Helper to format faction names (remove underscores, title case)
+function formatFactionName(faction: string): string {
+    return faction
+        .split("_")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+}
+
 // Custom Character Node
 function CharacterNode({ data }: { data: CharacterLore & { charId?: string } }) {
     return (
@@ -72,7 +80,7 @@ function CharacterNode({ data }: { data: CharacterLore & { charId?: string } }) 
                 </div>
                 <div>
                     <div className="text-sm font-medium text-white">{data.name}</div>
-                    <div className="text-xs text-gray-400">{data.faction}</div>
+                    <div className="text-xs text-gray-400">{formatFactionName(data.faction)}</div>
                 </div>
             </div>
         </div>
@@ -295,8 +303,14 @@ export function LoreGraph() {
         return { initialNodes: nodes, initialEdges: edges };
     }, [view, characters, factions]);
 
-    const [nodes, , onNodesChange] = useNodesState(initialNodes);
-    const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+    // Update nodes/edges when view changes
+    useEffect(() => {
+        setNodes(initialNodes);
+        setEdges(initialEdges);
+    }, [initialNodes, initialEdges, setNodes, setEdges]);
 
     const onNodeClick = useCallback((_: React.MouseEvent, node: Node) => {
         const char = characters[node.id];
@@ -313,6 +327,13 @@ export function LoreGraph() {
         });
     }, [nodes, search]);
 
+    // Default edge options for visibility
+    const defaultEdgeOptions = {
+        type: "smoothstep",
+        style: { strokeWidth: 2 },
+        animated: false,
+    };
+
     return (
         <div className="h-[calc(100vh-120px)] w-full bg-gray-950 rounded-xl overflow-hidden relative">
             <ReactFlow
@@ -322,6 +343,7 @@ export function LoreGraph() {
                 onEdgesChange={onEdgesChange}
                 onNodeClick={onNodeClick}
                 nodeTypes={nodeTypes}
+                defaultEdgeOptions={defaultEdgeOptions}
                 fitView
                 className="bg-gray-950"
             >

@@ -7,38 +7,6 @@ import { Banner } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
-
-// Map character names to their charIds for splash art
-const CHAR_ID_MAP: Record<string, string> = {
-    "The Dahlia": "1321",
-    "Firefly": "1310",
-    "Fugue": "1317",
-    "Lingsha": "1215",
-    "Aglaea": "1402",
-    "Sunday": "1313",
-    "Dan Heng IL": "1213",
-    "Acheron": "1308",
-    "Aventurine": "1304",
-    "Robin": "1309",
-    "Sparkle": "1306",
-    "Black Swan": "1307",
-    "Dr. Ratio": "1305",
-    "Ruan Mei": "1303",
-    "Fu Xuan": "1208",
-    "Jingliu": "1212",
-    "Topaz": "1210",
-    "Huohuo": "1215",
-    "Argenti": "1302",
-    "Hanya": "1215",
-    "Jing Yuan": "1204",
-    "Kafka": "1105",
-    "Blade": "1205",
-    "Luocha": "1203",
-    "Silver Wolf": "1006",
-    "Seele": "1102"
-};
-
 interface BannerCardProps {
     banner: Banner;
 }
@@ -80,56 +48,45 @@ export function BannerCard({ banner }: BannerCardProps) {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {/* Character Splash Art - Full Banner Style */}
-                    <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-purple-500/30">
-                        {/* Background glow effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-transparent to-pink-600/20" />
+                    {/* Official Banner Image from HoYoLab */}
+                    <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden border border-purple-500/30">
+                        {banner.bannerImage ? (
+                            <Image
+                                src={banner.bannerImage}
+                                alt={banner.name}
+                                fill
+                                className="object-cover"
+                                unoptimized
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-purple-900/40 to-pink-900/40 flex items-center justify-center">
+                                <span className="text-4xl">🎴</span>
+                            </div>
+                        )}
 
-                        {/* Character images side by side */}
-                        <div className="absolute inset-0 flex justify-around items-end px-8">
-                            {banner.characters.map((charName, index) => {
-                                const charId = CHAR_ID_MAP[charName];
-                                return (
-                                    <motion.div
-                                        key={charName}
-                                        initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        transition={{ delay: index * 0.15 }}
-                                        className="relative"
-                                    >
-                                        {charId ? (
-                                            <Image
-                                                src={`${STAR_RAIL_RES}/image/character_preview/${charId}.png`}
-                                                alt={charName}
-                                                width={250}
-                                                height={300}
-                                                className="h-48 md:h-64 w-auto object-contain drop-shadow-2xl"
-                                                unoptimized
-                                            />
-                                        ) : (
-                                            <div className="h-48 md:h-64 w-32 flex items-center justify-center bg-gray-800/50 rounded">
-                                                <span className="text-4xl">⭐</span>
-                                            </div>
-                                        )}
-                                    </motion.div>
-                                );
-                            })}
-                        </div>
+                        {/* Overlay gradient for text readability */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-                        {/* Character name overlays */}
-                        <div className="absolute bottom-2 left-2 right-2 flex justify-between">
-                            {banner.characters.map((charName, index) => (
+                        {/* Character names at bottom */}
+                        <div className="absolute bottom-2 left-2 right-2 flex flex-wrap gap-2">
+                            {banner.characters.map((charName) => (
                                 <Badge
                                     key={charName}
-                                    className={`
-                                        bg-black/60 backdrop-blur-sm text-white border-yellow-500/50
-                                        ${index === 0 ? "" : "ml-auto"}
-                                    `}
+                                    className="bg-black/60 backdrop-blur-sm text-white border-yellow-500/50"
                                 >
                                     ⭐ {charName}
                                 </Badge>
                             ))}
                         </div>
+
+                        {/* NEW badge overlay */}
+                        {isNew && (
+                            <div className="absolute top-2 right-2">
+                                <Badge className="bg-emerald-500 text-white border-0 animate-pulse">
+                                    NEW
+                                </Badge>
+                            </div>
+                        )}
                     </div>
 
                     {/* Light Cones */}

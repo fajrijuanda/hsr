@@ -63,10 +63,11 @@ export interface Banner {
   name: string;
   characters: string[];
   lightCones: string[];
+  fourStars?: string[];
   startDate: string;
   endDate: string;
   type: "limited" | "standard" | "weapon";
-  imageUrl: string;
+  bannerImage?: string;
 }
 
 export interface RedemptionCode {
