@@ -300,20 +300,6 @@ export default function ShowcasePage() {
                             </div>
                         )}
 
-                        {/* Reset Button */}
-                        <div className="text-center pt-8">
-                            <Button
-                                variant="outline"
-                                onClick={() => {
-                                    setProfile(null);
-                                    setSelectedChar(null);
-                                    setUid("");
-                                    setError(null);
-                                }}
-                            >
-                                🔄 Load Different Profile
-                            </Button>
-                        </div>
                     </div>
                 )}
 

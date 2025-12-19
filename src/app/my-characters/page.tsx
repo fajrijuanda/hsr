@@ -340,7 +340,9 @@ export default function MyCharactersPage() {
                                     className={`
                                         relative group rounded-lg overflow-hidden transition-all duration-200 w-full
                                         ${isOwned
-                                            ? "ring-2 ring-emerald-500/70 hover:ring-emerald-400"
+                                            ? char.rarity === 5
+                                                ? "ring-2 ring-yellow-500/70 hover:ring-yellow-400"
+                                                : "ring-2 ring-purple-500/70 hover:ring-purple-400"
                                             : "opacity-40 grayscale-[0.7] hover:opacity-100 hover:grayscale-0"
                                         }
                                         hover:scale-105 hover:z-10
@@ -371,17 +373,10 @@ export default function MyCharactersPage() {
                                             unoptimized
                                         />
 
-                                        {/* Ownership Check (top-left) */}
-                                        {isOwned && (
-                                            <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-emerald-500 rounded-sm flex items-center justify-center text-[10px] font-bold shadow-md">
-                                                ✓
-                                            </div>
-                                        )}
-
-                                        {/* Eidolon Badge (bottom-left) */}
+                                        {/* Eidolon Badge (top-left) - Only when owned */}
                                         {isOwned && (
                                             <div
-                                                className={`absolute bottom-0.5 left-0.5 px-1.5 py-0.5 rounded-sm text-[10px] font-bold shadow-md
+                                                className={`absolute top-0.5 left-0.5 px-1.5 py-0.5 rounded-sm text-[10px] font-bold shadow-md cursor-pointer
                                                     ${eidolon >= 6 ? "bg-yellow-500 text-black" :
                                                         eidolon >= 3 ? "bg-purple-500 text-white" :
                                                             "bg-gray-700 text-white"}`}
