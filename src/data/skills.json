@@ -876,5 +876,31 @@
     "baseAtk": 620,
     "baseCritRate": 0.05,
     "baseCritDmg": 0.5
+  },
+  "yunli": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.2,
+    "ultMultiplier": 2.2,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 120,
+    "ultType": "counter",
+    "passive": "Powerful counter-attacker. Ultimate enters Parry stance, countering when hit for massive damage",
+    "baseAtk": 679,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "dan_heng_permason_terrae": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 0,
+    "ultMultiplier": 2.4,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 110,
+    "ultType": "normal",
+    "passive": "Provides shields and DEF scaling damage. Tanky sustain character with Preservation path",
+    "baseAtk": 523,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
   }
 }

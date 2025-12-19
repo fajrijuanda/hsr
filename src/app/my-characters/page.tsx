@@ -41,6 +41,7 @@ interface Character {
     element: string;
     path: string;
     rarity: number;
+    releaseOrder: number;
 }
 
 interface OwnedCharacter {
@@ -198,30 +199,11 @@ export default function MyCharactersPage() {
         if (sortOrder === "name") {
             return a.name.localeCompare(b.name);
         }
-        // For sorting, handle Trailblazer (8xxx) IDs specially
-        // TB Destruction (8002) is oldest, TB Remembrance (8008) is newest among TBs
-        // Convert to comparable numbers: regular chars use charId, TBs get mapped lower
-        const getCompareId = (charId: string) => {
-            const id = parseInt(charId);
-            if (id >= 8000) {
-                // Map TB IDs to be comparable with regular release order
-                // 8002 -> 1000 (very old), 8004 -> 1150, 8006 -> 1216, 8008 -> 1400
-                const tbOrder: Record<number, number> = {
-                    8002: 1000, // Destruction - launch
-                    8004: 1150, // Preservation - v1.2
-                    8006: 1216, // Harmony - v2.3
-                    8008: 1400, // Remembrance - v3.0
-                };
-                return tbOrder[id] || id;
-            }
-            return id;
-        };
-        const idA = getCompareId(a.charId);
-        const idB = getCompareId(b.charId);
+        // Use releaseOrder for accurate version-based sorting
         if (sortOrder === "newest") {
-            return idB - idA;
+            return b.releaseOrder - a.releaseOrder;
         } else {
-            return idA - idB;
+            return a.releaseOrder - b.releaseOrder;
         }
     });
 

@@ -181,5 +181,42 @@
       "rope": "ATK%"
     },
     "sets": []
+  },
+  "yunli": {
+    "name": "Yunli",
+    "substats": {
+      "CRIT Rate": 1.0,
+      "CRIT DMG": 1.0,
+      "ATK%": 0.8,
+      "SPD": 0.5,
+      "HP%": 0.3,
+      "DEF%": 0.2,
+      "Effect RES": 0.3
+    },
+    "mainStats": {
+      "body": "CRIT Rate",
+      "feet": "ATK%",
+      "orb": "Physical DMG",
+      "rope": "ATK%"
+    },
+    "sets": ["Longevous Disciple", "Duran Dynasty"]
+  },
+  "dan_heng_permason_terrae": {
+    "name": "Dan Heng - Permason Terrae",
+    "substats": {
+      "DEF%": 1.0,
+      "HP%": 0.8,
+      "SPD": 0.6,
+      "Effect RES": 0.5,
+      "CRIT Rate": 0.3,
+      "CRIT DMG": 0.2
+    },
+    "mainStats": {
+      "body": "DEF%",
+      "feet": "SPD",
+      "orb": "DEF%",
+      "rope": "Energy Regen"
+    },
+    "sets": ["Knight of Purity Palace", "Penacony"]
   }
 }

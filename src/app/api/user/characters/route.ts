@@ -23,15 +23,24 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find character (by internal id like "acheron")
-    const gameChar = await prisma.gameCharacter.findUnique({
+    // Check if GameCharacter exists, if not create a placeholder
+    let gameChar = await prisma.gameCharacter.findUnique({
       where: { id: characterId },
     });
+
     if (!gameChar) {
-      return NextResponse.json(
-        { success: false, error: "Character not found" },
-        { status: 404 }
-      );
+      // Create a minimal placeholder for the character
+      gameChar = await prisma.gameCharacter.create({
+        data: {
+          id: characterId,
+          charId: characterId, // Will be updated if needed
+          name: characterId,
+          rarity: 5,
+          path: "Unknown",
+          element: "Unknown",
+          baseSpeed: 100,
+        },
+      });
     }
 
     // Upsert ownership
@@ -51,9 +60,6 @@ export async function POST(request: Request) {
         characterId: gameChar.id,
         eidolon,
         level,
-      },
-      include: {
-        character: true,
       },
     });
 
