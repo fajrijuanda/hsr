@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useUser } from "@/context/UserContext";
 import { ShowcaseProfile, ShowcaseCharacter } from "@/types";
 import { ProfileHeader } from "@/components/Showcase/ProfileHeader";
 import { ShowcaseCharacterCard } from "@/components/Showcase/CharacterCard";
@@ -125,11 +126,40 @@ const DEMO_PROFILE: ShowcaseProfile = {
 };
 
 export default function ShowcasePage() {
+    const { uid: userUid, isLoading: isUserLoading } = useUser();
     const [uid, setUid] = useState("");
     const [profile, setProfile] = useState<ShowcaseProfile | null>(null);
     const [selectedChar, setSelectedChar] = useState<ShowcaseCharacter | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Reusable fetch function
+    const fetchShowcaseProfile = useCallback(async (targetUid: string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await fetchProfile(targetUid);
+            if (data) {
+                setProfile(data);
+                setUid((prev) => (prev !== targetUid ? targetUid : prev));
+            } else {
+                setError("Could not fetch profile. Make sure the UID is correct and the profile is public.");
+            }
+        } catch (err) {
+            console.error(err);
+            setError("Failed to connect to API. Please try again later.");
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    // Auto-fetch for logged-in users
+    useEffect(() => {
+        if (userUid && !profile) {
+            fetchShowcaseProfile(userUid);
+        }
+    }, [userUid, profile, fetchShowcaseProfile]);
+
 
     const loadDemoData = () => {
         setLoading(true);
@@ -142,24 +172,7 @@ export default function ShowcasePage() {
 
     const handleImport = async () => {
         if (!uid) return;
-
-        setLoading(true);
-        setError(null);
-
-        try {
-            const data = await fetchProfile(uid);
-
-            if (data) {
-                setProfile(data);
-            } else {
-                setError("Could not fetch profile. Make sure the UID is correct and the profile is public.");
-            }
-        } catch (err) {
-            console.error(err);
-            setError("Failed to connect to API. Please try again later.");
-        } finally {
-            setLoading(false);
-        }
+        await fetchShowcaseProfile(uid);
     };
 
     return (
@@ -168,8 +181,21 @@ export default function ShowcasePage() {
 
 
             <main className="container mx-auto px-4 py-8">
-                {/* UID Input */}
-                {!profile && (
+                {/* Loading State */}
+                {(loading || (isUserLoading && !profile)) && (
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
+                        <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-4" />
+                        <h2 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+                            Fetching Trailblazer Data...
+                        </h2>
+                        <p className="text-gray-400">
+                            Retrieving {userUid ? "your" : "profile"} showcase data from the stars...
+                        </p>
+                    </div>
+                )}
+
+                {/* UID Input (Only show if NOT logged in, NOT loading, and NO profile) */}
+                {!profile && !loading && !userUid && !isUserLoading && (
                     <Card className="max-w-xl mx-auto bg-gray-900/80 border-gray-700">
                         <CardHeader>
                             <CardTitle className="text-center">

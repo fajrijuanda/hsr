@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
 import { LoadingScreen, AlertDialog } from "@/components/ui/feedback";
+import { LoginModal } from "@/components/Auth/LoginModal";
 import charactersData from "@/data/characters.json";
 
 const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
@@ -45,6 +46,7 @@ export default function MyCharactersPage() {
     const [isLoading, setIsLoading] = useState(true);
 
     const [showAlert, setShowAlert] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
     const [selectedChar, setSelectedChar] = useState<Character | null>(null);
 
     const elements = ["Physical", "Fire", "Ice", "Lightning", "Wind", "Quantum", "Imaginary"];
@@ -204,7 +206,7 @@ export default function MyCharactersPage() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                    <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-wrap">
                         {/* Elements */}
                         <div className="flex gap-1">
                             <Button
@@ -261,7 +263,7 @@ export default function MyCharactersPage() {
                                         alt={path}
                                         width={20}
                                         height={20}
-                                        className="invert brightness-200"
+                                        className=""
                                         unoptimized
                                     />
                                 </button>
@@ -383,9 +385,17 @@ export default function MyCharactersPage() {
                 title="Login Required"
                 description="Please log in and link your HSR UID to manage your characters."
                 type="warning"
-                confirmText="Go to Login"
-                onConfirm={() => window.location.href = "/auth/login"}
+                confirmText="Login"
+                onConfirm={() => {
+                    setShowAlert(false);
+                    setShowLoginModal(true);
+                }}
                 showCancel
+            />
+
+            <LoginModal
+                isOpen={showLoginModal}
+                onClose={() => setShowLoginModal(false)}
             />
         </div>
     );
