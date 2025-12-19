@@ -189,7 +189,7 @@ export default function MyCharactersPage() {
                             ].map((opt) => (
                                 <button
                                     key={opt.value}
-                                    onClick={() => setSortOrder(opt.value as any)}
+                                    onClick={() => setSortOrder(opt.value as "newest" | "oldest" | "name")}
                                     className={`
                                         px-3 py-1.5 rounded text-xs font-medium transition-all
                                         ${sortOrder === opt.value
