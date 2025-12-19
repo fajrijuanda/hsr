@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { UserProvider } from "@/context/UserContext";
 import { Providers } from "@/components/Providers";
+import { Sidebar } from "@/components/Layout/Sidebar";
+import { Header } from "@/components/Layout/Header";
+import { Footer } from "@/components/Layout/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,7 +41,16 @@ export default function RootLayout({
       >
         <Providers>
           <UserProvider>
-            {children}
+            <div className="flex min-h-screen bg-gray-950 text-white">
+              <Sidebar />
+              <main className="flex-1 lg:pl-64 flex flex-col min-h-screen transition-all duration-300 w-full bg-gradient-to-br from-gray-950 via-gray-900 to-purple-950">
+                <Header />
+                <div className="flex-1">
+                  {children}
+                </div>
+                <Footer />
+              </main>
+            </div>
           </UserProvider>
         </Providers>
       </body>

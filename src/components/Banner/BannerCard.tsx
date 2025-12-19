@@ -14,7 +14,7 @@ const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/mas
 const CHAR_ID_MAP: Record<string, string> = {
     "The Dahlia": "1321",
     "Firefly": "1310",
-    "Fugue": "1317",
+    "Fugue": "1225",
     "Lingsha": "1215",
     "Aglaea": "1402",
     "Sunday": "1313",

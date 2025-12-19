@@ -1,19 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { useState } from "react";
-
-const NAV_ITEMS = [
-    { name: "Dashboard", href: "/", icon: "🏠" },
-    { name: "Speed Tuner", href: "/speed-tuner", icon: "⚡" },
-    { name: "Battle Sim", href: "/battle-simulator", icon: "⚔️" },
-    { name: "Showcase", href: "/showcase", icon: "🎭" },
-    { name: "Pull Planner", href: "/pull-planner", icon: "🎰" },
-    { name: "Lore Graph", href: "/lore", icon: "🕸️" },
-    { name: "My Characters", href: "/my-characters", icon: "👤" },
-];
+import { NAV_ITEMS } from "@/constants/navigation";
 
 export function Sidebar() {
     const pathname = usePathname();
@@ -33,8 +25,13 @@ export function Sidebar() {
             {/* Logo */}
             <div className="p-4 border-b border-gray-800">
                 <Link href="/" className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl font-bold shadow-lg shadow-purple-500/25">
-                        🚀
+                    <div className="relative w-10 h-10 flex-shrink-0">
+                        <Image
+                            src="/logo.png"
+                            alt="Logo"
+                            fill
+                            className="object-contain drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+                        />
                     </div>
                     {!isCollapsed && (
                         <motion.div

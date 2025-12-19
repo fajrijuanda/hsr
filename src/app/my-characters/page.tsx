@@ -41,12 +41,15 @@ export default function MyCharactersPage() {
     const [ownedChars, setOwnedChars] = useState<Map<string, OwnedCharacter>>(new Map());
     const [search, setSearch] = useState("");
     const [filterElement, setFilterElement] = useState<string | null>(null);
+    const [filterPath, setFilterPath] = useState<string | null>(null);
+    const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "name">("newest");
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [selectedChar, setSelectedChar] = useState<Character | null>(null);
 
     const elements = ["Physical", "Fire", "Ice", "Lightning", "Wind", "Quantum", "Imaginary"];
+    const paths = ["Destruction", "The Hunt", "Erudition", "Harmony", "Nihility", "Preservation", "Abundance"];
 
     // Fetch owned characters
     const fetchOwned = useCallback(async () => {
@@ -137,11 +140,24 @@ export default function MyCharactersPage() {
         setSelectedChar(null);
     };
 
-    // Filter characters
+    // Filter and Sort characters
     const filteredChars = characters.filter((c) => {
         const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase());
         const matchesElement = !filterElement || c.element === filterElement;
-        return matchesSearch && matchesElement;
+        const matchesPath = !filterPath || c.path === filterPath;
+        return matchesSearch && matchesElement && matchesPath;
+    }).sort((a, b) => {
+        if (sortOrder === "name") {
+            return a.name.localeCompare(b.name);
+        }
+        // Assuming higher charId (numeric) means newer
+        const idA = parseInt(a.charId);
+        const idB = parseInt(b.charId);
+        if (sortOrder === "newest") {
+            return idB - idA;
+        } else {
+            return idA - idB;
+        }
     });
 
     if (status === "loading" || isLoading) {
@@ -176,39 +192,104 @@ export default function MyCharactersPage() {
             </header>
 
             {/* Filters */}
+            {/* Filters */}
             <div className="sticky top-[73px] z-40 bg-gray-900/90 backdrop-blur-sm border-b border-gray-800 px-6 py-3">
-                <div className="max-w-7xl mx-auto flex flex-wrap gap-3">
-                    <Input
-                        placeholder="Search characters..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="w-64 bg-gray-800 border-gray-600"
-                    />
-                    <div className="flex gap-1">
-                        <Button
-                            variant={filterElement === null ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setFilterElement(null)}
-                        >
-                            All
-                        </Button>
-                        {elements.map((elem) => (
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                        <Input
+                            placeholder="Search characters..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full md:w-64 bg-gray-800 border-gray-600"
+                        />
+
+                        {/* Sort Dropdown */}
+                        <div className="flex bg-gray-800 rounded-lg p-1 border border-gray-700">
+                            {[
+                                { value: "newest", label: "Newest" },
+                                { value: "oldest", label: "Oldest" },
+                                { value: "name", label: "A-Z" }
+                            ].map((opt) => (
+                                <button
+                                    key={opt.value}
+                                    onClick={() => setSortOrder(opt.value as any)}
+                                    className={`
+                                        px-3 py-1.5 rounded text-xs font-medium transition-all
+                                        ${sortOrder === opt.value
+                                            ? "bg-gray-700 text-white shadow-sm"
+                                            : "text-gray-400 hover:text-white"
+                                        }
+                                    `}
+                                >
+                                    {opt.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                        {/* Elements */}
+                        <div className="flex gap-1">
                             <Button
-                                key={elem}
-                                variant={filterElement === elem ? "default" : "outline"}
+                                variant={filterElement === null ? "default" : "outline"}
                                 size="sm"
-                                onClick={() => setFilterElement(filterElement === elem ? null : elem)}
-                                className="px-2"
+                                onClick={() => setFilterElement(null)}
+                                className="h-8 px-2 text-xs"
                             >
-                                <Image
-                                    src={`${STAR_RAIL_RES}/icon/element/${getElementCdnName(elem)}.png`}
-                                    alt={elem}
-                                    width={20}
-                                    height={20}
-                                    unoptimized
-                                />
+                                All
                             </Button>
-                        ))}
+                            {elements.map((elem) => (
+                                <button
+                                    key={elem}
+                                    onClick={() => setFilterElement(filterElement === elem ? null : elem)}
+                                    className={`
+                                        w-8 h-8 rounded flex items-center justify-center transition-all border
+                                        ${filterElement === elem
+                                            ? "bg-gray-700 border-purple-500 scale-105"
+                                            : "bg-gray-800 border-gray-700 hover:border-gray-500 opacity-70 hover:opacity-100"
+                                        }
+                                    `}
+                                    title={elem}
+                                >
+                                    <Image
+                                        src={`${STAR_RAIL_RES}/icon/element/${getElementCdnName(elem)}.png`}
+                                        alt={elem}
+                                        width={20}
+                                        height={20}
+                                        unoptimized
+                                    />
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="hidden sm:block w-px bg-gray-700 mx-1" />
+
+                        {/* Paths */}
+                        <div className="flex gap-1">
+                            {paths.map((path) => (
+                                <button
+                                    key={path}
+                                    onClick={() => setFilterPath(filterPath === path ? null : path)}
+                                    className={`
+                                        w-8 h-8 rounded flex items-center justify-center transition-all border
+                                        ${filterPath === path
+                                            ? "bg-gray-700 border-purple-500 scale-105"
+                                            : "bg-gray-800 border-gray-700 hover:border-gray-500 opacity-70 hover:opacity-100"
+                                        }
+                                    `}
+                                    title={path}
+                                >
+                                    <Image
+                                        src={`${STAR_RAIL_RES}/icon/path/${path}.png`}
+                                        alt={path}
+                                        width={20}
+                                        height={20}
+                                        className="invert brightness-200"
+                                        unoptimized
+                                    />
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

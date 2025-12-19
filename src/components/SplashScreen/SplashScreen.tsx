@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface SplashScreenProps {
     onComplete: () => void;
@@ -23,15 +24,8 @@ const STAR_DATA = generateStarData(50);
 
 export function SplashScreen({ onComplete, duration = 2500 }: SplashScreenProps) {
     const [isVisible, setIsVisible] = useState(true);
-    const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
 
     useEffect(() => {
-        // Get window dimensions on mount
-        setDimensions({
-            width: window.innerWidth,
-            height: window.innerHeight,
-        });
-
         const timer = setTimeout(() => {
             setIsVisible(false);
             setTimeout(onComplete, 500); // Wait for exit animation
@@ -114,14 +108,14 @@ export function SplashScreen({ onComplete, duration = 2500 }: SplashScreenProps)
 
                     {/* Logo / Title */}
                     <motion.div
-                        className="relative z-10 text-center"
+                        className="relative z-10 text-center flex flex-col items-center"
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.5 }}
                     >
                         {/* Train icon */}
                         <motion.div
-                            className="text-7xl mb-4"
+                            className="relative w-32 h-32 mb-4"
                             animate={{
                                 y: [0, -10, 0],
                             }}
@@ -131,7 +125,12 @@ export function SplashScreen({ onComplete, duration = 2500 }: SplashScreenProps)
                                 ease: "easeInOut",
                             }}
                         >
-                            🚂
+                            <Image
+                                src="/logo.png"
+                                alt="Logo"
+                                fill
+                                className="object-contain drop-shadow-[0_0_30px_rgba(168,85,247,0.6)]"
+                            />
                         </motion.div>
 
                         {/* Title */}
@@ -142,7 +141,7 @@ export function SplashScreen({ onComplete, duration = 2500 }: SplashScreenProps)
                             transition={{ delay: 0.8 }}
                         >
                             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-                                HSR Tools Hub
+                                Trailblaze Hub
                             </span>
                         </motion.h1>
 
