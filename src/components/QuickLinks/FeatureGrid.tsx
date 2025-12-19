@@ -61,6 +61,15 @@ const FEATURES: FeatureLink[] = [
         status: "new",
         color: "from-emerald-600 to-teal-600",
     },
+    {
+        id: "my-characters",
+        name: "My Characters",
+        description: "Manage your owned characters",
+        href: "/my-characters",
+        icon: "👤",
+        status: "new",
+        color: "from-indigo-600 to-violet-600",
+    },
 ];
 
 const STATUS_STYLES = {

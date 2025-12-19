@@ -9,23 +9,75 @@ datasource db {
   provider = "postgresql"
 }
 
-// Users - main user table
+// Users - main user table (Updated for NextAuth)
 model User {
-  id          String   @id @default(cuid())
-  uid         String   @unique // HSR UID
-  nickname    String?
-  level       Int      @default(0)
-  avatar      String?
-  createdAt   DateTime @default(now())
-  lastLoginAt DateTime @default(now())
+  id            String    @id @default(cuid())
+  email         String?   @unique
+  emailVerified DateTime?
+  password      String?   // Hashed password for credentials login
+  name          String?
+  image         String?
   
-  // Relations
+  // HSR-specific fields
+  uid           String?   @unique // HSR UID (optional, set after first login)
+  nickname      String?
+  level         Int       @default(0)
+  avatar        String?
+  hasSetUid     Boolean   @default(false) // Track if user has set their UID
+  
+  createdAt     DateTime  @default(now())
+  lastLoginAt   DateTime  @default(now())
+  
+  // NextAuth relations
+  accounts      Account[]
+  sessions      Session[]
+  
+  // App relations
   profile          UserProfile?
   activities       Activity[]
   teamPresets      TeamPreset[]
   pullPlans        PullPlan[]
   battleHistory    Battle[]
   ownedCharacters  UserCharacter[]
+}
+
+// NextAuth Account model (for OAuth providers)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// NextAuth Session model
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// NextAuth VerificationToken (for email verification & password reset)
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  type       String   @default("email") // email, password_reset, otp
+
+  @@unique([identifier, token])
 }
 
 // Cached profile data from Mihomo API

@@ -1,0 +1,353 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { LoadingScreen, LoadingSpinner, AlertDialog } from "@/components/ui/feedback";
+import charactersData from "@/data/characters.json";
+
+const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
+
+interface Character {
+    id: string;
+    charId: string;
+    name: string;
+    element: string;
+    path: string;
+    rarity: number;
+}
+
+interface OwnedCharacter {
+    id: string;
+    characterId: string;
+    eidolon: number;
+}
+
+export default function MyCharactersPage() {
+    const { data: session, status } = useSession();
+    const [characters] = useState<Character[]>(charactersData as Character[]);
+    const [ownedChars, setOwnedChars] = useState<Map<string, OwnedCharacter>>(new Map());
+    const [search, setSearch] = useState("");
+    const [filterElement, setFilterElement] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [selectedChar, setSelectedChar] = useState<Character | null>(null);
+
+    const elements = ["Physical", "Fire", "Ice", "Lightning", "Wind", "Quantum", "Imaginary"];
+
+    // Fetch owned characters
+    const fetchOwned = useCallback(async () => {
+        if (!session?.user?.uid) {
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/user/characters?uid=${session.user.uid}`);
+            if (res.ok) {
+                const data = await res.json();
+                const map = new Map<string, OwnedCharacter>();
+                data.forEach((c: OwnedCharacter) => map.set(c.characterId, c));
+                setOwnedChars(map);
+            }
+        } catch {
+            // Silent fail
+        } finally {
+            setIsLoading(false);
+        }
+    }, [session?.user?.uid]);
+
+    useEffect(() => {
+        fetchOwned();
+    }, [fetchOwned]);
+
+    const toggleOwnership = async (charId: string) => {
+        if (!session?.user?.uid) {
+            setShowAlert(true);
+            return;
+        }
+
+        setIsSaving(true);
+        const isOwned = ownedChars.has(charId);
+
+        try {
+            if (isOwned) {
+                // Remove
+                await fetch(`/api/user/characters?uid=${session.user.uid}&characterId=${charId}`, {
+                    method: "DELETE",
+                });
+                setOwnedChars((prev) => {
+                    const newMap = new Map(prev);
+                    newMap.delete(charId);
+                    return newMap;
+                });
+            } else {
+                // Add
+                await fetch("/api/user/characters", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ uid: session.user.uid, characterId: charId }),
+                });
+                setOwnedChars((prev) => {
+                    const newMap = new Map(prev);
+                    newMap.set(charId, { id: "", characterId: charId, eidolon: 0 });
+                    return newMap;
+                });
+            }
+        } catch {
+            // Handle error
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const setEidolon = async (charId: string, eidolon: number) => {
+        if (!session?.user?.uid) return;
+
+        try {
+            await fetch("/api/user/characters/eidolon", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uid: session.user.uid, characterId: charId, eidolon }),
+            });
+            setOwnedChars((prev) => {
+                const newMap = new Map(prev);
+                const existing = newMap.get(charId);
+                if (existing) {
+                    newMap.set(charId, { ...existing, eidolon });
+                }
+                return newMap;
+            });
+        } catch {
+            // Handle error
+        }
+        setSelectedChar(null);
+    };
+
+    // Filter characters
+    const filteredChars = characters.filter((c) => {
+        const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase());
+        const matchesElement = !filterElement || c.element === filterElement;
+        return matchesSearch && matchesElement;
+    });
+
+    if (status === "loading" || isLoading) {
+        return <LoadingScreen show={true} message="Loading characters..." />;
+    }
+
+    return (
+        <div className="min-h-screen bg-gray-950 text-white">
+            {/* Header */}
+            <header className="bg-gray-900/80 border-b border-gray-800 px-6 py-4 sticky top-0 z-50">
+                <div className="max-w-7xl mx-auto flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Link href="/">
+                            <Button variant="ghost" size="sm">← Back</Button>
+                        </Link>
+                        <div>
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                My Characters
+                            </h1>
+                            <p className="text-sm text-gray-400">
+                                Manage your owned characters
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="text-emerald-400">
+                            {ownedChars.size} Owned
+                        </Badge>
+                        {isSaving && <LoadingSpinner size="sm" />}
+                    </div>
+                </div>
+            </header>
+
+            {/* Filters */}
+            <div className="sticky top-[73px] z-40 bg-gray-900/90 backdrop-blur-sm border-b border-gray-800 px-6 py-3">
+                <div className="max-w-7xl mx-auto flex flex-wrap gap-3">
+                    <Input
+                        placeholder="Search characters..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-64 bg-gray-800 border-gray-600"
+                    />
+                    <div className="flex gap-1">
+                        <Button
+                            variant={filterElement === null ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setFilterElement(null)}
+                        >
+                            All
+                        </Button>
+                        {elements.map((elem) => (
+                            <Button
+                                key={elem}
+                                variant={filterElement === elem ? "default" : "outline"}
+                                size="sm"
+                                onClick={() => setFilterElement(filterElement === elem ? null : elem)}
+                                className="px-2"
+                            >
+                                <Image
+                                    src={`${STAR_RAIL_RES}/icon/element/${elem}.png`}
+                                    alt={elem}
+                                    width={20}
+                                    height={20}
+                                    unoptimized
+                                />
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Character Grid */}
+            <main className="max-w-7xl mx-auto p-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {filteredChars.map((char, index) => {
+                        const owned = ownedChars.get(char.id);
+                        const isOwned = !!owned;
+
+                        return (
+                            <motion.div
+                                key={char.id}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: index * 0.02 }}
+                            >
+                                <Card
+                                    className={`
+                    cursor-pointer transition-all overflow-hidden
+                    ${isOwned
+                                            ? "bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-purple-500/50"
+                                            : "bg-gray-800/50 border-gray-700 opacity-50 hover:opacity-100"
+                                        }
+                  `}
+                                    onClick={() => toggleOwnership(char.id)}
+                                >
+                                    <CardContent className="p-3 text-center relative">
+                                        {/* Ownership badge */}
+                                        {isOwned && (
+                                            <div className="absolute top-1 right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center text-xs">
+                                                ✓
+                                            </div>
+                                        )}
+
+                                        {/* Eidolon badge */}
+                                        {isOwned && owned?.eidolon !== undefined && owned.eidolon > 0 && (
+                                            <div className="absolute top-1 left-1 px-1.5 py-0.5 bg-yellow-500/80 rounded text-xs font-bold">
+                                                E{owned.eidolon}
+                                            </div>
+                                        )}
+
+                                        {/* Avatar */}
+                                        <div className={`w-16 h-16 mx-auto rounded-full overflow-hidden ${char.rarity === 5 ? "ring-2 ring-yellow-500/50" : "ring-2 ring-purple-500/30"
+                                            }`}>
+                                            <Image
+                                                src={`${STAR_RAIL_RES}/icon/character/${char.charId}.png`}
+                                                alt={char.name}
+                                                width={64}
+                                                height={64}
+                                                className="object-cover"
+                                                unoptimized
+                                            />
+                                        </div>
+
+                                        {/* Name */}
+                                        <p className="text-sm font-medium mt-2 truncate">{char.name}</p>
+
+                                        {/* Set Eidolon button */}
+                                        {isOwned && (
+                                            <Button
+                                                size="sm"
+                                                variant="ghost"
+                                                className="mt-1 text-xs h-6 px-2"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedChar(char);
+                                                }}
+                                            >
+                                                Set E{owned?.eidolon || 0}
+                                            </Button>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        );
+                    })}
+                </div>
+            </main>
+
+            {/* Eidolon Dialog */}
+            {selectedChar && (
+                <EidolonDialog
+                    char={selectedChar}
+                    currentEidolon={ownedChars.get(selectedChar.id)?.eidolon || 0}
+                    onClose={() => setSelectedChar(null)}
+                    onSet={(e) => setEidolon(selectedChar.id, e)}
+                />
+            )}
+
+            {/* Not logged in alert */}
+            <AlertDialog
+                open={showAlert}
+                onClose={() => setShowAlert(false)}
+                title="Login Required"
+                description="Please log in and link your HSR UID to manage your characters."
+                type="warning"
+                confirmText="Go to Login"
+                onConfirm={() => window.location.href = "/auth/login"}
+                showCancel
+            />
+        </div>
+    );
+}
+
+function EidolonDialog({
+    char,
+    currentEidolon,
+    onClose,
+    onSet,
+}: {
+    char: Character;
+    currentEidolon: number;
+    onClose: () => void;
+    onSet: (eidolon: number) => void;
+}) {
+    return (
+        <>
+            <div className="fixed inset-0 bg-black/60 z-[200]" onClick={onClose} />
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[201]
+                   bg-gray-900 border border-gray-700 rounded-xl p-6 w-80"
+            >
+                <h3 className="text-lg font-bold mb-4 text-center">
+                    Set Eidolon for {char.name}
+                </h3>
+                <div className="grid grid-cols-4 gap-2">
+                    {[0, 1, 2, 3, 4, 5, 6].map((e) => (
+                        <Button
+                            key={e}
+                            variant={currentEidolon === e ? "default" : "outline"}
+                            className={currentEidolon === e ? "bg-purple-600" : ""}
+                            onClick={() => onSet(e)}
+                        >
+                            E{e}
+                        </Button>
+                    ))}
+                </div>
+                <Button variant="ghost" className="w-full mt-4" onClick={onClose}>
+                    Cancel
+                </Button>
+            </motion.div>
+        </>
+    );
+}
