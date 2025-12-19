@@ -122,6 +122,7 @@ export interface BattleCharacter {
   critRate: number;
   critDmg: number;
   dmgBonus: number;
+  breakEffect: number; // 0-2.0 (0% to 200%)
   effects: BattleEffect[];
 }
 
@@ -138,18 +139,24 @@ export interface BattleEnemy {
   toughness: number;
   maxToughness: number;
   isBroken: boolean;
+  brokenTurnsRemaining: number; // Turns until recovery
 }
+
+export type EffectType = "buff" | "debuff" | "dot";
 
 export interface BattleEffect {
   id: string;
   name: string;
-  type: "buff" | "debuff";
+  type: EffectType;
   stat: string;
   value: number;
   duration: number;
   stacks: number;
   maxStacks: number;
   source: string;
+  // DoT specific fields
+  dotDamage?: number; // Damage per tick
+  dotElement?: ElementType; // Element of the DoT
 }
 
 export interface BattleAction {

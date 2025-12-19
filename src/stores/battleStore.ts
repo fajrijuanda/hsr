@@ -16,6 +16,13 @@ import {
   canUseUltimate,
   applyEffect,
   tickEffects,
+  calculateToughnessDamage,
+  applyToughnessDamage,
+  calculateBreakDamage,
+  applyBreakEffect,
+  processDoTDamage,
+  recoverFromBreak,
+  calculateSuperBreakDamage,
 } from "@/lib/battle-engine";
 import charactersData from "@/data/characters.json";
 import skillsData from "@/data/skills.json";
@@ -82,6 +89,7 @@ function createBattleCharacter(charId: string): BattleCharacter | null {
     critRate: skillData.baseCritRate + 0.6, // With gear
     critDmg: skillData.baseCritDmg + 1.5, // With gear
     dmgBonus: 0.46, // Element goblet
+    breakEffect: 0.5, // 50% Break Effect baseline
     effects: [],
   };
 }
@@ -108,6 +116,7 @@ function createDefaultEnemy(): BattleEnemy {
     toughness: 120,
     maxToughness: 120,
     isBroken: false,
+    brokenTurnsRemaining: 0,
   };
 }
 
@@ -319,6 +328,55 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
       }
     }
 
+    // ====== BREAK MECHANICS ======
+    // Calculate toughness damage if action deals damage
+    if (damage > 0) {
+      const toughnessDmg = calculateToughnessDamage(
+        actionType,
+        char.element,
+        newEnemy.weakness
+      );
+
+      if (toughnessDmg > 0) {
+        effects.push(`-${toughnessDmg} Toughness`);
+        const toughnessResult = applyToughnessDamage(newEnemy, toughnessDmg);
+        newEnemy = toughnessResult.enemy;
+
+        // Check if we broke the enemy this turn
+        if (toughnessResult.brokeThisTurn) {
+          // Calculate Break Damage
+          const breakDmg = calculateBreakDamage(char, newEnemy);
+          newEnemy = applyDamage(newEnemy, breakDmg);
+          damage += breakDmg;
+          effects.push(`💥 BREAK! +${breakDmg} Break DMG`);
+
+          // Apply elemental DoT
+          const breakEffectResult = applyBreakEffect(newEnemy, char);
+          newEnemy = breakEffectResult.enemy;
+          if (breakEffectResult.appliedEffect) {
+            effects.push(`🔥 ${breakEffectResult.appliedEffect}`);
+          }
+        }
+      }
+
+      // Super Break damage (attacking already broken enemy)
+      if (
+        newEnemy.isBroken &&
+        !calculateToughnessDamage(actionType, char.element, newEnemy.weakness)
+      ) {
+        const superBreakDmg = calculateSuperBreakDamage(
+          char,
+          newEnemy,
+          actionType
+        );
+        if (superBreakDmg > 0) {
+          newEnemy = applyDamage(newEnemy, superBreakDmg);
+          damage += superBreakDmg;
+          effects.push(`⚡ Super Break: +${superBreakDmg} DMG`);
+        }
+      }
+    }
+
     // Create log entry
     const logEntry: BattleLogEntry = {
       turn: state.turn,
@@ -363,19 +421,54 @@ export const useBattleStore = create<BattleStore>((set, get) => ({
     // New turn if we wrapped around
     const newTurn = nextIndex === 0 ? state.turn + 1 : state.turn;
 
-    // Tick effects if new turn
+    // Process effects at turn cycle start
     let newEnemy = state.enemy;
     let newTeam = state.team;
+    let additionalDamage = 0;
+    const newLogs: BattleLogEntry[] = [];
+
     if (nextIndex === 0) {
+      // Process DoT damage at start of new cycle
+      const dotResult = processDoTDamage(newEnemy);
+      if (dotResult.totalDotDamage > 0) {
+        newEnemy = dotResult.enemy;
+        additionalDamage += dotResult.totalDotDamage;
+        newLogs.push({
+          turn: newTurn,
+          characterName: "DoT",
+          action: `DoT Damage: ${dotResult.dotLog.join(", ")}`,
+          damage: dotResult.totalDotDamage,
+          timestamp: Date.now(),
+        });
+      }
+
+      // Tick effect durations
       newEnemy = tickEffects(newEnemy);
       newTeam = newTeam.map((c) => tickEffects(c));
+
+      // Check break recovery
+      newEnemy = recoverFromBreak(newEnemy);
+      if (!newEnemy.isBroken && state.enemy.isBroken) {
+        newLogs.push({
+          turn: newTurn,
+          characterName: newEnemy.name,
+          action: `${newEnemy.name} recovered from Break!`,
+          timestamp: Date.now(),
+        });
+      }
     }
+
+    // Check victory from DoT
+    const phase = newEnemy.currentHp <= 0 ? "victory" : state.phase;
 
     set({
       currentActorId: nextActorId,
       turn: newTurn,
       enemy: newEnemy,
       team: newTeam,
+      totalDamage: state.totalDamage + additionalDamage,
+      battleLog: [...newLogs, ...state.battleLog],
+      phase,
     });
 
     // If enemy turn, auto-skip after delay
