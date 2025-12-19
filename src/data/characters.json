@@ -1,5 +1,25 @@
 [
   {
+    "id": "saber",
+    "charId": "1501",
+    "name": "Saber",
+    "path": "Destruction",
+    "element": "Wind",
+    "rarity": 5,
+    "baseSpeed": 100,
+    "releaseOrder": 342
+  },
+  {
+    "id": "archer",
+    "charId": "1502",
+    "name": "Archer",
+    "path": "The Hunt",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 102,
+    "releaseOrder": 343
+  },
+  {
     "id": "the_dahlia",
     "charId": "1321",
     "name": "The Dahlia",

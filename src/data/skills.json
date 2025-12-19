@@ -1,4 +1,30 @@
 {
+  "saber": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.4,
+    "ultMultiplier": 4.5,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 140,
+    "ultType": "normal",
+    "passive": "Excalibur: Massive single-target Wind damage. Gains Invisible Air stacks for enhanced attacks",
+    "baseAtk": 720,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
+  "archer": {
+    "basicMultiplier": 1.0,
+    "skillMultiplier": 1.8,
+    "ultMultiplier": 3.6,
+    "basicEnergy": 20,
+    "skillEnergy": 30,
+    "ultCost": 130,
+    "ultType": "normal",
+    "passive": "Unlimited Blade Works: Creates Reality Marble for enhanced attacks. Traces weapons for follow-up attacks",
+    "baseAtk": 698,
+    "baseCritRate": 0.05,
+    "baseCritDmg": 0.5
+  },
   "acheron": {
     "basicMultiplier": 1.0,
     "skillMultiplier": 1.6,

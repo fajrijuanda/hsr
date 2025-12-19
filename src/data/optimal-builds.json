@@ -1,4 +1,40 @@
 {
+  "saber": {
+    "name": "Saber",
+    "substats": {
+      "CRIT Rate": 1.0,
+      "CRIT DMG": 1.0,
+      "ATK%": 0.8,
+      "SPD": 0.6,
+      "HP%": 0.3,
+      "DEF%": 0.2
+    },
+    "mainStats": {
+      "body": "CRIT Rate",
+      "feet": "SPD",
+      "orb": "Wind DMG",
+      "rope": "ATK%"
+    },
+    "sets": ["Eagle of Twilight Line", "Izumo Gensei"]
+  },
+  "archer": {
+    "name": "Archer",
+    "substats": {
+      "CRIT Rate": 1.0,
+      "CRIT DMG": 1.0,
+      "ATK%": 0.8,
+      "SPD": 0.7,
+      "HP%": 0.2,
+      "DEF%": 0.1
+    },
+    "mainStats": {
+      "body": "CRIT DMG",
+      "feet": "SPD",
+      "orb": "Quantum DMG",
+      "rope": "ATK%"
+    },
+    "sets": ["Genius of Brilliant Stars", "Izumo Gensei"]
+  },
   "acheron": {
     "name": "Acheron",
     "substats": {
