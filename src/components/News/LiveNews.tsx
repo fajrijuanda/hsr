@@ -68,7 +68,7 @@ function NewsItemCard({ news }: { news: NewsItem }) {
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                         <Badge className={`${style.bg} ${style.text} border-0 text-xs`}>
-                            {style.icon} {news.type}
+                            {style.icon} {news.type.charAt(0).toUpperCase() + news.type.slice(1)}
                         </Badge>
                         <span className="text-xs text-gray-500">
                             {formatTimeAgo(news.createdAt)}

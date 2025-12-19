@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BannerCard } from "@/components/Banner/BannerCard";
 import { CodeList } from "@/components/Codes/CodeList";
@@ -11,6 +12,7 @@ import { LiveNews } from "@/components/News/LiveNews";
 import { SplashScreen } from "@/components/SplashScreen/SplashScreen";
 import { LoginModal } from "@/components/Auth/LoginModal";
 import { OwnedCharacters } from "@/components/Profile/OwnedCharacters";
+import { Footer } from "@/components/Layout/Footer";
 import { useUser } from "@/context/UserContext";
 import { Banner, RedemptionCode, GameEvent } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +26,7 @@ export default function DashboardPage() {
   const [showSplash, setShowSplash] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const { uid: userUID, profile, logout } = useUser();
+  const { uid: userUID, profile, isLoggedIn } = useUser();
 
   const banners = bannersData as Banner[];
   const codes = codesData as RedemptionCode[];
@@ -75,13 +77,18 @@ export default function DashboardPage() {
         <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-                  HSR Tools Hub
-                </h1>
-                <p className="text-sm text-gray-400">
-                  Your Honkai: Star Rail Companion
-                </p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl font-bold shadow-lg shadow-purple-500/25">
+                  🚀
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+                    Trailblaze Hub
+                  </h1>
+                  <p className="text-sm text-gray-400">
+                    Your Honkai: Star Rail Companion
+                  </p>
+                </div>
               </div>
               <div className="flex items-center gap-3">
                 <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/50">
@@ -95,15 +102,15 @@ export default function DashboardPage() {
                 </Badge>
 
                 {/* Login Button */}
-                {userUID ? (
+                {isLoggedIn ? (
                   <div className="flex items-center gap-2">
                     <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/50">
-                      {profile?.nickname || `UID: ${userUID.slice(0, 3)}***${userUID.slice(-3)}`}
+                      {profile?.nickname || (userUID ? `UID: ${userUID.slice(0, 3)}***` : "User")}
                     </Badge>
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={logout}
+                      onClick={() => signOut()}
                       className="text-gray-400 hover:text-white"
                     >
                       Logout
@@ -259,14 +266,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Footer */}
-          <footer className="text-center text-sm text-gray-500 pt-8 border-t border-gray-800">
-            <p>
-              HSR Tools is a fan-made project. Not affiliated with HoYoverse.
-            </p>
-            <p className="mt-1">
-              Data sourced from community. Some information may not be accurate.
-            </p>
-          </footer>
+          <Footer />
         </main>
       </div>
     </>

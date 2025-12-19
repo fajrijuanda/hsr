@@ -15,9 +15,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HSR Tools Hub | Honkai: Star Rail Companion",
+  title: "Trailblaze Hub | Honkai: Star Rail Companion",
   description: "Your all-in-one Honkai: Star Rail toolkit. Track banners, redeem codes, optimize team speed, simulate battles, and more.",
-  keywords: ["Honkai Star Rail", "HSR", "Speed Tuner", "Banner Countdown", "Redeem Codes", "MoC", "Pull Planner"],
+  keywords: ["Honkai Star Rail", "HSR", "Trailblaze Hub", "Speed Tuner", "Banner Countdown", "Redeem Codes", "Pull Planner"],
+  openGraph: {
+    title: "Trailblaze Hub",
+    description: "Your all-in-one Honkai: Star Rail toolkit",
+    siteName: "Trailblaze Hub",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -39,4 +45,3 @@ export default function RootLayout({
     </html>
   );
 }
-

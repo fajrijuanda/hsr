@@ -41,7 +41,7 @@ function EventItem({ event }: EventItemProps) {
                         <span>{style.icon}</span>
                         <span className="font-medium text-white">{event.name}</span>
                         <Badge className={`${style.bg} ${style.text} border-0 text-xs`}>
-                            {event.type}
+                            {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
                         </Badge>
                     </div>
                     <p className="text-sm text-gray-400 mt-1">{event.description}</p>
