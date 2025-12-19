@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 
 const MIHOMO_API = "https://api.mihomo.me/sr_info_parsed";
+const STAR_RAIL_RES_CDN =
+  "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
+
+// Helper to convert relative paths to full CDN URLs
+function toFullImageUrl(path: string | null | undefined): string | null {
+  if (!path) return null;
+  if (path.startsWith("http")) return path;
+  return `${STAR_RAIL_RES_CDN}/${path}`;
+}
 
 export async function GET(
   request: Request,
@@ -44,7 +53,7 @@ export async function GET(
       level: data.player?.level || 0,
       worldLevel: data.player?.world_level || 0,
       signature: data.player?.signature || "",
-      avatar: data.player?.avatar?.icon || null,
+      avatar: toFullImageUrl(data.player?.avatar?.icon),
       achievements: data.player?.space_info?.achievement_count || 0,
       characters: (data.characters || []).map((char: any) => ({
         id: char.id,
@@ -54,9 +63,9 @@ export async function GET(
         rank: char.rank, // Eidolon level
         element: char.element?.id || "physical",
         path: char.path?.id || "unknown",
-        icon: char.icon,
-        preview: char.preview,
-        portrait: char.portrait,
+        icon: toFullImageUrl(char.icon),
+        preview: toFullImageUrl(char.preview),
+        portrait: toFullImageUrl(char.portrait),
         lightCone: char.light_cone
           ? {
               id: char.light_cone.id,
@@ -64,7 +73,7 @@ export async function GET(
               rarity: char.light_cone.rarity,
               rank: char.light_cone.rank,
               level: char.light_cone.level,
-              icon: char.light_cone.icon,
+              icon: toFullImageUrl(char.light_cone.icon),
             }
           : null,
         relics: (char.relics || []).map((relic: any) => ({
@@ -74,21 +83,21 @@ export async function GET(
           setName: relic.set_name,
           rarity: relic.rarity,
           level: relic.level,
-          icon: relic.icon,
+          icon: toFullImageUrl(relic.icon),
           mainAffix: relic.main_affix,
           subAffixes: relic.sub_affix || [],
         })),
         attributes: (char.attributes || []).map((attr: any) => ({
           field: attr.field,
           name: attr.name,
-          icon: attr.icon,
+          icon: toFullImageUrl(attr.icon),
           value: attr.value,
           display: attr.display,
         })),
         additions: (char.additions || []).map((add: any) => ({
           field: add.field,
           name: add.name,
-          icon: add.icon,
+          icon: toFullImageUrl(add.icon),
           value: add.value,
           display: add.display,
         })),
@@ -97,7 +106,7 @@ export async function GET(
           name: skill.name,
           level: skill.level,
           maxLevel: skill.max_level,
-          icon: skill.icon,
+          icon: toFullImageUrl(skill.icon),
           type: skill.type,
         })),
       })),

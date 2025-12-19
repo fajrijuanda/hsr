@@ -25,6 +25,7 @@ import {
     simulatePulls,
     formatNumber,
 } from "@/lib/pullCalculator";
+import { useUser } from "@/context/UserContext";
 import bannersData from "@/data/banners.json";
 
 interface Banner {
@@ -38,6 +39,9 @@ interface Banner {
 }
 
 export default function PullPlannerPage() {
+    // User context for owned characters
+    const { profile, ownedCharacterNames, uid } = useUser();
+
     // State
     const [currentPity, setCurrentPity] = useState(0);
     const [isGuaranteed, setIsGuaranteed] = useState(false);
@@ -51,6 +55,37 @@ export default function PullPlannerPage() {
 
     const banners = bannersData as Banner[];
     const activeBanner = banners.find((b) => b.id === targetBanner) || banners[0];
+
+    // Check if user already owns banner characters
+    const ownedBannerChars = useMemo(() => {
+        if (!activeBanner || ownedCharacterNames.length === 0) return [];
+        return activeBanner.characters.filter((char) =>
+            ownedCharacterNames.some((owned) =>
+                owned.toLowerCase().includes(char.toLowerCase()) ||
+                char.toLowerCase().includes(owned.toLowerCase())
+            )
+        );
+    }, [activeBanner, ownedCharacterNames]);
+
+    const missingBannerChars = useMemo(() => {
+        if (!activeBanner) return [];
+        return activeBanner.characters.filter((char) =>
+            !ownedCharacterNames.some((owned) =>
+                owned.toLowerCase().includes(char.toLowerCase()) ||
+                char.toLowerCase().includes(owned.toLowerCase())
+            )
+        );
+    }, [activeBanner, ownedCharacterNames]);
+
+    // Get character details from profile for eidolon info
+    const getCharacterEidolon = (charName: string) => {
+        if (!profile) return null;
+        const char = profile.characters.find((c) =>
+            c.name.toLowerCase().includes(charName.toLowerCase()) ||
+            charName.toLowerCase().includes(c.name.toLowerCase())
+        );
+        return char?.rank ?? null;
+    };
 
     // Calculations
     const pullEstimate = useMemo(
@@ -94,24 +129,43 @@ export default function PullPlannerPage() {
         }
     }, [currentPity, isGuaranteed, resources.totalPulls]);
 
-    // Get recommendation message
+    // Get recommendation message with owned character context
     const getRecommendation = () => {
         if (!simulationResult) return null;
 
         const rate = simulationResult.successRate * 100;
-        const pullsNeeded = pullEstimate.avg;
-        const haveEnough = resources.totalPulls >= pullsNeeded;
+        const allOwned = missingBannerChars.length === 0 && ownedBannerChars.length > 0;
+        const someOwned = ownedBannerChars.length > 0 && missingBannerChars.length > 0;
+
+        // If user owns all banner chars
+        if (allOwned) {
+            return {
+                emoji: "⭐",
+                message: "You already own all banner characters! Pull for Eidolons if you want.",
+                color: "text-purple-400",
+            };
+        }
+
+        // Check eidolon status for owned chars
+        const ownedWithLowEidolon = ownedBannerChars.filter((char) => {
+            const eidolon = getCharacterEidolon(char);
+            return eidolon !== null && eidolon < 6;
+        });
 
         if (rate >= 90) {
             return {
                 emoji: "🎯",
-                message: "You're almost guaranteed! Safe to pull.",
+                message: someOwned
+                    ? `You're almost guaranteed! Missing: ${missingBannerChars.join(", ")}`
+                    : "You're almost guaranteed! Safe to pull.",
                 color: "text-emerald-400",
             };
         } else if (rate >= 70) {
             return {
                 emoji: "👍",
-                message: "Good chance! Consider pulling if you want.",
+                message: someOwned
+                    ? `Good chance! You still need: ${missingBannerChars.join(", ")}`
+                    : "Good chance! Consider pulling if you want.",
                 color: "text-green-400",
             };
         } else if (rate >= 50) {
@@ -318,21 +372,66 @@ export default function PullPlannerPage() {
                                                     />
                                                 </div>
                                             )}
-                                            <div>
+                                            <div className="flex-1">
                                                 <Badge className="bg-yellow-500/20 text-yellow-400 mb-2">
                                                     {activeBanner.phase}
                                                 </Badge>
                                                 <h3 className="font-semibold text-white">
                                                     {activeBanner.name}
                                                 </h3>
-                                                <p className="text-sm text-gray-400">
-                                                    ⭐ {activeBanner.characters.join(", ")}
-                                                </p>
                                                 <p className="text-sm text-amber-400 mt-1">
                                                     ⏳ {daysUntilBannerEnds} days remaining
                                                 </p>
                                             </div>
                                         </div>
+
+                                        {/* Character Ownership Status */}
+                                        {uid && (
+                                            <div className="mt-4 pt-4 border-t border-yellow-500/20">
+                                                <p className="text-xs text-gray-400 mb-2">Banner Characters:</p>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {activeBanner.characters.map((char) => {
+                                                        const isOwned = ownedBannerChars.includes(char);
+                                                        const eidolon = getCharacterEidolon(char);
+                                                        return (
+                                                            <Badge
+                                                                key={char}
+                                                                className={`
+                                                                    ${isOwned
+                                                                        ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                                                                        : "bg-red-500/20 text-red-400 border-red-500/30"
+                                                                    }
+                                                                `}
+                                                            >
+                                                                {isOwned ? "✓" : "✗"} {char}
+                                                                {eidolon !== null && eidolon > 0 && (
+                                                                    <span className="ml-1 text-purple-400">E{eidolon}</span>
+                                                                )}
+                                                            </Badge>
+                                                        );
+                                                    })}
+                                                </div>
+                                                {missingBannerChars.length > 0 && (
+                                                    <p className="text-xs text-red-400 mt-2">
+                                                        💡 You&apos;re missing {missingBannerChars.length} character(s) from this banner
+                                                    </p>
+                                                )}
+                                                {missingBannerChars.length === 0 && ownedBannerChars.length > 0 && (
+                                                    <p className="text-xs text-emerald-400 mt-2">
+                                                        ⭐ You own all characters from this banner!
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {/* Not logged in hint */}
+                                        {!uid && (
+                                            <div className="mt-4 pt-4 border-t border-yellow-500/20">
+                                                <p className="text-xs text-gray-500">
+                                                    🔗 Connect your UID to see which characters you own
+                                                </p>
+                                            </div>
+                                        )}
                                     </motion.div>
                                 )}
                             </CardContent>
