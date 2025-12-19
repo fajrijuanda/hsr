@@ -6,39 +6,44 @@ import { useCountdown, formatTimeLeft } from "@/lib/countdown";
 import { Banner } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import charactersData from "@/data/characters.json";
 
 const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
 
-interface CharacterData {
-    id: string;
-    charId: string;
-    name: string;
-    rarity: number;
-}
+// Map character names to their charIds for splash art
+const CHAR_ID_MAP: Record<string, string> = {
+    "The Dahlia": "1321",
+    "Firefly": "1310",
+    "Fugue": "1317",
+    "Lingsha": "1215",
+    "Aglaea": "1402",
+    "Sunday": "1313",
+    "Dan Heng IL": "1213",
+    "Acheron": "1308",
+    "Aventurine": "1304",
+    "Robin": "1309",
+    "Sparkle": "1306",
+    "Black Swan": "1307",
+    "Dr. Ratio": "1305",
+    "Ruan Mei": "1303",
+    "Fu Xuan": "1208",
+    "Jingliu": "1212",
+    "Topaz": "1210",
+    "Huohuo": "1215",
+    "Argenti": "1302",
+    "Hanya": "1215",
+    "Jing Yuan": "1204",
+    "Kafka": "1105",
+    "Blade": "1205",
+    "Luocha": "1203",
+    "Silver Wolf": "1006",
+    "Seele": "1102"
+};
 
 interface BannerCardProps {
     banner: Banner;
 }
 
-// Map character names to their charIds
-const getCharId = (name: string): string | null => {
-    const chars = charactersData as CharacterData[];
-    // Handle special name mappings
-    const nameMap: Record<string, string> = {
-        "The Dahlia": "the_herta",
-        "Dan Heng IL": "dan_heng_il",
-    };
-
-    const searchName = nameMap[name] || name.toLowerCase().replace(/\s+/g, "_").replace(/\./g, "");
-    const found = chars.find(c =>
-        c.id === searchName ||
-        c.name.toLowerCase() === name.toLowerCase()
-    );
-    return found?.charId || null;
-};
-
-// Check if banner is new (started within last 3 days)
+// Check if banner started within last 3 days
 const checkIsNew = (startDate: string): boolean => {
     const bannerStart = new Date(startDate).getTime();
     const threeDaysAgo = Date.now() - 3 * 24 * 60 * 60 * 1000;
@@ -58,7 +63,7 @@ export function BannerCard({ banner }: BannerCardProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
         >
-            <Card className="bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 border-purple-500/30 overflow-hidden">
+            <Card className="bg-gradient-to-br from-gray-900 via-purple-900/30 to-gray-900 border-purple-500/30 overflow-hidden">
                 <CardHeader className="pb-2">
                     <div className="flex items-center justify-between">
                         <CardTitle className="text-lg flex items-center gap-2">
@@ -75,45 +80,60 @@ export function BannerCard({ banner }: BannerCardProps) {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {/* Character Images - Featured Section */}
-                    <div className="flex justify-center gap-4 py-4">
-                        {banner.characters.map((charName) => {
-                            const charId = getCharId(charName);
-                            return (
-                                <motion.div
-                                    key={charName}
-                                    initial={{ scale: 0.8, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    transition={{ delay: 0.1 }}
-                                    className="relative group"
-                                >
-                                    <div className="w-24 h-24 md:w-28 md:h-28 rounded-xl overflow-hidden bg-gradient-to-br from-purple-600/20 to-pink-600/20 border-2 border-yellow-500/50 shadow-lg shadow-purple-500/20 group-hover:scale-105 transition-transform">
+                    {/* Character Splash Art - Full Banner Style */}
+                    <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-purple-500/30">
+                        {/* Background glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-transparent to-pink-600/20" />
+
+                        {/* Character images side by side */}
+                        <div className="absolute inset-0 flex justify-center items-end">
+                            {banner.characters.map((charName, index) => {
+                                const charId = CHAR_ID_MAP[charName];
+                                const isFirst = index === 0;
+                                return (
+                                    <motion.div
+                                        key={charName}
+                                        initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        transition={{ delay: index * 0.15 }}
+                                        className={`relative ${isFirst ? "-mr-8 z-10" : "-ml-8 z-0"}`}
+                                        style={{
+                                            transform: isFirst ? "translateX(-5%)" : "translateX(5%)"
+                                        }}
+                                    >
                                         {charId ? (
                                             <Image
-                                                src={`${STAR_RAIL_RES}/icon/character/${charId}.png`}
+                                                src={`${STAR_RAIL_RES}/image/character_preview/${charId}.png`}
                                                 alt={charName}
-                                                width={112}
-                                                height={112}
-                                                className="w-full h-full object-cover"
+                                                width={250}
+                                                height={300}
+                                                className="h-48 md:h-64 w-auto object-contain drop-shadow-2xl"
                                                 unoptimized
                                             />
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-3xl">
-                                                ⭐
+                                            <div className="h-48 md:h-64 w-32 flex items-center justify-center bg-gray-800/50 rounded">
+                                                <span className="text-4xl">⭐</span>
                                             </div>
                                         )}
-                                    </div>
-                                    {/* Character Name Label */}
-                                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-purple-600 rounded text-xs font-medium whitespace-nowrap shadow-md">
-                                        {charName}
-                                    </div>
-                                    {/* 5-star indicator */}
-                                    <div className="absolute -top-1 -right-1 text-yellow-400 text-sm">
-                                        ⭐
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
+
+                        {/* Character name overlays */}
+                        <div className="absolute bottom-2 left-2 right-2 flex justify-between">
+                            {banner.characters.map((charName, index) => (
+                                <Badge
+                                    key={charName}
+                                    className={`
+                                        bg-black/60 backdrop-blur-sm text-white border-yellow-500/50
+                                        ${index === 0 ? "" : "ml-auto"}
+                                    `}
+                                >
+                                    ⭐ {charName}
+                                </Badge>
+                            ))}
+                        </div>
                     </div>
 
                     {/* Light Cones */}
