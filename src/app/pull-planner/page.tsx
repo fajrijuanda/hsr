@@ -1,0 +1,549 @@
+"use client";
+
+import { useState, useMemo, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    quickEstimatePulls,
+    calculateTotalPulls,
+    daysUntilEnough,
+    getPityZone,
+    simulatePulls,
+    formatNumber,
+} from "@/lib/pullCalculator";
+import bannersData from "@/data/banners.json";
+
+interface Banner {
+    id: string;
+    phase: string;
+    name: string;
+    characters: string[];
+    startDate: string;
+    endDate: string;
+    imageUrl?: string;
+}
+
+export default function PullPlannerPage() {
+    // State
+    const [currentPity, setCurrentPity] = useState(0);
+    const [isGuaranteed, setIsGuaranteed] = useState(false);
+    const [stellarJade, setStellarJade] = useState(0);
+    const [passes, setPasses] = useState(0);
+    const [targetBanner, setTargetBanner] = useState<string>("banner-3-8-1");
+    const [simulationResult, setSimulationResult] = useState<{
+        successRate: number;
+        avgPulls: number;
+    } | null>(null);
+
+    const banners = bannersData as Banner[];
+    const activeBanner = banners.find((b) => b.id === targetBanner) || banners[0];
+
+    // Calculations
+    const pullEstimate = useMemo(
+        () => quickEstimatePulls(currentPity, isGuaranteed),
+        [currentPity, isGuaranteed]
+    );
+
+    const resources = useMemo(
+        () => calculateTotalPulls(stellarJade, passes),
+        [stellarJade, passes]
+    );
+
+    const daysNeeded = useMemo(
+        () => daysUntilEnough(stellarJade, passes, pullEstimate.avg),
+        [stellarJade, passes, pullEstimate.avg]
+    );
+
+    const pityZone = getPityZone(currentPity);
+
+    // Calculate days until banner ends
+    const daysUntilBannerEnds = useMemo(() => {
+        if (!activeBanner) return 0;
+        const endDate = new Date(activeBanner.endDate);
+        const now = new Date();
+        return Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+    }, [activeBanner]);
+
+    // Run simulation
+    const runSimulation = () => {
+        const result = simulatePulls(currentPity, isGuaranteed, resources.totalPulls);
+        setSimulationResult({
+            successRate: result.successRate,
+            avgPulls: result.avgPulls,
+        });
+    };
+
+    // Auto-run simulation when inputs change
+    useEffect(() => {
+        if (resources.totalPulls > 0) {
+            runSimulation();
+        }
+    }, [currentPity, isGuaranteed, resources.totalPulls]);
+
+    // Get recommendation message
+    const getRecommendation = () => {
+        if (!simulationResult) return null;
+
+        const rate = simulationResult.successRate * 100;
+        const pullsNeeded = pullEstimate.avg;
+        const haveEnough = resources.totalPulls >= pullsNeeded;
+
+        if (rate >= 90) {
+            return {
+                emoji: "🎯",
+                message: "You're almost guaranteed! Safe to pull.",
+                color: "text-emerald-400",
+            };
+        } else if (rate >= 70) {
+            return {
+                emoji: "👍",
+                message: "Good chance! Consider pulling if you want.",
+                color: "text-green-400",
+            };
+        } else if (rate >= 50) {
+            return {
+                emoji: "🤔",
+                message: "Coin flip territory. Save more if possible.",
+                color: "text-yellow-400",
+            };
+        } else if (rate >= 30) {
+            return {
+                emoji: "⚠️",
+                message: "Risky! You might want to wait.",
+                color: "text-orange-400",
+            };
+        } else {
+            return {
+                emoji: "❌",
+                message: "Not enough! Keep saving.",
+                color: "text-red-400",
+            };
+        }
+    };
+
+    const recommendation = getRecommendation();
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-yellow-950">
+            {/* Header */}
+            <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
+                <div className="container mx-auto px-4 py-4">
+                    <div className="flex items-center gap-4">
+                        <Link
+                            href="/"
+                            className="text-gray-400 hover:text-white transition-colors"
+                        >
+                            ← Back
+                        </Link>
+                        <div>
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 bg-clip-text text-transparent">
+                                🎰 Pull Planner
+                            </h1>
+                            <p className="text-sm text-gray-400">
+                                Plan your Stellar Jade spending wisely
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main className="container mx-auto px-4 py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Left Column - Inputs */}
+                    <div className="space-y-6">
+                        {/* Pity Tracker */}
+                        <Card className="bg-gray-900/50 border-gray-700">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    📊 Pity Tracker
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div>
+                                    <Label className="text-gray-300">Current Pity</Label>
+                                    <div className="flex items-center gap-3 mt-2">
+                                        <Input
+                                            type="number"
+                                            min={0}
+                                            max={89}
+                                            value={currentPity}
+                                            onChange={(e) => setCurrentPity(Math.min(89, Math.max(0, parseInt(e.target.value) || 0)))}
+                                            className="w-24 bg-gray-800 border-gray-700"
+                                        />
+                                        <span className="text-gray-400">/ 90</span>
+                                        <Badge
+                                            className={`
+                        ${pityZone === "safe" ? "bg-emerald-500/20 text-emerald-400" : ""}
+                        ${pityZone === "soft" ? "bg-yellow-500/20 text-yellow-400" : ""}
+                        ${pityZone === "hot" ? "bg-red-500/20 text-red-400" : ""}
+                      `}
+                                        >
+                                            {pityZone === "safe" && "Safe Zone"}
+                                            {pityZone === "soft" && "Soft Pity Soon"}
+                                            {pityZone === "hot" && "🔥 Soft Pity!"}
+                                        </Badge>
+                                    </div>
+                                    <Progress
+                                        value={(currentPity / 90) * 100}
+                                        className="mt-3 h-2"
+                                    />
+                                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                                        <span>0</span>
+                                        <span className="text-yellow-500">74 (Soft)</span>
+                                        <span>90</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <Label className="text-gray-300">50/50 Status</Label>
+                                    <div className="flex gap-2 mt-2">
+                                        <Button
+                                            variant={!isGuaranteed ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => setIsGuaranteed(false)}
+                                            className={!isGuaranteed ? "bg-yellow-600 hover:bg-yellow-700" : ""}
+                                        >
+                                            50/50
+                                        </Button>
+                                        <Button
+                                            variant={isGuaranteed ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => setIsGuaranteed(true)}
+                                            className={isGuaranteed ? "bg-emerald-600 hover:bg-emerald-700" : ""}
+                                        >
+                                            Guaranteed ✓
+                                        </Button>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Resources */}
+                        <Card className="bg-gray-900/50 border-gray-700">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    💎 Your Resources
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div>
+                                    <Label className="text-gray-300">Stellar Jade</Label>
+                                    <Input
+                                        type="number"
+                                        min={0}
+                                        value={stellarJade}
+                                        onChange={(e) => setStellarJade(Math.max(0, parseInt(e.target.value) || 0))}
+                                        className="mt-2 bg-gray-800 border-gray-700"
+                                        placeholder="e.g. 12800"
+                                    />
+                                </div>
+                                <div>
+                                    <Label className="text-gray-300">Star Rail Passes</Label>
+                                    <Input
+                                        type="number"
+                                        min={0}
+                                        value={passes}
+                                        onChange={(e) => setPasses(Math.max(0, parseInt(e.target.value) || 0))}
+                                        className="mt-2 bg-gray-800 border-gray-700"
+                                        placeholder="e.g. 10"
+                                    />
+                                </div>
+                                <div className="p-3 rounded-lg bg-gray-800/50 border border-gray-700">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400">Total Pulls:</span>
+                                        <span className="text-2xl font-bold text-white">
+                                            {resources.totalPulls}
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        ({Math.floor(stellarJade / 160)} from Jade + {passes} Passes)
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    {/* Middle Column - Banner Selection */}
+                    <div className="space-y-6">
+                        {/* Target Banner */}
+                        <Card className="bg-gray-900/50 border-gray-700">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    🎯 Target Banner
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <Select value={targetBanner} onValueChange={setTargetBanner}>
+                                    <SelectTrigger className="bg-gray-800 border-gray-700">
+                                        <SelectValue placeholder="Select banner" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-gray-800 border-gray-700">
+                                        {banners.map((banner) => (
+                                            <SelectItem key={banner.id} value={banner.id}>
+                                                {banner.phase}: {banner.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                {activeBanner && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="p-4 rounded-lg bg-gradient-to-br from-yellow-900/20 to-amber-900/20 border border-yellow-500/30"
+                                    >
+                                        <div className="flex items-start gap-4">
+                                            {activeBanner.imageUrl && (
+                                                <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0">
+                                                    <Image
+                                                        src={activeBanner.imageUrl}
+                                                        alt={activeBanner.name}
+                                                        fill
+                                                        className="object-cover"
+                                                        unoptimized
+                                                    />
+                                                </div>
+                                            )}
+                                            <div>
+                                                <Badge className="bg-yellow-500/20 text-yellow-400 mb-2">
+                                                    {activeBanner.phase}
+                                                </Badge>
+                                                <h3 className="font-semibold text-white">
+                                                    {activeBanner.name}
+                                                </h3>
+                                                <p className="text-sm text-gray-400">
+                                                    ⭐ {activeBanner.characters.join(", ")}
+                                                </p>
+                                                <p className="text-sm text-amber-400 mt-1">
+                                                    ⏳ {daysUntilBannerEnds} days remaining
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        {/* Pull Estimate */}
+                        <Card className="bg-gray-900/50 border-gray-700">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    🎲 Pull Estimate
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid grid-cols-3 gap-4 text-center">
+                                    <div className="p-3 rounded-lg bg-emerald-900/20 border border-emerald-500/30">
+                                        <p className="text-xs text-emerald-400">Best Case</p>
+                                        <p className="text-2xl font-bold text-emerald-400">
+                                            {pullEstimate.min}
+                                        </p>
+                                        <p className="text-xs text-gray-500">pulls</p>
+                                    </div>
+                                    <div className="p-3 rounded-lg bg-yellow-900/20 border border-yellow-500/30">
+                                        <p className="text-xs text-yellow-400">Average</p>
+                                        <p className="text-2xl font-bold text-yellow-400">
+                                            {pullEstimate.avg}
+                                        </p>
+                                        <p className="text-xs text-gray-500">pulls</p>
+                                    </div>
+                                    <div className="p-3 rounded-lg bg-red-900/20 border border-red-500/30">
+                                        <p className="text-xs text-red-400">Worst Case</p>
+                                        <p className="text-2xl font-bold text-red-400">
+                                            {pullEstimate.max}
+                                        </p>
+                                        <p className="text-xs text-gray-500">pulls</p>
+                                    </div>
+                                </div>
+                                <p className="text-xs text-gray-500 text-center mt-3">
+                                    Based on {currentPity} pity, {isGuaranteed ? "guaranteed" : "50/50"}
+                                </p>
+                            </CardContent>
+                        </Card>
+
+                        {/* Days Estimate */}
+                        {daysNeeded > 0 && (
+                            <Card className="bg-gray-900/50 border-gray-700">
+                                <CardContent className="py-4">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-400">Days until enough:</span>
+                                        <div className="text-right">
+                                            <span className="text-xl font-bold text-amber-400">
+                                                ~{daysNeeded} days
+                                            </span>
+                                            <p className="text-xs text-gray-500">at ~188 SJ/day</p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )}
+                    </div>
+
+                    {/* Right Column - Results */}
+                    <div className="space-y-6">
+                        {/* Success Probability */}
+                        <Card className="bg-gray-900/50 border-gray-700">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    📈 Success Probability
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                {simulationResult ? (
+                                    <>
+                                        <div className="text-center p-6 rounded-lg bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/30">
+                                            <p className="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                                {Math.round(simulationResult.successRate * 100)}%
+                                            </p>
+                                            <p className="text-gray-400 mt-2">
+                                                chance to get featured 5★
+                                            </p>
+                                            <p className="text-sm text-gray-500 mt-1">
+                                                with {resources.totalPulls} pulls available
+                                            </p>
+                                        </div>
+
+                                        <Progress
+                                            value={simulationResult.successRate * 100}
+                                            className="h-3"
+                                        />
+
+                                        {recommendation && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                className="p-4 rounded-lg bg-gray-800/50 border border-gray-700"
+                                            >
+                                                <div className="flex items-start gap-3">
+                                                    <span className="text-2xl">{recommendation.emoji}</span>
+                                                    <p className={`${recommendation.color} font-medium`}>
+                                                        {recommendation.message}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="text-center py-8 text-gray-500">
+                                        <p>Enter your resources to see probability</p>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        {/* Summary */}
+                        <Card className="bg-gray-900/50 border-gray-700">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    📋 Summary
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">You have:</span>
+                                        <span className="text-white font-medium">
+                                            {resources.totalPulls} pulls
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">You need (avg):</span>
+                                        <span className="text-white font-medium">
+                                            {pullEstimate.avg} pulls
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Jade needed:</span>
+                                        <span className="text-white font-medium">
+                                            {formatNumber(pullEstimate.avg * 160)} 💎
+                                        </span>
+                                    </div>
+                                    <hr className="border-gray-700" />
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Difference:</span>
+                                        <span
+                                            className={
+                                                resources.totalPulls >= pullEstimate.avg
+                                                    ? "text-emerald-400 font-bold"
+                                                    : "text-red-400 font-bold"
+                                            }
+                                        >
+                                            {resources.totalPulls >= pullEstimate.avg ? "+" : ""}
+                                            {resources.totalPulls - pullEstimate.avg} pulls
+                                        </span>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Banner Timeline */}
+                        <Card className="bg-gray-900/50 border-gray-700">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    🗓️ Banner Timeline
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-2">
+                                {banners.map((banner, index) => {
+                                    const now = new Date();
+                                    const start = new Date(banner.startDate);
+                                    const end = new Date(banner.endDate);
+                                    const isActive = now >= start && now <= end;
+                                    const isFuture = now < start;
+
+                                    return (
+                                        <div
+                                            key={banner.id}
+                                            className={`p-3 rounded-lg border transition-all cursor-pointer
+                        ${isActive ? "bg-yellow-900/20 border-yellow-500/30" : ""}
+                        ${isFuture ? "bg-gray-800/30 border-gray-700" : ""}
+                        ${!isActive && !isFuture ? "opacity-50 bg-gray-800/10 border-gray-800" : ""}
+                        ${targetBanner === banner.id ? "ring-2 ring-yellow-500/50" : ""}
+                      `}
+                                            onClick={() => setTargetBanner(banner.id)}
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <Badge
+                                                        className={`
+                              ${isActive ? "bg-emerald-500/20 text-emerald-400" : ""}
+                              ${isFuture ? "bg-blue-500/20 text-blue-400" : ""}
+                              ${!isActive && !isFuture ? "bg-gray-500/20 text-gray-400" : ""}
+                              text-xs
+                            `}
+                                                    >
+                                                        {isActive ? "NOW" : isFuture ? "UPCOMING" : "ENDED"}
+                                                    </Badge>
+                                                    <p className="text-sm font-medium text-white mt-1">
+                                                        {banner.phase}
+                                                    </p>
+                                                    <p className="text-xs text-gray-400">
+                                                        {banner.characters.join(" / ")}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+}

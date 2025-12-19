@@ -49,7 +49,7 @@ const FEATURES: FeatureLink[] = [
         description: "AI-powered pull recommendations",
         href: "/pull-planner",
         icon: "🎰",
-        status: "coming-soon",
+        status: "available",
         color: "from-yellow-600 to-amber-600",
     },
     {

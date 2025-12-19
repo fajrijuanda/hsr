@@ -1,0 +1,23 @@
+{
+  "standard": {
+    "baseRate": 0.006,
+    "softPityStart": 74,
+    "hardPity": 90,
+    "softPityRateIncrease": 0.06,
+    "costPerPull": 160,
+    "guaranteedPity": true
+  },
+  "lightCone": {
+    "baseRate": 0.008,
+    "softPityStart": 65,
+    "hardPity": 80,
+    "softPityRateIncrease": 0.07,
+    "costPerPull": 160,
+    "guaranteedPity": true
+  },
+  "averagePulls": {
+    "fiftyFiftyWin": 62,
+    "fiftyFiftyLose": 124,
+    "guaranteed": 62
+  }
+}
