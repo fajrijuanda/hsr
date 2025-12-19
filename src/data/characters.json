@@ -40,6 +40,16 @@
     "releaseOrder": 302
   },
   {
+    "id": "hysilens",
+    "charId": "1417",
+    "name": "Hysilens",
+    "path": "Nihility",
+    "element": "Physical",
+    "rarity": 5,
+    "baseSpeed": 100,
+    "releaseOrder": 351
+  },
+  {
     "id": "cyrene",
     "charId": "1415",
     "name": "Cyrene",
