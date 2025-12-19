@@ -6,6 +6,7 @@ import { CodeList } from "@/components/Codes/CodeList";
 import { EventList } from "@/components/Events/EventList";
 import { ResetTimers } from "@/components/Stats/ResetTimers";
 import { FeatureGrid } from "@/components/QuickLinks/FeatureGrid";
+import { LiveNews } from "@/components/News/LiveNews";
 import { Banner, RedemptionCode, GameEvent } from "@/types";
 import { Badge } from "@/components/ui/badge";
 
@@ -85,6 +86,9 @@ export default function DashboardPage() {
 
             {/* Events */}
             <EventList events={events} />
+
+            {/* Live News from HoYoLAB */}
+            <LiveNews />
           </div>
 
           {/* Right Column - Codes & Timers */}
