@@ -12,6 +12,7 @@ import {
     Edge,
     BackgroundVariant,
     Panel,
+    MarkerType,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import Image from "next/image";
@@ -156,25 +157,28 @@ export function LoreGraph() {
         const edges: Edge[] = [];
 
         if (view === "characters") {
-            // Position characters in a circle
+            // Position characters in an organized grid (board layout)
             const charArray = Object.values(characters);
-            const radius = 400;
-            const centerX = 500;
-            const centerY = 400;
+            const cols = 4; // 4 columns
+            const cellWidth = 200;
+            const cellHeight = 120;
+            const startX = 100;
+            const startY = 100;
 
             charArray.forEach((char, i) => {
-                const angle = (2 * Math.PI * i) / charArray.length;
+                const row = Math.floor(i / cols);
+                const col = i % cols;
                 nodes.push({
                     id: char.id,
                     type: "character",
                     position: {
-                        x: centerX + radius * Math.cos(angle),
-                        y: centerY + radius * Math.sin(angle),
+                        x: startX + col * cellWidth,
+                        y: startY + row * cellHeight,
                     },
                     data: { ...char, charId: getCharId(char.id) },
                 });
 
-                // Create edges for relationships
+                // Create edges for relationships with arrow markers
                 char.relationships.forEach((rel) => {
                     if (characters[rel.target]) {
                         edges.push({
@@ -182,8 +186,15 @@ export function LoreGraph() {
                             source: char.id,
                             target: rel.target,
                             label: rel.label,
-                            style: { stroke: edgeColors[rel.type] || "#888" },
+                            type: "smoothstep",
+                            style: { stroke: edgeColors[rel.type] || "#888", strokeWidth: 2 },
                             animated: rel.type === "enemy",
+                            markerEnd: {
+                                type: MarkerType.ArrowClosed,
+                                color: edgeColors[rel.type] || "#888",
+                            },
+                            labelStyle: { fill: "#fff", fontSize: 10 },
+                            labelBgStyle: { fill: "#1f2937", fillOpacity: 0.8 },
                         });
                     }
                 });
@@ -222,7 +233,12 @@ export function LoreGraph() {
                             id: `edge-${faction.id}-${memberId}`,
                             source: faction.id,
                             target: `${faction.id}-${memberId}`,
+                            type: "smoothstep",
                             style: { stroke: faction.color, strokeWidth: 2 },
+                            markerEnd: {
+                                type: MarkerType.ArrowClosed,
+                                color: faction.color,
+                            },
                         });
                     }
                 });
@@ -244,8 +260,13 @@ export function LoreGraph() {
                             id: `loc-${loc.id}-${targetId}`,
                             source: loc.id,
                             target: targetId,
+                            type: "smoothstep",
                             style: { stroke: "#3b82f6", strokeWidth: 3 },
                             animated: true,
+                            markerEnd: {
+                                type: MarkerType.ArrowClosed,
+                                color: "#3b82f6",
+                            },
                         });
                     }
                 });

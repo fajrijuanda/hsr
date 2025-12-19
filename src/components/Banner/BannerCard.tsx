@@ -86,20 +86,16 @@ export function BannerCard({ banner }: BannerCardProps) {
                         <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-transparent to-pink-600/20" />
 
                         {/* Character images side by side */}
-                        <div className="absolute inset-0 flex justify-center items-end">
+                        <div className="absolute inset-0 flex justify-around items-end px-8">
                             {banner.characters.map((charName, index) => {
                                 const charId = CHAR_ID_MAP[charName];
-                                const isFirst = index === 0;
                                 return (
                                     <motion.div
                                         key={charName}
                                         initial={{ opacity: 0, y: 20, scale: 0.9 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         transition={{ delay: index * 0.15 }}
-                                        className={`relative ${isFirst ? "-mr-8 z-10" : "-ml-8 z-0"}`}
-                                        style={{
-                                            transform: isFirst ? "translateX(-5%)" : "translateX(5%)"
-                                        }}
+                                        className="relative"
                                     >
                                         {charId ? (
                                             <Image
