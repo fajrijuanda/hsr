@@ -655,5 +655,14 @@
     "element": "Imaginary",
     "rarity": 4,
     "baseSpeed": 102
+  },
+  {
+    "id": "dan_heng_preservation",
+    "charId": "1416",
+    "name": "Dan Heng (Preservation)",
+    "path": "Preservation",
+    "element": "Quantum",
+    "rarity": 5,
+    "baseSpeed": 98
   }
 ]
