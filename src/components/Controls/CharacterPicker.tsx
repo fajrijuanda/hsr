@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Character } from "@/types";
 import { useTeamStore } from "@/stores/teamStore";
@@ -38,7 +38,7 @@ type FilterTab = "all" | "owned";
 
 export function CharacterPicker() {
     const { team, addCharacter } = useTeamStore();
-    const { profile } = useUser();
+    const { profile, uid } = useUser();
     const characters = charactersData as Character[];
 
     const [search, setSearch] = useState("");
@@ -46,38 +46,104 @@ export function CharacterPicker() {
     const [selectedElement, setSelectedElement] = useState<string | null>(null);
     const [selectedPath, setSelectedPath] = useState<string | null>(null);
 
+    // Local state for owned characters from DB
+    const [dbOwnedCharIds, setDbOwnedCharIds] = useState<Set<string>>(new Set());
+    const [isTogglingOwnership, setIsTogglingOwnership] = useState<string | null>(null);
+
     const isInTeam = (id: string) => team.some((m) => m.character.id === id);
     const canAddMore = team.length < 4;
 
-    // Get owned character IDs from showcase
+    // Fetch owned characters from database
+    const fetchOwnedCharacters = useCallback(async () => {
+        if (!uid) return;
+        try {
+            const res = await fetch(`/api/user/characters?uid=${uid}`);
+            const data = await res.json();
+            if (data.success && data.data) {
+                // data.data contains { characterId, character: { id, charId, ... } }
+                const ids = new Set<string>(data.data.map((uc: { characterId: string }) => uc.characterId));
+                setDbOwnedCharIds(ids);
+            }
+        } catch (error) {
+            console.error("Failed to fetch owned characters:", error);
+        }
+    }, [uid]);
+
+    useEffect(() => {
+        fetchOwnedCharacters();
+    }, [fetchOwnedCharacters]);
+
+    // Toggle character ownership
+    const toggleOwnership = async (charId: string, currentlyOwned: boolean) => {
+        if (!uid) return;
+        setIsTogglingOwnership(charId);
+
+        try {
+            if (currentlyOwned) {
+                // Remove ownership
+                await fetch(`/api/user/characters?uid=${uid}&characterId=${charId}`, {
+                    method: "DELETE",
+                });
+                setDbOwnedCharIds(prev => {
+                    const next = new Set(prev);
+                    next.delete(charId);
+                    return next;
+                });
+            } else {
+                // Add ownership
+                await fetch("/api/user/characters", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ uid, characterId: charId }),
+                });
+                setDbOwnedCharIds(prev => new Set(prev).add(charId));
+            }
+        } catch (error) {
+            console.error("Failed to toggle ownership:", error);
+        } finally {
+            setIsTogglingOwnership(null);
+        }
+    };
+
+    // Combine showcase + DB owned characters
     const ownedCharacterIds = useMemo(() => {
-        if (!profile?.characters) return new Set<string>();
-        return new Set(profile.characters.map((c) => c.id));
-    }, [profile]);
+        const showcaseIds = profile?.characters
+            ? new Set(profile.characters.map((c) => c.id))
+            : new Set<string>();
+
+        // Merge with DB characters (by internal ID)
+        // Need to map DB ids (internal like "acheron") to charId (game ID like "1308")
+        const charIdToInternalId = new Map<string, string>();
+        for (const char of characters) {
+            charIdToInternalId.set(char.charId, char.id);
+        }
+
+        // Convert dbOwnedCharIds (internal ids) to charIds for comparison
+        const dbCharIds = new Set<string>();
+        for (const char of characters) {
+            if (dbOwnedCharIds.has(char.id)) {
+                dbCharIds.add(char.charId);
+            }
+        }
+
+        return new Set([...showcaseIds, ...dbCharIds]);
+    }, [profile, dbOwnedCharIds, characters]);
 
     // Filter characters based on all criteria
     const filteredCharacters = useMemo(() => {
         return characters.filter((char) => {
-            // Search filter
             if (search && !char.name.toLowerCase().includes(search.toLowerCase())) {
                 return false;
             }
-
-            // Owned filter
             if (filterTab === "owned" && !ownedCharacterIds.has(char.charId)) {
                 return false;
             }
-
-            // Element filter
             if (selectedElement && char.element !== selectedElement) {
                 return false;
             }
-
-            // Path filter
             if (selectedPath && char.path !== selectedPath) {
                 return false;
             }
-
             return true;
         });
     }, [characters, search, filterTab, ownedCharacterIds, selectedElement, selectedPath]);
@@ -133,11 +199,18 @@ export function CharacterPicker() {
                         size="sm"
                         onClick={() => setFilterTab("owned")}
                         className={filterTab === "owned" ? "bg-purple-600 hover:bg-purple-700" : ""}
-                        disabled={!profile}
+                        disabled={!profile && dbOwnedCharIds.size === 0}
                     >
                         My Characters ({ownedCharacterIds.size})
                     </Button>
                 </div>
+
+                {/* Hint for manual toggle */}
+                {uid && (
+                    <p className="text-xs text-gray-500">
+                        💡 Shift+Click on a character to toggle ownership
+                    </p>
+                )}
 
                 {/* Element Filters */}
                 <div className="flex flex-wrap gap-1">
@@ -148,8 +221,8 @@ export function CharacterPicker() {
                             size="sm"
                             onClick={() => setSelectedElement(selectedElement === element ? null : element)}
                             className={`px-2 py-1 h-7 ${selectedElement === element
-                                    ? `${ELEMENT_CONFIG[element].bgClass} text-white`
-                                    : "bg-gray-800/50 hover:bg-gray-700/50"
+                                ? `${ELEMENT_CONFIG[element].bgClass} text-white`
+                                : "bg-gray-800/50 hover:bg-gray-700/50"
                                 }`}
                         >
                             <span
@@ -169,8 +242,8 @@ export function CharacterPicker() {
                             size="sm"
                             onClick={() => setSelectedPath(selectedPath === path ? null : path)}
                             className={`px-2 py-1 h-7 ${selectedPath === path
-                                    ? "bg-purple-600 text-white"
-                                    : "bg-gray-800/50 hover:bg-gray-700/50"
+                                ? "bg-purple-600 text-white"
+                                : "bg-gray-800/50 hover:bg-gray-700/50"
                                 }`}
                         >
                             <span className="mr-1">{PATH_CONFIG[path].icon}</span>
@@ -192,12 +265,21 @@ export function CharacterPicker() {
                                 {chars.map((char) => {
                                     const inTeam = isInTeam(char.id);
                                     const isOwned = ownedCharacterIds.has(char.charId);
+                                    const isDbOwned = dbOwnedCharIds.has(char.id);
+                                    const isToggling = isTogglingOwnership === char.id;
 
                                     return (
                                         <button
                                             key={char.id}
                                             disabled={inTeam || !canAddMore}
-                                            onClick={() => addCharacter(char.id)}
+                                            onClick={(e) => {
+                                                if (e.shiftKey && uid) {
+                                                    e.preventDefault();
+                                                    toggleOwnership(char.id, isDbOwned);
+                                                } else {
+                                                    addCharacter(char.id);
+                                                }
+                                            }}
                                             className={`
                         relative group rounded-lg overflow-hidden transition-all duration-200
                         ${inTeam
@@ -206,9 +288,11 @@ export function CharacterPicker() {
                                                         ? "hover:ring-2 hover:ring-purple-400 hover:scale-105"
                                                         : "opacity-50 cursor-not-allowed"
                                                 }
+                        ${!isOwned && filterTab === "all" ? "opacity-40 grayscale-[0.7] hover:opacity-100 hover:grayscale-0" : ""}
                         ${isOwned && filterTab === "all" ? "ring-1 ring-emerald-500/50" : ""}
+                        ${isToggling ? "animate-pulse" : ""}
                       `}
-                                            title={`${char.name} (${char.baseSpeed} SPD)`}
+                                            title={`${char.name} (${char.baseSpeed} SPD)${uid ? " - Shift+Click to toggle ownership" : ""}`}
                                         >
                                             {/* Character Avatar */}
                                             <div className={`
@@ -227,6 +311,17 @@ export function CharacterPicker() {
                                                 <div
                                                     className={`absolute top-0.5 right-0.5 w-3 h-3 rounded-full ${ELEMENT_CONFIG[char.element]?.bgClass}`}
                                                 />
+                                                {/* Ownership Indicator */}
+                                                {uid && (
+                                                    <div
+                                                        className={`absolute bottom-0.5 left-0.5 w-4 h-4 rounded-sm flex items-center justify-center text-[10px]
+                                                            ${isDbOwned ? "bg-emerald-500" : "bg-gray-600 opacity-0 group-hover:opacity-100"}
+                                                        `}
+                                                        title={isDbOwned ? "Owned (click to remove)" : "Not owned (click to add)"}
+                                                    >
+                                                        {isDbOwned ? "✓" : "+"}
+                                                    </div>
+                                                )}
                                                 {/* In Team Overlay */}
                                                 {inTeam && (
                                                     <div className="absolute inset-0 bg-purple-600/50 flex items-center justify-center">
@@ -248,7 +343,7 @@ export function CharacterPicker() {
 
                     {filteredCharacters.length === 0 && (
                         <div className="text-center py-8 text-gray-500">
-                            {filterTab === "owned" && !profile ? (
+                            {filterTab === "owned" && !profile && dbOwnedCharIds.size === 0 ? (
                                 <p>Login with your UID to see your characters</p>
                             ) : (
                                 <p>No characters match your filters</p>

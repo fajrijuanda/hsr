@@ -18,6 +18,11 @@ export async function GET(request: Request) {
       where: { uid },
       include: {
         profile: true,
+        ownedCharacters: {
+          include: {
+            character: true,
+          },
+        },
       },
     });
 
@@ -87,6 +92,39 @@ export async function POST(request: Request) {
         data: { timestamp: new Date() },
       },
     });
+
+    // Sync owned characters from profile to UserCharacter table
+    if (profileData?.characters && Array.isArray(profileData.characters)) {
+      for (const char of profileData.characters) {
+        // Find matching GameCharacter by charId (4-digit ID)
+        const gameChar = await prisma.gameCharacter.findFirst({
+          where: { charId: char.id },
+        });
+
+        if (gameChar) {
+          await prisma.userCharacter.upsert({
+            where: {
+              userId_characterId: {
+                userId: user.id,
+                characterId: gameChar.id,
+              },
+            },
+            update: {
+              eidolon: char.eidolon || 0,
+              level: char.level || 1,
+              lightConeId: char.lightCone?.id || null,
+            },
+            create: {
+              userId: user.id,
+              characterId: gameChar.id,
+              eidolon: char.eidolon || 0,
+              level: char.level || 1,
+              lightConeId: char.lightCone?.id || null,
+            },
+          });
+        }
+      }
+    }
 
     return NextResponse.json({ success: true, data: user });
   } catch (error) {

@@ -20,11 +20,12 @@ model User {
   lastLoginAt DateTime @default(now())
   
   // Relations
-  profile       UserProfile?
-  activities    Activity[]
-  teamPresets   TeamPreset[]
-  pullPlans     PullPlan[]
-  battleHistory Battle[]
+  profile          UserProfile?
+  activities       Activity[]
+  teamPresets      TeamPreset[]
+  pullPlans        PullPlan[]
+  battleHistory    Battle[]
+  ownedCharacters  UserCharacter[]
 }
 
 // Cached profile data from Mihomo API
@@ -81,4 +82,139 @@ model Battle {
   turns       Int
   duration    Int?     // seconds
   createdAt   DateTime @default(now())
+}
+
+// --- Game Data Reference Models ---
+
+model GameCharacter {
+  id        String   @id // internal id, e.g. "acheron"
+  charId    String   // game id, e.g. "1308"
+  name      String
+  rarity    Int
+  path      String
+  element   String
+  baseSpeed Int
+  
+  // Relations
+  skillData GameCharacterSkill?
+  eidolons  Eidolon[]
+  owners    UserCharacter[]
+}
+
+model GameCharacterSkill {
+  id              String        @id @default(cuid())
+  characterId     String        @unique
+  character       GameCharacter @relation(fields: [characterId], references: [id])
+  
+  basicMultiplier Float
+  skillMultiplier Float
+  ultMultiplier   Float
+  basicEnergy     Int
+  skillEnergy     Int
+  ultCost         Int
+  ultType         String        // normal, stacks
+  passive         String?
+  skillSPCost     Int           @default(1)
+  ultSPChange     Int           @default(0)
+  
+  // Buffs/Debuffs
+  skillBuff       Json?
+  skillDebuff     Json?
+  ultBuff         Json?
+  ultDebuff       Json?
+  
+  baseAtk         Int
+  baseCritRate    Float
+  baseCritDmg     Float
+}
+
+model RelicSet {
+  id     String @id @default(cuid())
+  gameId String? // e.g. "101"
+  name   String
+  type   String // Cavern / Planar
+}
+
+model Path {
+  id    String @id // Destruction, Hunt, etc.
+  name  String
+  icon  String?
+}
+
+model Element {
+  id    String @id // Physical, Fire, etc.
+  name  String
+  color String? // Hex code
+  icon  String?
+}
+
+model Eidolon {
+  id          String        @id @default(cuid())
+  characterId String
+  character   GameCharacter @relation(fields: [characterId], references: [id])
+  rank        Int
+  name        String
+  desc        String
+  icon        String?
+}
+
+model LightCone {
+  id        String   @id // internal slug
+  gameId    String?  // game id
+  name      String
+  rarity    Int
+  path      String
+  maxHp     Int      // Level 80 stat
+  maxAtk    Int
+  maxDef    Int
+  
+  superimpositions LightConeSuperimposition[]
+}
+
+model LightConeSuperimposition {
+  id          String    @id @default(cuid())
+  lightConeId String
+  lightCone   LightCone @relation(fields: [lightConeId], references: [id])
+  rank        Int       // 1-5
+  desc        String
+  properties  Json?
+}
+
+model Enemy {
+  id           String   @id @default(cuid())
+  slug         String   @unique // json id e.g. "phantylia"
+  name         String
+  type         String   // boss, elite
+  
+  maxHp        Int
+  speed        Int
+  defense      Int
+  toughness    Int      @default(300)
+
+  weaknesses   Json     // String[]
+  resistances  Json     // Map<Element, Float>
+  
+  statusRes    Json?    // Map<Status, Float>
+  debuffRes    Json?    // specific debuff interactions
+  
+  imageUrl     String?
+  
+  variants     Json?
+}
+
+model UserCharacter {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  characterId String
+  character   GameCharacter @relation(fields: [characterId], references: [id])
+  
+  eidolon     Int           @default(0) // E0-E6
+  level       Int           @default(1)
+  lightConeId String?
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  @@unique([userId, characterId])
 }
