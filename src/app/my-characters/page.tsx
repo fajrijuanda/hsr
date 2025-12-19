@@ -6,13 +6,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { LoadingScreen, LoadingSpinner, AlertDialog } from "@/components/ui/feedback";
 import charactersData from "@/data/characters.json";
 
 const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
+
+// Element name mapping for CDN (Lightning is called Thunder in the CDN)
+const ELEMENT_CDN_MAP: Record<string, string> = {
+    "Lightning": "Thunder",
+};
+
+const getElementCdnName = (element: string) => ELEMENT_CDN_MAP[element] || element;
 
 interface Character {
     id: string;
@@ -195,7 +201,7 @@ export default function MyCharactersPage() {
                                 className="px-2"
                             >
                                 <Image
-                                    src={`${STAR_RAIL_RES}/icon/element/${elem}.png`}
+                                    src={`${STAR_RAIL_RES}/icon/element/${getElementCdnName(elem)}.png`}
                                     alt={elem}
                                     width={20}
                                     height={20}
@@ -209,75 +215,93 @@ export default function MyCharactersPage() {
 
             {/* Character Grid */}
             <main className="max-w-7xl mx-auto p-6">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3">
                     {filteredChars.map((char, index) => {
                         const owned = ownedChars.get(char.id);
                         const isOwned = !!owned;
+                        const eidolon = owned?.eidolon ?? 0;
 
                         return (
                             <motion.div
                                 key={char.id}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: index * 0.02 }}
+                                transition={{ delay: index * 0.01 }}
                             >
-                                <Card
-                                    className={`
-                    cursor-pointer transition-all overflow-hidden
-                    ${isOwned
-                                            ? "bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-purple-500/50"
-                                            : "bg-gray-800/50 border-gray-700 opacity-50 hover:opacity-100"
-                                        }
-                  `}
+                                <button
                                     onClick={() => toggleOwnership(char.id)}
+                                    className={`
+                                        relative group rounded-lg overflow-hidden transition-all duration-200 w-full
+                                        ${isOwned
+                                            ? "ring-2 ring-emerald-500/70 hover:ring-emerald-400"
+                                            : "opacity-40 grayscale-[0.7] hover:opacity-100 hover:grayscale-0"
+                                        }
+                                        hover:scale-105 hover:z-10
+                                    `}
+                                    title={`${char.name}${isOwned ? ` (E${eidolon})` : ""} - Click to toggle`}
                                 >
-                                    <CardContent className="p-3 text-center relative">
-                                        {/* Ownership badge */}
+                                    {/* Character Avatar */}
+                                    <div className={`
+                                        aspect-square bg-gradient-to-br from-gray-800 to-gray-900
+                                        ${char.rarity === 5 ? "border-b-2 border-yellow-500" : "border-b-2 border-purple-500"}
+                                    `}>
+                                        <Image
+                                            src={`${STAR_RAIL_RES}/icon/character/${char.charId}.png`}
+                                            alt={char.name}
+                                            width={80}
+                                            height={80}
+                                            className="w-full h-full object-cover"
+                                            unoptimized
+                                        />
+
+                                        {/* Element Badge (top-right) */}
+                                        <Image
+                                            src={`${STAR_RAIL_RES}/icon/element/${getElementCdnName(char.element)}.png`}
+                                            alt={char.element}
+                                            width={18}
+                                            height={18}
+                                            className="absolute top-0.5 right-0.5 drop-shadow-lg"
+                                            unoptimized
+                                        />
+
+                                        {/* Ownership Check (top-left) */}
                                         {isOwned && (
-                                            <div className="absolute top-1 right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center text-xs">
+                                            <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-emerald-500 rounded-sm flex items-center justify-center text-[10px] font-bold shadow-md">
                                                 ✓
                                             </div>
                                         )}
 
-                                        {/* Eidolon badge */}
-                                        {isOwned && owned?.eidolon !== undefined && owned.eidolon > 0 && (
-                                            <div className="absolute top-1 left-1 px-1.5 py-0.5 bg-yellow-500/80 rounded text-xs font-bold">
-                                                E{owned.eidolon}
-                                            </div>
-                                        )}
-
-                                        {/* Avatar */}
-                                        <div className={`w-16 h-16 mx-auto rounded-full overflow-hidden ${char.rarity === 5 ? "ring-2 ring-yellow-500/50" : "ring-2 ring-purple-500/30"
-                                            }`}>
-                                            <Image
-                                                src={`${STAR_RAIL_RES}/icon/character/${char.charId}.png`}
-                                                alt={char.name}
-                                                width={64}
-                                                height={64}
-                                                className="object-cover"
-                                                unoptimized
-                                            />
-                                        </div>
-
-                                        {/* Name */}
-                                        <p className="text-sm font-medium mt-2 truncate">{char.name}</p>
-
-                                        {/* Set Eidolon button */}
+                                        {/* Eidolon Badge (bottom-left) */}
                                         {isOwned && (
-                                            <Button
-                                                size="sm"
-                                                variant="ghost"
-                                                className="mt-1 text-xs h-6 px-2"
+                                            <div
+                                                className={`absolute bottom-0.5 left-0.5 px-1.5 py-0.5 rounded-sm text-[10px] font-bold shadow-md
+                                                    ${eidolon >= 6 ? "bg-yellow-500 text-black" :
+                                                        eidolon >= 3 ? "bg-purple-500 text-white" :
+                                                            "bg-gray-700 text-white"}`}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setSelectedChar(char);
                                                 }}
                                             >
-                                                Set E{owned?.eidolon || 0}
-                                            </Button>
+                                                E{eidolon}
+                                            </div>
                                         )}
-                                    </CardContent>
-                                </Card>
+
+                                        {/* Not Owned Overlay */}
+                                        {!isOwned && (
+                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                                <span className="text-white text-lg">+</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Name */}
+                                    <div className="bg-gray-900/90 px-1 py-1">
+                                        <p className="text-[10px] font-medium truncate text-center text-gray-200">
+                                            {char.name}
+                                        </p>
+                                    </div>
+                                </button>
                             </motion.div>
                         );
                     })}

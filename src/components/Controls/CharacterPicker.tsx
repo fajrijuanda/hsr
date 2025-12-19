@@ -28,9 +28,16 @@ const PATH_LIST = [
     "Nihility", "Preservation", "Abundance", "Remembrance"
 ];
 
+// Element name mapping for CDN (Lightning is called Thunder in the CDN)
+const ELEMENT_CDN_MAP: Record<string, string> = {
+    "Lightning": "Thunder",
+};
+
 // Helper functions for CDN icon URLs
-const getElementIconUrl = (element: string) =>
-    `${STAR_RAIL_RES_CDN}/icon/element/${element}.png`;
+const getElementIconUrl = (element: string) => {
+    const cdnName = ELEMENT_CDN_MAP[element] || element;
+    return `${STAR_RAIL_RES_CDN}/icon/element/${cdnName}.png`;
+};
 
 const getPathIconUrl = (path: string) =>
     `${STAR_RAIL_RES_CDN}/icon/path/${path}.png`;

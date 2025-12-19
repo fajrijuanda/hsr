@@ -66,9 +66,9 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                         {/* Header */}
                         <div className="text-center mb-6">
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 mb-4">
-                                <span className="text-3xl">🔗</span>
+                                <span className="text-3xl">🔐</span>
                             </div>
-                            <h2 className="text-2xl font-bold text-white">Connect Account</h2>
+                            <h2 className="text-2xl font-bold text-white">Login</h2>
                             <p className="text-gray-400 text-sm mt-1">
                                 Enter your UID to sync your profile
                             </p>
@@ -127,7 +127,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                                 ) : (
                                     <>
                                         <span className="mr-2">🚀</span>
-                                        Connect Profile
+                                        Login
                                     </>
                                 )}
                             </Button>
@@ -155,7 +155,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
                         {/* Features list */}
                         <div className="mt-6 pt-6 border-t border-gray-700">
-                            <p className="text-xs text-gray-500 mb-2">With a connected account you get:</p>
+                            <p className="text-xs text-gray-500 mb-2">With a linked account you get:</p>
                             <div className="grid grid-cols-2 gap-2">
                                 {[
                                     "Character sync",
