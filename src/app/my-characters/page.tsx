@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LoadingScreen, AlertDialog } from "@/components/ui/feedback";
 import { LoginModal } from "@/components/Auth/LoginModal";
+import { useUser } from "@/context/UserContext";
 import charactersData from "@/data/characters.json";
 
 const STAR_RAIL_RES = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master";
@@ -25,6 +26,13 @@ const PATH_CDN_MAP: Record<string, string> = {
 };
 
 const getPathCdnName = (path: string) => PATH_CDN_MAP[path] || path;
+
+// Character ID mapping for CDN (some characters have different IDs)
+const CHARACTER_CDN_MAP: Record<string, string> = {
+    "1310": "1310", // Firefly - SAM form may use different ID, keeping original for now
+};
+
+const getCharacterCdnId = (charId: string) => CHARACTER_CDN_MAP[charId] || charId;
 
 interface Character {
     id: string;
@@ -43,6 +51,7 @@ interface OwnedCharacter {
 
 export default function MyCharactersPage() {
     const { data: session, status } = useSession();
+    const { profile, isLoading: isProfileLoading } = useUser();
     const [characters] = useState<Character[]>(charactersData as Character[]);
     const [ownedChars, setOwnedChars] = useState<Map<string, OwnedCharacter>>(new Map());
     const [search, setSearch] = useState("");
@@ -83,6 +92,38 @@ export default function MyCharactersPage() {
     useEffect(() => {
         fetchOwned();
     }, [fetchOwned]);
+
+    // Auto-sync owned characters from public profile
+    useEffect(() => {
+        if (!profile?.characters || profile.characters.length === 0) return;
+
+        setOwnedChars((prev) => {
+            const newMap = new Map(prev);
+            profile.characters.forEach((profileChar) => {
+                // Find matching character in our data by name
+                const matchedChar = characters.find(
+                    (c) => c.name.toLowerCase() === profileChar.name.toLowerCase()
+                );
+                if (matchedChar) {
+                    // If not already in map or to update eidolon from profile
+                    if (!newMap.has(matchedChar.id)) {
+                        newMap.set(matchedChar.id, {
+                            id: `profile-${matchedChar.id}`,
+                            characterId: matchedChar.id,
+                            eidolon: profileChar.rank || 0, // 'rank' is eidolon in profile
+                        });
+                    } else {
+                        // Update eidolon from profile if available
+                        const existing = newMap.get(matchedChar.id)!;
+                        if (profileChar.rank !== undefined) {
+                            newMap.set(matchedChar.id, { ...existing, eidolon: profileChar.rank });
+                        }
+                    }
+                }
+            });
+            return newMap;
+        });
+    }, [profile, characters]);
 
     const toggleOwnership = async (charId: string) => {
         if (!session?.user?.uid) {
@@ -167,7 +208,7 @@ export default function MyCharactersPage() {
         }
     });
 
-    if (status === "loading" || isLoading) {
+    if (status === "loading" || isLoading || isProfileLoading) {
         return <LoadingScreen show={true} message="Loading characters..." />;
     }
 
@@ -312,7 +353,7 @@ export default function MyCharactersPage() {
                                         ${char.rarity === 5 ? "border-b-2 border-yellow-500" : "border-b-2 border-purple-500"}
                                     `}>
                                         <Image
-                                            src={`${STAR_RAIL_RES}/icon/character/${char.charId}.png`}
+                                            src={`${STAR_RAIL_RES}/icon/character/${getCharacterCdnId(char.charId)}.png`}
                                             alt={char.name}
                                             width={80}
                                             height={80}
