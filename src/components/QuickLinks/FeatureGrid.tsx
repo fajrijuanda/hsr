@@ -97,7 +97,7 @@ export function FeatureGrid() {
                                 transition={{ delay: index * 0.1 }}
                                 whileHover={isAvailable ? { scale: 1.02 } : {}}
                                 className={`
-                  p-4 rounded-lg border transition-all
+                  p-4 rounded-lg border transition-all h-full
                   ${isAvailable
                                         ? "cursor-pointer bg-gradient-to-br " + feature.color + "/10 border-gray-600 hover:border-gray-500"
                                         : "bg-gray-800/30 border-gray-700 opacity-60"
@@ -123,13 +123,13 @@ export function FeatureGrid() {
 
                         if (isAvailable) {
                             return (
-                                <Link key={feature.id} href={feature.href}>
+                                <Link key={feature.id} href={feature.href} className="h-full">
                                     {content}
                                 </Link>
                             );
                         }
 
-                        return <div key={feature.id}>{content}</div>;
+                        return <div key={feature.id} className="h-full">{content}</div>;
                     })}
                 </div>
             </CardContent>
