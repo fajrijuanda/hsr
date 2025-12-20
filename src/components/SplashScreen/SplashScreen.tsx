@@ -9,17 +9,32 @@ interface SplashScreenProps {
     duration?: number;
 }
 
-// Pre-generate random values outside of render
-function generateStarData(count: number) {
+interface StarData {
+    id: number;
+    x: number;
+    y: number;
+    delay: number;
+    repeatDelay: number;
+}
+
+// Seeded pseudo-random number generator for consistent SSR/client values
+function seededRandom(seed: number): number {
+    const x = Math.sin(seed * 9999) * 10000;
+    return x - Math.floor(x);
+}
+
+// Generate star data with deterministic positions (same on server and client)
+function generateStarData(count: number): StarData[] {
     return Array.from({ length: count }, (_, i) => ({
         id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        delay: Math.random() * 1.5,
-        repeatDelay: Math.random() * 2,
+        x: seededRandom(i * 1) * 100,
+        y: seededRandom(i * 2 + 100) * 100,
+        delay: seededRandom(i * 3 + 200) * 1.5,
+        repeatDelay: seededRandom(i * 4 + 300) * 2,
     }));
 }
 
+// Pre-generate with deterministic values - safe for SSR
 const STAR_DATA = generateStarData(50);
 
 export function SplashScreen({ onComplete, duration = 2500 }: SplashScreenProps) {
@@ -43,30 +58,32 @@ export function SplashScreen({ onComplete, duration = 2500 }: SplashScreenProps)
                     transition={{ duration: 0.5 }}
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-gray-950 overflow-hidden"
                 >
-                    {/* Star field background */}
-                    <div className="absolute inset-0">
-                        {STAR_DATA.map((star) => (
-                            <motion.div
-                                key={star.id}
-                                className="absolute w-1 h-1 bg-white rounded-full"
-                                style={{
-                                    left: `${star.x}%`,
-                                    top: `${star.y}%`,
-                                }}
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{
-                                    opacity: [0, 1, 0],
-                                    scale: [0, 1, 0],
-                                }}
-                                transition={{
-                                    duration: 2,
-                                    delay: star.delay,
-                                    repeat: Infinity,
-                                    repeatDelay: star.repeatDelay,
-                                }}
-                            />
-                        ))}
-                    </div>
+                    {/* Star field background - deterministic positions for SSR */}
+                    {STAR_DATA.length > 0 && (
+                        <div className="absolute inset-0">
+                            {STAR_DATA.map((star) => (
+                                <motion.div
+                                    key={star.id}
+                                    className="absolute w-1 h-1 bg-white rounded-full"
+                                    style={{
+                                        left: `${star.x}%`,
+                                        top: `${star.y}%`,
+                                    }}
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    animate={{
+                                        opacity: [0, 1, 0],
+                                        scale: [0, 1, 0],
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        delay: star.delay,
+                                        repeat: Infinity,
+                                        repeatDelay: star.repeatDelay,
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    )}
 
                     {/* Warp speed lines */}
                     <div className="absolute inset-0 overflow-hidden">
