@@ -172,7 +172,7 @@ export default function MyCharactersPage() {
         if (!session?.user?.uid) return;
 
         try {
-            await fetch("/api/user/characters/eidolon", {
+            await fetch("/api/user/characters", {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ uid: session.user.uid, characterId: charId, eidolon }),

@@ -73,6 +73,61 @@ export async function POST(request: Request) {
   }
 }
 
+// PATCH /api/user/characters - Update character details (like eidolon)
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { uid, characterId, eidolon } = body;
+
+    if (!uid || !characterId || eidolon === undefined) {
+      return NextResponse.json(
+        { success: false, error: "UID, characterId, and eidolon are required" },
+        { status: 400 }
+      );
+    }
+
+    const user = await prisma.user.findUnique({ where: { uid } });
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    const gameChar = await prisma.gameCharacter.findUnique({
+      where: { id: characterId },
+    });
+
+    if (!gameChar) {
+      // Should exist if we are updating, but just in case
+      return NextResponse.json(
+        { success: false, error: "Character not found" },
+        { status: 404 }
+      );
+    }
+
+    const userCharacter = await prisma.userCharacter.update({
+      where: {
+        userId_characterId: {
+          userId: user.id,
+          characterId: gameChar.id,
+        },
+      },
+      data: {
+        eidolon,
+      },
+    });
+
+    return NextResponse.json({ success: true, data: userCharacter });
+  } catch (error) {
+    console.error("Failed to update character:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to update character" },
+      { status: 500 }
+    );
+  }
+}
+
 // DELETE /api/user/characters - Remove character from user's collection
 export async function DELETE(request: Request) {
   try {
