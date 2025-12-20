@@ -60,7 +60,7 @@ const ELEMENT_ICONS: Record<string, string> = {
 
 const PATH_ICONS: Record<string, string> = {
     Destruction: "⚔️",
-    Hunt: "🎯",
+    "The Hunt": "🎯",
     Erudition: "📚",
     Harmony: "🎵",
     Nihility: "🌑",
@@ -69,7 +69,7 @@ const PATH_ICONS: Record<string, string> = {
     Remembrance: "🦋",
 };
 
-const ALL_PATHS = ["Destruction", "Hunt", "Erudition", "Harmony", "Nihility", "Preservation", "Abundance", "Remembrance"];
+const ALL_PATHS = ["Destruction", "The Hunt", "Erudition", "Harmony", "Nihility", "Preservation", "Abundance", "Remembrance"];
 const ALL_ELEMENTS = ["Physical", "Fire", "Ice", "Lightning", "Wind", "Quantum", "Imaginary"];
 
 export function BattleSetup() {

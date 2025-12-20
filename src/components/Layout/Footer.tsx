@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 const FOOTER_LINKS = {
     tools: [
@@ -31,8 +32,13 @@ export function Footer() {
                     {/* Brand */}
                     <div className="col-span-1">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl font-bold shadow-lg shadow-purple-500/25">
-                                🚀
+                            <div className="relative w-10 h-10">
+                                <Image
+                                    src="/app-logo.png"
+                                    alt="Trailblaze Hub Logo"
+                                    fill
+                                    className="object-contain drop-shadow-md"
+                                />
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">

@@ -3,7 +3,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -17,6 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ChevronUp, ChevronDown } from "lucide-react";
 import {
     quickEstimatePulls,
     calculateTotalPulls,
@@ -38,6 +38,75 @@ interface Banner {
     imageUrl?: string;
 }
 
+interface NumberInputProps {
+    value: number;
+    onChange: (value: number) => void;
+    min?: number;
+    max?: number;
+    className?: string;
+    placeholder?: string;
+}
+
+function NumberInput({ value, onChange, min, max, className, placeholder }: NumberInputProps) {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newVal = e.target.value === "" ? 0 : parseInt(e.target.value);
+        if (isNaN(newVal)) return;
+
+        // Allow typing freely, clamping will happen on blur or we can clamp immediately.
+        // Standard behavior is usually clamp immediately for spinners, but loose for typing.
+        // Let's clamp immediately for simplicity to match previous behavior 
+        // OR better: clamp immediately to avoid invalid states.
+        let validVal = newVal;
+        if (max !== undefined) validVal = Math.min(max, validVal);
+        // if (min !== undefined) validVal = Math.max(min, validVal); // Don't clamp min on typing to allow backspacing to empty/0
+
+        onChange(validVal);
+    };
+
+    const increment = () => {
+        const newVal = value + 1;
+        if (max !== undefined && newVal > max) return;
+        onChange(newVal);
+    };
+
+    const decrement = () => {
+        const newVal = value - 1;
+        if (min !== undefined && newVal < min) return;
+        onChange(newVal);
+    };
+
+    return (
+        <div className={`relative group ${className}`}>
+            <Input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={value === 0 ? "" : value}
+                onChange={handleChange}
+                className="w-full pr-8 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none font-mono tracking-tight bg-gray-800 border-gray-700 hover:border-gray-600 transition-colors focus:ring-purple-500/50"
+                placeholder={placeholder || "0"}
+            />
+            <div className="absolute right-[1px] top-[1px] bottom-[1px] w-6 flex flex-col border-l border-gray-700 bg-gray-800 rounded-r-md overflow-hidden opacity-50 group-hover:opacity-100 transition-opacity">
+                <button
+                    onClick={increment}
+                    className="flex-1 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors flex items-center justify-center active:bg-gray-600"
+                    type="button"
+                >
+                    <ChevronUp className="w-3 h-3" />
+                </button>
+                <div className="h-[1px] bg-gray-700" />
+                <button
+                    onClick={decrement}
+                    className="flex-1 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors flex items-center justify-center active:bg-gray-600"
+                    type="button"
+                >
+                    <ChevronDown className="w-3 h-3" />
+                </button>
+            </div>
+        </div>
+    );
+}
+
 export default function PullPlannerPage() {
     // User context for owned characters
     const { profile, ownedCharacterNames, uid } = useUser();
@@ -48,10 +117,7 @@ export default function PullPlannerPage() {
     const [stellarJade, setStellarJade] = useState(0);
     const [passes, setPasses] = useState(0);
     const [targetBanner, setTargetBanner] = useState<string>("banner-3-8-1");
-    const [simulationResult, setSimulationResult] = useState<{
-        successRate: number;
-        avgPulls: number;
-    } | null>(null);
+
 
     const banners = bannersData as Banner[];
     const activeBanner = banners.find((b) => b.id === targetBanner) || banners[0];
@@ -103,6 +169,15 @@ export default function PullPlannerPage() {
         [stellarJade, passes, pullEstimate.avg]
     );
 
+    const simulationResult = useMemo(() => {
+        if (resources.totalPulls <= 0) return null;
+        const result = simulatePulls(currentPity, isGuaranteed, resources.totalPulls);
+        return {
+            successRate: result.successRate,
+            avgPulls: result.avgPulls,
+        };
+    }, [currentPity, isGuaranteed, resources.totalPulls]);
+
     const pityZone = getPityZone(currentPity);
 
     // Calculate days until banner ends
@@ -113,14 +188,7 @@ export default function PullPlannerPage() {
         return Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
     }, [activeBanner]);
 
-    // Run simulation
-    const runSimulation = () => {
-        const result = simulatePulls(currentPity, isGuaranteed, resources.totalPulls);
-        setSimulationResult({
-            successRate: result.successRate,
-            avgPulls: result.avgPulls,
-        });
-    };
+    // Simulation result is now calculated directly in the component body using useMemo (declared as simulationResult earlier)
 
     // Load saved plan
     useEffect(() => {
@@ -171,12 +239,46 @@ export default function PullPlannerPage() {
         return () => clearTimeout(timer);
     }, [uid, currentPity, isGuaranteed, stellarJade, passes, targetBanner]);
 
-    // Auto-run simulation when inputs change
-    useEffect(() => {
-        if (resources.totalPulls > 0) {
-            runSimulation();
-        }
-    }, [currentPity, isGuaranteed, resources.totalPulls]);
+    // Auto-run simulation when inputs change - REMOVED as it is now handled by useMemo + useEffect pair above or just useMemo directly if we didn't need explicit state.
+    // However, to keep structure similar without major refactor, I used the effect above.
+    // Better yet, we can remove the state `simulationResult` entirely and just use the memoized value `runSimulation` (let's rename it to `simulationResultMemo`).
+
+    // Let's go with the cleaner approach: remove the effect that calls setState and just use useMemo for the result directly.
+    // I will update the previous chunk to just use useMemo and not set state.
+
+    // WAIT, I can't edit the previous chunk's logic in this thought process easily. 
+    // Let's just remove this interfering effect and relying on the `simulationResult` being derived state.
+
+    // Actually, looking at the code, `simulationResult` is state.
+    // The "Right" way is to derive it during render.
+
+    // Revised plan for "Run simulation" chunk:
+    // const simulationResult = useMemo(() => { ... }, [...]); 
+    // and remove `const [simulationResult, setSimulationResult] = useState(...)`
+
+    // But I must match existing code structure to avoid massive diffs.
+    // The lint error is "calling setState in useEffect".
+
+    // Simplest fix respecting the lint:
+    // Wrap runSimulation in useCallback. 
+    // Add it to dependency array.
+    // But that doesn't fix "cascading update".
+
+    // Best fix: Calculate result in useMemo and remove the State entirely.
+    // I will do that. I need to find where state is declared. 
+
+    // Step 1: Remove state declaration.
+    // Step 2: Remove runSimulation function and the effect that calls it.
+    // Step 3: Replace with useMemo.
+
+    // Since I can only do replacement chunks:
+
+    // Chunk 1: Replace State declaration with null (or effectively remove it, but I can't easily remove non-contiguous lines).
+    // Actually, I'll just change the state line to be the memo line.
+
+    // Chunk 2: Remove runSimulation and the effect.
+
+
 
     // Get recommendation message with owned character context
     const getRecommendation = () => {
@@ -196,10 +298,12 @@ export default function PullPlannerPage() {
         }
 
         // Check eidolon status for owned chars
+        /* 
         const ownedWithLowEidolon = ownedBannerChars.filter((char) => {
             const eidolon = getCharacterEidolon(char);
             return eidolon !== null && eidolon < 6;
         });
+        */
 
         if (rate >= 90) {
             return {
@@ -260,13 +364,12 @@ export default function PullPlannerPage() {
                                 <div>
                                     <Label className="text-gray-300">Current Pity</Label>
                                     <div className="flex items-center gap-3 mt-2">
-                                        <Input
-                                            type="number"
+                                        <NumberInput
+                                            value={currentPity}
+                                            onChange={setCurrentPity}
                                             min={0}
                                             max={89}
-                                            value={currentPity}
-                                            onChange={(e) => setCurrentPity(Math.min(89, Math.max(0, parseInt(e.target.value) || 0)))}
-                                            className="w-24 bg-gray-800 border-gray-700"
+                                            className="w-24"
                                         />
                                         <span className="text-gray-400">/ 90</span>
                                         <Badge
@@ -326,23 +429,21 @@ export default function PullPlannerPage() {
                             <CardContent className="space-y-4">
                                 <div>
                                     <Label className="text-gray-300">Stellar Jade</Label>
-                                    <Input
-                                        type="number"
-                                        min={0}
+                                    <NumberInput
                                         value={stellarJade}
-                                        onChange={(e) => setStellarJade(Math.max(0, parseInt(e.target.value) || 0))}
-                                        className="mt-2 bg-gray-800 border-gray-700"
+                                        onChange={setStellarJade}
+                                        min={0}
+                                        className="mt-2"
                                         placeholder="e.g. 12800"
                                     />
                                 </div>
                                 <div>
                                     <Label className="text-gray-300">Star Rail Passes</Label>
-                                    <Input
-                                        type="number"
-                                        min={0}
+                                    <NumberInput
                                         value={passes}
-                                        onChange={(e) => setPasses(Math.max(0, parseInt(e.target.value) || 0))}
-                                        className="mt-2 bg-gray-800 border-gray-700"
+                                        onChange={setPasses}
+                                        min={0}
+                                        className="mt-2"
                                         placeholder="e.g. 10"
                                     />
                                 </div>
@@ -627,7 +728,7 @@ export default function PullPlannerPage() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-2">
-                                {banners.map((banner, index) => {
+                                {banners.map((banner) => {
                                     const now = new Date();
                                     const start = new Date(banner.startDate);
                                     const end = new Date(banner.endDate);

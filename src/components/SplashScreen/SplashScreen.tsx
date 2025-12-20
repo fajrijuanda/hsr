@@ -19,16 +19,18 @@ interface StarData {
 
 // Seeded pseudo-random number generator for consistent SSR/client values
 function seededRandom(seed: number): number {
-    const x = Math.sin(seed * 9999) * 10000;
-    return x - Math.floor(x);
+    let t = seed + 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
 }
 
 // Generate star data with deterministic positions (same on server and client)
 function generateStarData(count: number): StarData[] {
     return Array.from({ length: count }, (_, i) => ({
         id: i,
-        x: seededRandom(i * 1) * 100,
-        y: seededRandom(i * 2 + 100) * 100,
+        x: parseFloat((seededRandom(i * 1) * 100).toFixed(6)),
+        y: parseFloat((seededRandom(i * 2 + 100) * 100).toFixed(6)),
         delay: seededRandom(i * 3 + 200) * 1.5,
         repeatDelay: seededRandom(i * 4 + 300) * 2,
     }));

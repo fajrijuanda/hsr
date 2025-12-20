@@ -78,13 +78,15 @@ export default function MyCharactersPage() {
         try {
             const res = await fetch(`/api/user/characters?uid=${session.user.uid}`);
             if (res.ok) {
-                const data = await res.json();
-                const map = new Map<string, OwnedCharacter>();
-                data.forEach((c: OwnedCharacter) => map.set(c.characterId, c));
-                setOwnedChars(map);
+                const result = await res.json();
+                if (result.success && Array.isArray(result.data)) {
+                    const map = new Map<string, OwnedCharacter>();
+                    result.data.forEach((c: OwnedCharacter) => map.set(c.characterId, c));
+                    setOwnedChars(map);
+                }
             }
-        } catch {
-            // Silent fail
+        } catch (error) {
+            console.error("Failed to fetch owned characters", error);
         } finally {
             setIsLoading(false);
         }
@@ -353,14 +355,7 @@ export default function MyCharactersPage() {
                                         aspect-square bg-gradient-to-br from-gray-800 to-gray-900
                                         ${char.rarity === 5 ? "border-b-2 border-yellow-500" : "border-b-2 border-purple-500"}
                                     `}>
-                                        <Image
-                                            src={`${STAR_RAIL_RES}/icon/character/${getCharacterCdnId(char.charId)}.png`}
-                                            alt={char.name}
-                                            width={80}
-                                            height={80}
-                                            className="w-full h-full object-cover"
-                                            unoptimized
-                                        />
+                                        <CharacterImage char={char} />
 
                                         {/* Element Badge (top-right) */}
                                         <Image
@@ -439,6 +434,32 @@ export default function MyCharactersPage() {
                 onClose={() => setShowLoginModal(false)}
             />
         </div>
+    );
+}
+
+function CharacterImage({ char }: { char: Character }) {
+    const [hasError, setHasError] = useState(false);
+
+    if (hasError) {
+        return (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gray-800 text-gray-600">
+                <span className="text-2xl font-bold opacity-40 uppercase">
+                    {char.name.slice(0, 2)}
+                </span>
+            </div>
+        );
+    }
+
+    return (
+        <Image
+            src={`${STAR_RAIL_RES}/icon/character/${getCharacterCdnId(char.charId)}.png`}
+            alt={char.name}
+            width={80}
+            height={80}
+            className="w-full h-full object-cover"
+            unoptimized
+            onError={() => setHasError(true)}
+        />
     );
 }
 
