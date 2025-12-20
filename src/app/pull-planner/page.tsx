@@ -27,6 +27,7 @@ import {
 } from "@/lib/pullCalculator";
 import { useUser } from "@/context/UserContext";
 import bannersData from "@/data/banners.json";
+import charactersData from "@/data/characters.json";
 
 interface Banner {
     id: string;
@@ -107,11 +108,11 @@ function NumberInput({ value, onChange, min, max, className, placeholder }: Numb
     );
 }
 
-// Synergy Rules
+// Synergy Rules - use simplified names for matching
 const SYNERGY_RULES: Record<string, string[]> = {
     // Current Banner Chars
-    "Firefly": ["Ruan Mei", "Harmony Trailblazer", "Gallagher", "Lingsha"],
-    "Lingsha": ["Firefly", "Boothill", "Ruan Mei", "Harmony Trailblazer"],
+    "Firefly": ["Ruan Mei", "HarmonyTrailblazer", "Gallagher", "Lingsha"],
+    "Lingsha": ["Firefly", "Boothill", "Ruan Mei", "HarmonyTrailblazer"],
     "The Dahlia": ["Kafka", "Black Swan", "Acheron", "Jiaoqiu"],
     "Fugue": ["Acheron", "Kafka", "Black Swan", "Pela"],
     "Aglaea": ["Ruan Mei", "Bronya", "Sparkle", "Tingyun"], // Generic Hypercarry
@@ -124,9 +125,44 @@ const SYNERGY_RULES: Record<string, string[]> = {
     "Ruan Mei": ["Firefly", "Kafka", "Jingliu", "Blade"], // Universal
 };
 
+// Helper to normalize names for comparison
+const normalizeName = (name: string) => name.toLowerCase().replace(/[\s\-_()]/g, '');
+
 export default function PullPlannerPage() {
-    // User context for owned characters
-    const { profile, ownedCharacterNames, uid } = useUser();
+    // User context for owned characters (from Mihomo API - showcase only)
+    const { profile, ownedCharacterNames: showcaseCharNames, uid } = useUser();
+
+    // State for database-owned characters
+    const [dbOwnedCharNames, setDbOwnedCharNames] = useState<string[]>([]);
+
+    // Fetch owned characters from database (My Characters page data)
+    useEffect(() => {
+        if (!uid) return;
+
+        const fetchDbOwned = async () => {
+            try {
+                const res = await fetch(`/api/user/characters?uid=${uid}`);
+                const data = await res.json();
+                if (data.success && data.data) {
+                    // Map character IDs to names using charactersData
+                    const names = data.data.map((oc: { characterId: string }) => {
+                        const char = charactersData.find((c) => c.id === oc.characterId);
+                        return char?.name || oc.characterId;
+                    });
+                    setDbOwnedCharNames(names);
+                }
+            } catch (error) {
+                console.error("Failed to fetch owned characters", error);
+            }
+        };
+        fetchDbOwned();
+    }, [uid]);
+
+    // Merge showcased characters (Mihomo) with database-owned characters
+    const ownedCharacterNames = useMemo(() => {
+        const combined = new Set([...showcaseCharNames, ...dbOwnedCharNames]);
+        return Array.from(combined);
+    }, [showcaseCharNames, dbOwnedCharNames]);
 
     // State
     const [currentPity, setCurrentPity] = useState(0);
@@ -169,13 +205,23 @@ export default function PullPlannerPage() {
             const bestTeammates = SYNERGY_RULES[bannerChar] || [];
             if (bestTeammates.length === 0) return;
 
-            const ownedTeammates = bestTeammates.filter(teammate =>
-                ownedCharacterNames.some(owned =>
-                    owned.toLowerCase().includes(teammate.toLowerCase()) ||
-                    teammate.toLowerCase().includes(owned.toLowerCase()) ||
-                    (teammate === "Harmony Trailblazer" && owned.toLowerCase().includes("trailblazer")) // Special case
-                )
-            );
+            const ownedTeammates = bestTeammates.filter(teammate => {
+                // Special case: For Trailblazer variants, check if user owns any Trailblazer
+                const isTrailblazerTeammate = normalizeName(teammate).includes("trailblazer");
+
+                return ownedCharacterNames.some(owned => {
+                    const normalOwned = normalizeName(owned);
+                    const normalTeammate = normalizeName(teammate);
+
+                    // If teammate is a Trailblazer variant, match if owned includes "trailblazer"
+                    if (isTrailblazerTeammate && normalOwned.includes("trailblazer")) {
+                        return true;
+                    }
+
+                    // Regular matching
+                    return normalOwned.includes(normalTeammate) || normalTeammate.includes(normalOwned);
+                });
+            });
 
             const missingTeammates = bestTeammates.filter(teammate =>
                 !ownedTeammates.includes(teammate)

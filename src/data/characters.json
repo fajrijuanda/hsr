@@ -210,6 +210,16 @@
     "releaseOrder": 253
   },
   {
+    "id": "gallagher",
+    "charId": "1301",
+    "name": "Gallagher",
+    "path": "Abundance",
+    "element": "Fire",
+    "rarity": 4,
+    "baseSpeed": 98,
+    "releaseOrder": 221
+  },
+  {
     "id": "feixiao",
     "charId": "1220",
     "name": "Feixiao",
