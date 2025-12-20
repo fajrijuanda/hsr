@@ -438,7 +438,21 @@ export default function MyCharactersPage() {
 }
 
 function CharacterImage({ char }: { char: Character }) {
+    const [src, setSrc] = useState(`${STAR_RAIL_RES}/icon/character/${getCharacterCdnId(char.charId)}.png`);
+    const [attempts, setAttempts] = useState(0);
     const [hasError, setHasError] = useState(false);
+
+
+
+    const handleError = () => {
+        if (attempts === 0) {
+            // Try custom local folder
+            setSrc(`/icon/custom/${char.charId}.png`);
+            setAttempts(1);
+        } else {
+            setHasError(true);
+        }
+    };
 
     if (hasError) {
         return (
@@ -452,13 +466,13 @@ function CharacterImage({ char }: { char: Character }) {
 
     return (
         <Image
-            src={`${STAR_RAIL_RES}/icon/character/${getCharacterCdnId(char.charId)}.png`}
+            src={src}
             alt={char.name}
             width={80}
             height={80}
             className="w-full h-full object-cover"
             unoptimized
-            onError={() => setHasError(true)}
+            onError={handleError}
         />
     );
 }
