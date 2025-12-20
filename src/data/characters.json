@@ -162,7 +162,7 @@
   {
     "id": "tb_remembrance",
     "charId": "8008",
-    "name": "Trailblazer (Remembrance)",
+    "name": "Remembrance Trailblazer",
     "path": "Remembrance",
     "element": "Ice",
     "rarity": 5,
@@ -282,7 +282,7 @@
   {
     "id": "tb_harmony",
     "charId": "8006",
-    "name": "Trailblazer (Harmony)",
+    "name": "HarmonyTrailblazer",
     "path": "Harmony",
     "element": "Imaginary",
     "rarity": 5,
@@ -482,7 +482,7 @@
   {
     "id": "tb_preservation",
     "charId": "8004",
-    "name": "Trailblazer (Preservation)",
+    "name": "Preservation Trailblazer",
     "path": "Preservation",
     "element": "Fire",
     "rarity": 5,
@@ -702,7 +702,7 @@
   {
     "id": "tb_destruction",
     "charId": "8002",
-    "name": "Trailblazer (Destruction)",
+    "name": "Destruction Trailblazer",
     "path": "Destruction",
     "element": "Physical",
     "rarity": 5,

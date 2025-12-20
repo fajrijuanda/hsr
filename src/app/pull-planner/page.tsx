@@ -107,6 +107,23 @@ function NumberInput({ value, onChange, min, max, className, placeholder }: Numb
     );
 }
 
+// Synergy Rules
+const SYNERGY_RULES: Record<string, string[]> = {
+    // Current Banner Chars
+    "Firefly": ["Ruan Mei", "Harmony Trailblazer", "Gallagher", "Lingsha"],
+    "Lingsha": ["Firefly", "Boothill", "Ruan Mei", "Harmony Trailblazer"],
+    "The Dahlia": ["Kafka", "Black Swan", "Acheron", "Jiaoqiu"],
+    "Fugue": ["Acheron", "Kafka", "Black Swan", "Pela"],
+    "Aglaea": ["Ruan Mei", "Bronya", "Sparkle", "Tingyun"], // Generic Hypercarry
+    "Sunday": ["Robin", "Sparkle", "Argenti", "Jing Yuan"],
+
+    // Fallback specific
+    "Acheron": ["Pela", "Silver Wolf", "Black Swan", "Sparkle"],
+    "Kafka": ["Black Swan", "Ruan Mei", "Huohuo"],
+    "Black Swan": ["Kafka", "Ruan Mei", "Huohuo"],
+    "Ruan Mei": ["Firefly", "Kafka", "Jingliu", "Blade"], // Universal
+};
+
 export default function PullPlannerPage() {
     // User context for owned characters
     const { profile, ownedCharacterNames, uid } = useUser();
@@ -141,6 +158,37 @@ export default function PullPlannerPage() {
                 char.toLowerCase().includes(owned.toLowerCase())
             )
         );
+    }, [activeBanner, ownedCharacterNames]);
+
+    // Synergy Analysis
+    const synergyAnalysis = useMemo(() => {
+        if (!activeBanner) return {};
+        const result: Record<string, { score: number, owned: string[], missing: string[] }> = {};
+
+        activeBanner.characters.forEach(bannerChar => {
+            const bestTeammates = SYNERGY_RULES[bannerChar] || [];
+            if (bestTeammates.length === 0) return;
+
+            const ownedTeammates = bestTeammates.filter(teammate =>
+                ownedCharacterNames.some(owned =>
+                    owned.toLowerCase().includes(teammate.toLowerCase()) ||
+                    teammate.toLowerCase().includes(owned.toLowerCase()) ||
+                    (teammate === "Harmony Trailblazer" && owned.toLowerCase().includes("trailblazer")) // Special case
+                )
+            );
+
+            const missingTeammates = bestTeammates.filter(teammate =>
+                !ownedTeammates.includes(teammate)
+            );
+
+            result[bannerChar] = {
+                score: ownedTeammates.length / bestTeammates.length,
+                owned: ownedTeammates,
+                missing: missingTeammates
+            };
+        });
+
+        return result;
     }, [activeBanner, ownedCharacterNames]);
 
     // Get character details from profile for eidolon info
@@ -187,8 +235,6 @@ export default function PullPlannerPage() {
         const now = new Date();
         return Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
     }, [activeBanner]);
-
-    // Simulation result is now calculated directly in the component body using useMemo (declared as simulationResult earlier)
 
     // Load saved plan
     useEffect(() => {
@@ -674,6 +720,72 @@ export default function PullPlannerPage() {
                                 )}
                             </CardContent>
                         </Card>
+
+                        {/* Team Compatibility */}
+                        {activeBanner && (
+                            <Card className="bg-gray-900/50 border-gray-700">
+                                <CardHeader className="pb-3">
+                                    <CardTitle className="text-lg flex items-center gap-2">
+                                        🤝 Team Compatibility
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    {activeBanner.characters.map(charName => {
+                                        const synergy = synergyAnalysis[charName];
+                                        if (!synergy) return null;
+
+                                        return (
+                                            <div key={charName} className="p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <h4 className="font-semibold text-white">{charName}</h4>
+                                                    <Badge className={synergy.score >= 0.7 ? "bg-emerald-500/20 text-emerald-400" : synergy.score >= 0.4 ? "bg-yellow-500/20 text-yellow-400" : "bg-red-500/20 text-red-400"}>
+                                                        {synergy.score >= 0.7 ? "Highly Recommended" : synergy.score >= 0.4 ? "Good Start" : "Needs Teammates"}
+                                                    </Badge>
+                                                </div>
+
+                                                <div className="space-y-2">
+                                                    <div>
+                                                        <span className="text-xs text-gray-400 block mb-1">Best Teammates You Own:</span>
+                                                        <div className="flex flex-wrap gap-1">
+                                                            {synergy.owned.length > 0 ? (
+                                                                synergy.owned.map(t => (
+                                                                    <Badge key={t} variant="outline" className="text-emerald-400 border-emerald-500/30 bg-emerald-500/10">
+                                                                        {t}
+                                                                    </Badge>
+                                                                ))
+                                                            ) : (
+                                                                <span className="text-xs text-gray-500 italic">None</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <span className="text-xs text-gray-400 block mb-1">Teammates Missing:</span>
+                                                        <div className="flex flex-wrap gap-1">
+                                                            {synergy.missing.length > 0 ? (
+                                                                synergy.missing.map(t => (
+                                                                    <Badge key={t} variant="outline" className="text-gray-400 border-gray-700">
+                                                                        {t}
+                                                                    </Badge>
+                                                                ))
+                                                            ) : (
+                                                                <span className="text-xs text-emerald-500 italic">You have a full team!</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+
+                                    {!uid && (
+                                        <div className="text-center py-4">
+                                            <p className="text-sm text-gray-500">Log in to see team recommendations based on your roster.</p>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        )}
 
                         {/* Summary */}
                         <Card className="bg-gray-900/50 border-gray-700">
