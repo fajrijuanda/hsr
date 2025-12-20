@@ -230,6 +230,13 @@ export default function MyCharactersPage() {
                             className="w-full md:w-64 bg-gray-800 border-gray-600"
                         />
 
+                        {/* Owned Count */}
+                        <div className="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-sm">
+                            <span className="text-gray-400">Owned: </span>
+                            <span className="font-bold text-white">{ownedChars.size}</span>
+                            <span className="text-gray-500"> / {characters.length}</span>
+                        </div>
+
                         {/* Sort Dropdown */}
                         <div className="flex bg-gray-800 rounded-lg p-1 border border-gray-700">
                             {[
